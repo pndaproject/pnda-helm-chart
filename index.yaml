@@ -1,0 +1,13 @@
+apiVersion: v1
+entries:
+  cloud-pnda:
+  - apiVersion: v1
+    appVersion: "5.0"
+    created: 2019-09-17T12:05:16.07852333+02:00
+    description: Cloud Native PNDA Helm chart
+    digest: 68967d92957ab069ea2cdfcc6d36ea9d7b1057678211cc871347c665ecaf0713
+    name: cloud-pnda
+    urls:
+    - cloud-pnda-0.1.0-alpha.tgz
+    version: 0.1.0-alpha
+generated: 2019-09-17T12:05:16.057291459+02:00
