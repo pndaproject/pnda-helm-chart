@@ -1,4 +1,4 @@
-# cloud-pnda on minikube tutorial
+# Try cloud-pnda on microk8s
 
 As an alternative for local deployment you can use [microk8s](https://microk8s.io/). 
 Microk8s does not deploy kubernetes in a virtual machine as minikube, and provide interesting addons such us prometheus or istio. 
@@ -30,11 +30,9 @@ Initialize the local Helm CLI and also install Tiller into minikube in one step:
 helm init --history-max 200
 ```
 
-Install cloud-pnda chart from pnda-helm-repo:
+Install cloud-pnda chart:
 ```
-helm repo add pndaproject https://pndaproject.github.io/pnda-helm-repo/
-helm repo update
-helm install --name pnda pndaproject/cloud-pnda
+helm install --name pnda --namespace pnda cloud-pnda/
 ```
 
 Include vhosts entries pointing to your localhost to access web uis.
@@ -49,3 +47,10 @@ echo "127.0.0.1 console.pnda.io notebooks.pnda.io grafana.pnda.io kafka-manager.
 - Access grafana at http://grafana.pnda.io with user pnda password pnda
 - Access hdfs namenode management ui at http://hdfs.pnda.io
 - Access kafka-manager ui at http://kafka-manager.pnda.io
+
+cleanup:
+
+```
+helm delete --purge pnda
+kubectl delete namespace pnda
+```

@@ -1,4 +1,4 @@
-# cloud-pnda on minikube tutorial
+# Try cloud-pnda on minikube
 
 Deploy a local kubernetes with at leat 3 cpus and 4GB RAM with ingress enabled:
 
@@ -13,11 +13,9 @@ Initialize the local Helm CLI and also install Tiller into minikube in one step:
 helm init --history-max 200
 ```
 
-Install cloud-pnda chart from pnda-helm-repo:
+Install cloud-pnda chart:
 ```
-helm repo add pndaproject https://pndaproject.github.io/pnda-helm-repo/
-helm repo update
-helm install --name pnda pndaproject/cloud-pnda
+helm install --name pnda --namespace pnda cloud-pnda/
 ```
 
 Include vhosts entries pointing to minikube VM IP to access web uis.
@@ -32,3 +30,10 @@ echo "\$(minikube ip) console.pnda.io notebooks.pnda.io grafana.pnda.io kafka-ma
 - Access grafana at http://grafana.pnda.io with user pnda password pnda
 - Access hdfs namenode management ui at http://hdfs.pnda.io
 - Access kafka-manager ui at http://kafka-manager.pnda.io
+
+cleanup:
+
+```
+helm delete --purge pnda
+kubectl delete namespace pnda
+```

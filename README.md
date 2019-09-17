@@ -60,18 +60,7 @@ The default values of [Big Data requirements](cloud-pnda/charts) not provided in
 
 The helm repository [https://pndaproject.github.io/pnda-helm-repo/](https://pndaproject.github.io/pnda-helm-repo/) provides packaged helm charts of this repo releases.
 
-To add this repo to helm and install a packaged chart, follow this instructions:
-
-Add this repo to your helm:
-```
-helm repo add pndaproject https://pndaproject.github.io/pnda-helm-repo/
-helm repo update
-```
-
-Install to your kubernetes cluster:
-```
-helm install --name pnda pndaproject/cloud-pnda
-```
+Please follow the instructions at the pnda helm repository to deploy from a packaged chart.
 
 ## Tutorials
 
