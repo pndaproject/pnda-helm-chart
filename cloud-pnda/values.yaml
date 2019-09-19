@@ -7,8 +7,10 @@ roleName: pnda-role
 roleBindingName: pnda
 
 monitoring:
-  prometheusOperator:
+  prometheus:
     enabled: false
+    serviceAccount: prometheus-k8s
+    namespace: monitoring
 
 redis:
   enabled: true

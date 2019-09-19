@@ -1,10 +1,11 @@
-{{- if  .Values.monitoring.prometheusOperator.enabled }}
+{{- if  .Values.monitoring.prometheus.enabled }}
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   labels:
-    monitoring: prometheusOperator
-  name: pnda-metrics
+    app: pnda
+  name: pnda
+  namespace: {{ .Values.monitoring.prometheus.namespace }}
 spec:
   endpoints:
   - port: metrics

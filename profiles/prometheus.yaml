@@ -1,0 +1,6 @@
+## ----------------------------
+## PNDA Components Configuration
+## ----------------------------
+monitoring:
+  prometheus:
+    enabled: true
