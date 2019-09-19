@@ -1,0 +1,19 @@
+{{- if  .Values.prometheus.serviceMonitor.hbase.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    app: pnda
+  name: hbase
+  namespace: {{ .Values.prometheus.serviceMonitor.hbase.namespace | default .Release.Namespace }}
+spec:
+  endpoints:
+  - port: metrics
+    interval: {{ .Values.prometheus.serviceMonitor.hbase.interval }}
+  namespaceSelector:
+    matchNames:
+    - {{ .Release.Namespace }}
+  selector:
+    matchLabels:
+      app: hbase
+{{- end }}

@@ -6,11 +6,38 @@ serviceAccountName: pnda
 roleName: pnda-role
 roleBindingName: pnda
 
-monitoring:
-  prometheus:
+# prometheusOperator integration disabled by default
+# enable rbac access and each serviceMonitor with enabled field 
+prometheus:
+  # prometheus-k8s serviceAccount and namespace to configure RBAC access to pnda metrics endpoints
+  rbac:
     enabled: false
     serviceAccount: prometheus-k8s
     namespace: monitoring
+  #Configuration for each prometheusOperator service Monitor
+  serviceMonitor:
+    hdfs:
+      enabled: false
+      # If namespace is empty: serviceMonitor is deployed in {{ .Release.namespace }}
+      namespace: 
+      interval: 15s
+    hbase:
+      enabled: false
+      namespace:
+      interval: 15s
+    kafka:
+      enable: false
+      namespace: 
+      interval: 15s
+    hbase:
+      enable: false
+      namespace: 
+      interval: 15s
+    spark:
+      enable: false
+      namespace: 
+      interval: 15s
+
 
 redis:
   enabled: true

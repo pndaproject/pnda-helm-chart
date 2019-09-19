@@ -1,6 +1,15 @@
 ## ----------------------------
 ## PNDA Components Configuration
 ## ----------------------------
-monitoring:
-  prometheus:
+prometheus:
+  rbac:
     enabled: true
+  serviceMonitor:
+    hdfs:
+      enabled: true
+    kafka:
+      enabled: true
+    hbase:
+      enabled: true
+    spark:
+      enabled: true

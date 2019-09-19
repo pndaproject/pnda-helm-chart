@@ -1,0 +1,19 @@
+{{- if  .Values.prometheus.serviceMonitor.hdfs.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    app: pnda
+  name: hdfs
+  namespace: {{ .Values.prometheus.serviceMonitor.hdfs.namespace | default .Release.Namespace }}
+spec:
+  endpoints:
+  - port: metrics
+    interval: {{ .Values.prometheus.serviceMonitor.hdfs.interval }}
+  namespaceSelector:
+    matchNames:
+    - {{ .Release.Namespace }}
+  selector:
+    matchLabels:
+      app: hdfs
+{{- end }}

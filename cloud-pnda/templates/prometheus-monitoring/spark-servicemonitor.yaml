@@ -1,0 +1,19 @@
+{{- if  .Values.prometheus.serviceMonitor.spark.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    app: pnda
+  name: spark
+  namespace: {{ .Values.prometheus.serviceMonitor.spark.namespace | default .Release.Namespace }}
+spec:
+  endpoints:
+  - port: metrics
+    interval: {{ .Values.prometheus.serviceMonitor.spark.interval }}
+  namespaceSelector:
+    matchNames:
+    - {{ .Release.Namespace }}
+  selector:
+    matchLabels:
+      app: spark
+{{- end }}

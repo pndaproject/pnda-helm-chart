@@ -4,7 +4,7 @@ apiVersion: v1
 metadata:
   name: {{ .Release.Name}}-kafka-metrics
   labels:
-    monitoring: prometheus
+    app: kafka
 spec: 
   selector: 
     app: {{ template "cp-kafka.name" . }}

@@ -4,7 +4,7 @@ apiVersion: v1
 metadata:
   name: {{ .Release.Name}}-hdfs-namenode-metrics
   labels:
-    monitoring: prometheus
+    app: hdfs
 spec: 
   selector: 
     app: {{ include "hdfs.name" . }}

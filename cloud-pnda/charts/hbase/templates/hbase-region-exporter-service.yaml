@@ -4,7 +4,8 @@ apiVersion: v1
 metadata:
   name: {{ .Release.Name}}-hbase-region-metrics
   labels:
-    monitoring: prometheus
+   app: hbase
+   component: regionserver
 spec: 
   selector: 
     app: {{ include "hbase.name" . }}

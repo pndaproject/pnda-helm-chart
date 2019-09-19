@@ -4,7 +4,8 @@ apiVersion: v1
 metadata:
   name: {{ .Release.Name}}-hbase-master-metrics
   labels:
-    monitoring: prometheus
+    app: hbase
+    component: master
 spec: 
   selector: 
     app: {{ include "hbase.name" . }}

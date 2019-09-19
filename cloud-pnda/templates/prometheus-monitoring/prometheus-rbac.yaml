@@ -1,3 +1,5 @@
+{{- if  .Values.prometheus.rbac.enabled }}
+
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
@@ -24,5 +26,6 @@ roleRef:
   name: prometheus-k8s
 subjects:
 - kind: ServiceAccount
-  name: {{ .Values.monitoring.prometheus.serviceAccount }}
-  namespace: {{ .Values.monitoring.prometheus.namespace }}
+  name: {{ .Values.prometheus.rbac.serviceAccount }}
+  namespace: {{ .Values.prometheus.rbac.namespace }}
+{{- end }}
