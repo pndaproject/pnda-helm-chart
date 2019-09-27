@@ -6,7 +6,7 @@ metadata:
   labels:
     app.kubernetes.io/name: {{ template "spark.name" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
-    helm.sh/chart: {{ template "cp-kafka.chart" . }}
+    helm.sh/chart: {{ template "spark.chart" . }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec: 
   selector:

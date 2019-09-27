@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   labels:
     app.kubernetes.io/name: {{ template "spark.name" . }}
-    chart: {{ template "spark.chart" . }}
+    helm.sh/chart: {{ template "spark.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
   name: {{ template "spark.fullname" . }}-graphite-mapping
 data:
