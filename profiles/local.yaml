@@ -1,0 +1,56 @@
+prometheus:
+  rbac:
+    enabled: true
+  #Configuration for each prometheusOperator service Monitor
+  serviceMonitor:
+    hdfs:
+      enabled: true
+    hbase:
+      enabled: true  
+    kafka:
+      enable: true
+    spark:
+      enable: true
+
+consoleFrontend:
+  conf:
+    hdfsLink: "http://hdfs.127-0-0-1.nip.io"
+    kafkaManagerLink: "http://kafka-manager.127-0-0-1.nip.io"
+    grafanaLink: "http://grafana.127-0-0-1.nip.io"
+    kibanaLink: "http://kibana.127-0-0-1.nip.io"
+    jupyterLink: "http://notebooks.127-0-0-1.nip.io"
+    httpfsLink: ""
+  resources:
+    requests:
+      memory: "128Mi"
+      cpu: "10m"
+    limits:
+      memory: "1024Mi"
+      cpu: "1000m"
+  ingress:
+    enabled: true
+    path: /
+    hosts:
+      - "console.127-0-0-1.nip.io"
+
+jupyterhub:
+  ingress:
+    hosts:
+      - "notebooks.127-0-0-1.nip.io"
+grafana:
+  ingress:
+    hosts:
+      - "grafana.127-0-0-1.nip.io"
+hdfs:
+  ingress:
+    nameNode:
+      hosts:
+      - "hdfs.127-0-0-1.nip.io"
+kafka-manager:
+  ingress:
+    hosts:
+      - "kafka-manager.127-0-0-1.nip.io"
+spark-standalone:
+  ingress:
+    hosts:
+      - "spark-standalone.127-0-0-1.nip.io"
