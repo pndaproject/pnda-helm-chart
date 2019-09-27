@@ -29,10 +29,6 @@ prometheus:
       enable: false
       namespace: 
       interval: 15s
-    hbase:
-      enable: false
-      namespace: 
-      interval: 15s
     spark:
       enable: false
       namespace: 
