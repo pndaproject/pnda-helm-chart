@@ -2,9 +2,10 @@
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
+  name: {{ .Release.Name }}-hdfs
   labels:
-    app: pnda
-  name: hdfs
+    app.kubernetes.io/name: prometheus-monitoring
+    {{- include "pnda.labels" . | nindent 4 }}
   namespace: {{ .Values.prometheus.serviceMonitor.hdfs.namespace | default .Release.Namespace }}
 spec:
   endpoints:
@@ -15,5 +16,6 @@ spec:
     - {{ .Release.Namespace }}
   selector:
     matchLabels:
-      app: hdfs
+      app.kubernetes.io/name: hdfs
+      app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}

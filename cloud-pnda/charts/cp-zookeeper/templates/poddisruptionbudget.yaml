@@ -3,15 +3,15 @@ kind: PodDisruptionBudget
 metadata:
   name: {{ template "cp-zookeeper.fullname" . }}-pdb
   labels:
-    app: {{ template "cp-zookeeper.name" . }}
-    chart: {{ template "cp-zookeeper.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+    app.kubernetes.io/name: {{ template "cp-zookeeper.name" . }}
+    helm.sh/chart: {{ template "cp-zookeeper.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
   selector:
     matchLabels:
-      app: {{ template "cp-zookeeper.name" . }}
-      release: {{ .Release.Name }}
+      app.kubernetes.io/name: {{ template "cp-zookeeper.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
   {{- if .Values.minAvailable }}
   minAvailable: {{ .Values.minAvailable }}
   {{- else }}

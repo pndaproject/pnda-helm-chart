@@ -4,9 +4,8 @@ kind: Service
 metadata:
   name: {{ include "opentsdb.fullname" . }}-nodeport
   labels:
-    app: {{ include "opentsdb.name" . }}
-    chart: {{ include "opentsdb.chart" . }}
-    release: {{ .Release.Name }}
+    app.kubernetes.io/name: {{ include "opentsdb.name" . }}
+    {{- include "opentsdb.labels" . | nindent 4 }}
 spec:
   type: NodePort
   ports:
@@ -16,6 +15,6 @@ spec:
       nodePort: {{ .Values.nodePort.externalPort }}
       protocol: TCP
   selector:
-    app: {{ include "opentsdb.name" . }}
-    release: {{ .Release.Name }}
+    app.kubernetes.io/name: {{ include "opentsdb.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}

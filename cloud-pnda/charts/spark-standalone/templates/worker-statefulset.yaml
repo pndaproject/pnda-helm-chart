@@ -3,10 +3,10 @@ kind: StatefulSet
 metadata:
   name: {{ template "spark.fullname" . }}-workers
   labels:
-    app: {{ template "spark.name" . }}
-    chart: {{ template "spark.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+    app.kubernetes.io/name: {{ template "spark.name" . }}
+    helm.sh/chart: {{ template "spark.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
   replicas: 1
   strategy:
@@ -14,14 +14,14 @@ spec:
   serviceName: {{ template "spark.fullname" . }}-workers
   selector:
     matchLabels:
-      app: {{ template "spark.name" . }}-worker
-      release: {{ .Release.Name }}
+      app.kubernetes.io/name: {{ template "spark.name" . }}-worker
+      app.kubernetes.io/instance: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app: {{ template "spark.name" . }}-worker
-        release: {{ .Release.Name }}
-        heritage: {{ .Release.Service }}
+        app.kubernetes.io/name: {{ template "spark.name" . }}-worker
+        app.kubernetes.io/instance: {{ .Release.Name }}
+        app.kubernetes.io/managed-by: {{ .Release.Service }}
     spec:
       containers:
       - name: {{ template "spark.fullname" . }}-worker

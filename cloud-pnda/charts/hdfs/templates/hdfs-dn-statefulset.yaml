@@ -5,19 +5,18 @@ metadata:
   annotations:
     checksum/config: {{ include (print $.Template.BasePath "/hadoop-configmap.yaml") . | sha256sum }}
   labels:
-    app: {{ include "hdfs.name" . }}
-    chart: {{ include "hdfs.chart" . }}
-    release: {{ .Release.Name }}
-    component: datanode
+    app.kubernetes.io/name: {{ include "hdfs.name" . }}
+    app.kubernetes.io/component: datanode
+    {{- include "hdfs.labels" . | nindent 4 }}
 spec:
   serviceName: {{ include "hdfs.fullname" . }}-datanode
   replicas: {{ .Values.dataNode.replicas }}
   template:
     metadata:
       labels:
-        app: {{ include "hdfs.name" . }}
-        release: {{ .Release.Name }}
-        component: datanode
+        app.kubernetes.io/name: {{ include "hdfs.name" . }}
+        app.kubernetes.io/component: datanode
+        {{- include "hdfs.labels" . | nindent 8 }}
     spec:
       affinity:
         podAntiAffinity:

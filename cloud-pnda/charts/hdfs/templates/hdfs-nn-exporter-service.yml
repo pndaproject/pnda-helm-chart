@@ -2,14 +2,16 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: {{ .Release.Name}}-hdfs-namenode-metrics
+  name: {{ include "hdfs.fullname" . }}-namenode-exporter
   labels:
-    app: hdfs
+    app.kubernetes.io/name: {{ include "hdfs.name" . }}
+    app.kubernetes.io/component: namenode
+    {{- include "hdfs.labels" . | nindent 4 }}
 spec: 
-  selector: 
-    app: {{ include "hdfs.name" . }}
-    component: namenode
-    release: {{ .Release.Name }}
+  selector:
+    app.kubernetes.io/name: {{ include "hdfs.name" . }}
+    app.kubernetes.io/component: namenode
+    app.kubernetes.io/instance: {{ .Release.Name }}
   ports:
   - port: {{ .Values.prometheus.exporter.port }}
     name: metrics

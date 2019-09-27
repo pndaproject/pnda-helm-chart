@@ -6,9 +6,9 @@ kind: Ingress
 metadata:
   name: {{ $fullname }}-namenode
   labels:
-    app: {{ include "hdfs.name" . }}
-    chart: {{ include "hdfs.chart" . }}
-    release: {{ .Release.Name }}
+    app.kubernetes.io/name: {{ include "hdfs.name" . }}
+    app.kubernetes.io/component: namenode
+    {{- include "hdfs.labels" . | nindent 4 }}
 {{- if .Values.ingress.nameNode.labels }}
 {{ toYaml .Values.ingress.nameNode.labels | indent 4 }}
 {{- end }}

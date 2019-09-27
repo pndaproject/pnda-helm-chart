@@ -1,0 +1,47 @@
+## ----------------------------
+## PNDA Components Configuration
+## ----------------------------
+
+redis:
+  enabled: true
+  usePassword: false
+  master:
+    persistence:
+      enabled: false
+
+packageRepository:
+  persistence:
+    enabled: false
+
+## ----------------------------------
+## Big Data Requirements Configuration
+## ----------------------------------
+
+# Check https://zero-to-jupyterhub.readthedocs.io/en/latest/ for customize this section
+#jupyterhub:
+#  hub:
+#    db:
+#      type: sqlite-memory
+#  singleuser:
+#    storage:
+#      type: none
+
+# enable kafka and zookeeper confluent components. Disable the rest.
+cp-zookeeper:
+  enabled: true
+  servers: 1
+  persistence:
+    enabled: false
+cp-kafka:
+  enabled: true
+  persistence:
+    enabled: false
+# Setting hdfs-namenode and hdfs-datanode instances to 1
+hdfs:
+  enabled: true
+  # The base hadoop image to use for all components.
+  persistence:
+    nameNode:
+      enabled: false
+    dataNode:
+      enabled: false

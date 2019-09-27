@@ -2,7 +2,7 @@
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
-  name: {{ include "pnda.platform-testing.name" . }}-hdfs
+  name: {{ include "pnda.platform-testing.fullname" . }}-hdfs
   labels:
     {{- include "pnda.platform-testing.labels" . | nindent 4 }}
 spec:
@@ -41,5 +41,5 @@ spec:
           volumes:
             - name: logging-config
               configMap:
-                name: {{ include "pnda.platform-testing.name" . }}
+                name: {{ include "pnda.platform-testing.fullname" . }}
 {{- end -}}

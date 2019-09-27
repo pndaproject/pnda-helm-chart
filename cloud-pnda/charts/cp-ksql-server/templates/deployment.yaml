@@ -3,21 +3,21 @@ kind: Deployment
 metadata:
   name: {{ template "cp-ksql-server.fullname" . }}
   labels:
-    app: {{ template "cp-ksql-server.name" . }}
-    chart: {{ template "cp-ksql-server.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+    app.kubernetes.io/name: {{ template "cp-ksql-server.name" . }}
+    helm.sh/chart: {{ template "cp-ksql-server.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: {{ template "cp-ksql-server.name" . }}
-      release: {{ .Release.Name }}
+      app.kubernetes.io/name: {{ template "cp-ksql-server.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app: {{ template "cp-ksql-server.name" . }}
-        release: {{ .Release.Name }}
+        app.kubernetes.io/name: {{ template "cp-ksql-server.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
       {{- if or .Values.podAnnotations .Values.prometheus.jmx.enabled }}
       annotations:
       {{- range $key, $value := .Values.podAnnotations }}

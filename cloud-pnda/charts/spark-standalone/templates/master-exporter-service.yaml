@@ -2,13 +2,16 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: spark-standalone-exporter
+  name: {{ template "spark.fullname" . }}-standalone-exporter
   labels:
-    app: spark
+    app.kubernetes.io/name: {{ template "spark.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    helm.sh/chart: {{ template "cp-kafka.chart" . }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec: 
   selector:
-    app: {{ template "spark.name" . }}
-    release: {{ .Release.Name }}
+    app.kubernetes.io/name: {{ template "spark.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
   ports:
     - port: {{ .Values.master.prometheus.exporter.port }}
       name: metrics

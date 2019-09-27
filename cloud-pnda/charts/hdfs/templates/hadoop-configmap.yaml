@@ -3,9 +3,8 @@ kind: ConfigMap
 metadata:
   name: {{ .Release.Name }}-hadoop
   labels:
-    app: {{ include "hdfs.name" . }}
-    chart: {{ include "hdfs.chart" . }}
-    release: {{ .Release.Name }}
+    app.kubernetes.io/name: {{ include "hdfs.name" . }}
+    {{- include "hdfs.labels" . | nindent 4 }}
 data:
   bootstrap.sh: |-
 {{ tpl (.Files.Get "resources/config/bootstrap.sh") . | indent 4 }}

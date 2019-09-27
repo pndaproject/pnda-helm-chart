@@ -4,10 +4,9 @@ kind: Service
 metadata:
   name: {{ include "hdfs.fullname" . }}-namenode
   labels:
-    app: {{ include "hdfs.name" . }}
-    chart: {{ include "hdfs.chart" . }}
-    release: {{ .Release.Name }}
-    component: namenode
+    app.kubernetes.io/name: {{ include "hdfs.name" . }}
+    app.kubernetes.io/component: namenode
+    {{- include "hdfs.labels" . | nindent 4 }}
 spec:
   ports:
   - name: dfs
@@ -17,6 +16,6 @@ spec:
     port: 50070
   clusterIP: None
   selector:
-    app: {{ include "hdfs.name" . }}
-    release: {{ .Release.Name }}
-    component: namenode
+    app.kubernetes.io/name: {{ include "hdfs.name" . }}
+    app.kubernetes.io/component: namenode
+    app.kubernetes.io/instance: {{ .Release.Name }}

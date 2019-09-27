@@ -1,5 +1,5 @@
 {{- if .Values.consoleFrontend.ingress.enabled -}}
-{{- $fullname := include "pnda.console-frontend.name" . -}}
+{{- $fullname := include "pnda.console-frontend.fullname" . -}}
 {{- $servicePort := .Values.consoleFrontend.service.port -}}
 {{- $ingressPath := .Values.consoleFrontend.ingress.path -}}
 apiVersion: extensions/v1beta1

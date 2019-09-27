@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "pnda.package-repository.name" . }}
+  name: {{ include "pnda.package-repository.fullname" . }}
   labels:
     {{- include "pnda.package-repository.labels" . | nindent 4 }}
 spec:

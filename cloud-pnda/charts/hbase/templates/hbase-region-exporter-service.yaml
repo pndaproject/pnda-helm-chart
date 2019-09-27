@@ -4,13 +4,14 @@ apiVersion: v1
 metadata:
   name: {{ .Release.Name}}-hbase-region-metrics
   labels:
-   app: hbase
-   component: regionserver
+    app.kubernetes.io/name: {{ include "hbase.name" . }}
+    app.kubernetes.io/component: regionserver
+    {{- include "hbase.labels" . | nindent 4 }}
 spec: 
   selector: 
-    app: {{ include "hbase.name" . }}
-    release: {{ .Release.Name }}
-    component: regionserver
+    app.kubernetes.io/name: {{ include "hbase.name" . }}
+    app.kubernetes.io/component: regionserver
+    app.kubernetes.io/instance: {{ .Release.Name }}
   ports:
   - port: {{ .Values.prometheus.port }}
     name: metrics

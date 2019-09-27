@@ -4,10 +4,10 @@ kind: StatefulSet
 metadata:
   name: {{ template "cp-kafka.fullname" . }}
   labels:
-    app: {{ template "cp-kafka.name" . }}
-    chart: {{ template "cp-kafka.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+    app.kubernetes.io/name: {{ template "cp-kafka.name" . }}
+    helm.sh/chart: {{ template "cp-kafka.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
   serviceName: {{ template "cp-kafka.fullname" . }}-headless
   podManagementPolicy: {{ .Values.podManagementPolicy }}
@@ -17,8 +17,8 @@ spec:
   template:
     metadata:
       labels:
-        app: {{ template "cp-kafka.name" . }}
-        release: {{ .Release.Name }}
+        app.kubernetes.io/name: {{ template "cp-kafka.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
       {{- if or .Values.podAnnotations .Values.prometheus.enabled }}
       annotations:
       {{- range $key, $value := .Values.podAnnotations }}

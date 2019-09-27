@@ -4,12 +4,14 @@ apiVersion: v1
 metadata:
   name: {{ .Release.Name}}-hbase-master-thrift-metrics
   labels:
-    monitoring: prometheus
+    app.kubernetes.io/name: {{ include "hbase.name" . }}
+    app.kubernetes.io/component: thrift
+    {{- include "hbase.labels" . | nindent 4 }}
 spec: 
-  selector: 
-    app: {{ include "hbase.name" . }}
-    release: {{ .Release.Name }}
-    component: master
+  selector:
+    app.kubernetes.io/name: {{ include "hbase.name" . }}
+    app.kubernetes.io/component: master
+    app.kubernetes.io/instance: {{ .Release.Name }}
   ports:
   - port: {{ .Values.prometheus.thriftPort }}
     name: metrics

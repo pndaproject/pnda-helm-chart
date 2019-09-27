@@ -4,10 +4,10 @@ kind: Role
 metadata:
   name: {{ template "redis.fullname" . }}
   labels:
-    app: {{ template "redis.name" . }}
-    chart: {{ template "redis.chart" . }}
-    release: "{{ .Release.Name }}"
-    heritage: "{{ .Release.Service }}"
+    app.kubernetes.io/name: {{ template "redis.name" . }}
+    helm.sh/chart: {{ template "redis.chart" . }}
+    app.kubernetes.io/instance: "{{ .Release.Name }}"
+    app.kubernetes.io/managed-by: "{{ .Release.Service }}"
 rules:
 {{ toYaml .Values.rbac.role.rules }}
 {{- end -}}

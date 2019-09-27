@@ -4,24 +4,19 @@ metadata:
   name: {{ include "hdfs.fullname" . }}-namenode
   annotations:
     checksum/config: {{ include (print $.Template.BasePath "/hadoop-configmap.yaml") . | sha256sum }}
-  {{- if .Values.prometheus.exporter.enabled }}
-    prometheus.io/scrape: "true"
-    prometheus.io/port: {{ .Values.prometheus.exporter.port | quote }}
-  {{- end }}
   labels:
-    app: {{ include "hdfs.name" . }}
-    chart: {{ include "hdfs.chart" . }}
-    release: {{ .Release.Name }}
-    component: namenode
+    app.kubernetes.io/name: {{ include "hdfs.name" . }}
+    app.kubernetes.io/component: namenode
+    {{- include "hdfs.labels" . | nindent 4 }}
 spec:
   serviceName: {{ include "hdfs.fullname" . }}-namenode
   replicas: 1
   template:
     metadata:
       labels:
-        app: {{ include "hdfs.name" . }}
-        release: {{ .Release.Name }}
-        component: namenode
+        app.kubernetes.io/name: {{ include "hdfs.name" . }}
+        app.kubernetes.io/component: namenode
+        {{- include "hdfs.labels" . | nindent 8 }}
     spec:
       affinity:
         podAntiAffinity:
@@ -98,7 +93,7 @@ spec:
       {{- if .Values.prometheus.exporter.enabled }}
       - name: config-exporter
         configMap:
-          name: {{ .Release.Name }}-hadoop-exporter
+          name: {{ include "hdfs.fullname" . }}-namenode-exporter
       {{- end }}
       - name: dfs
       {{- if .Values.persistence.nameNode.enabled }}

@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "pnda.console-frontend.name" . }}
+  name: {{ include "pnda.console-frontend.fullname" . }}
   labels:
     {{- include "pnda.console-frontend.labels" . | nindent 4 }}
 spec:

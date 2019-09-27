@@ -4,10 +4,10 @@ kind: ConfigMap
 metadata:
   name: {{ template "cp-kafka-rest.fullname" . }}-jmx-configmap
   labels:
-    app: {{ template "cp-kafka-rest.name" . }}
-    chart: {{ template "cp-kafka-rest.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+    app.kubernetes.io/name: {{ template "cp-kafka-rest.name" . }}
+    helm.sh/chart: {{ template "cp-kafka-rest.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
 data:
   jmx-kafka-rest-prometheus.yml: |+
     jmxUrl: service:jmx:rmi:///jndi/rmi://localhost:{{ .Values.jmx.port }}/jmxrmi

@@ -1,7 +1,7 @@
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
-  name: {{ include "pnda.console-frontend.name" . }}
+  name: {{ include "pnda.console-frontend.fullname" . }}
   labels:
     {{- include "pnda.console-frontend.labels" . | nindent 4 }}
 spec:
@@ -33,7 +33,7 @@ spec:
       volumes:
         - name: console-frontend-config
           configMap:
-            name: {{ include "pnda.console-frontend.name" . }}
+            name: {{ include "pnda.console-frontend.fullname" . }}
         - name: console-nginx-config
           configMap:
-            name: {{ include "pnda.console-frontend.name" . }}-nginx
+            name: {{ include "pnda.console-frontend.fullname" . }}-nginx

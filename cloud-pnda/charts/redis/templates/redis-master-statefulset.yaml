@@ -3,24 +3,24 @@ kind: StatefulSet
 metadata:
   name: {{ template "redis.fullname" . }}-master
   labels:
-    app: {{ template "redis.name" . }}
-    chart: {{ template "redis.chart" . }}
-    release: "{{ .Release.Name }}"
-    heritage: "{{ .Release.Service }}"
+    app.kubernetes.io/name: {{ template "redis.name" . }}
+    helm.sh/chart: {{ template "redis.chart" . }}
+    app.kubernetes.io/instance: "{{ .Release.Name }}"
+    app.kubernetes.io/managed-by: "{{ .Release.Service }}"
 spec:
   selector:
     matchLabels:
-      release: "{{ .Release.Name }}"
+      app.kubernetes.io/instance: "{{ .Release.Name }}"
       role: master
-      app: {{ template "redis.name" . }}
+      app.kubernetes.io/name: {{ template "redis.name" . }}
   serviceName: {{ template "redis.fullname" . }}-headless
   template:
     metadata:
       labels:
-        release: "{{ .Release.Name }}"
-        chart: {{ template "redis.chart" . }}
+        app.kubernetes.io/instance: "{{ .Release.Name }}"
+        helm.sh/chart: {{ template "redis.chart" . }}
         role: master
-        app: {{ template "redis.name" . }}
+        app.kubernetes.io/name: {{ template "redis.name" . }}
 {{- if .Values.master.podLabels }}
 {{ toYaml .Values.master.podLabels | indent 8 }}
 {{- end }}
@@ -322,10 +322,10 @@ spec:
     - metadata:
         name: redis-data
         labels:
-          app: "{{ template "redis.name" . }}"
+          app.kubernetes.io/name: "{{ template "redis.name" . }}"
           component: "master"
-          release: {{ .Release.Name | quote }}
-          heritage: {{ .Release.Service | quote }}
+          app.kubernetes.io/instance: {{ .Release.Name | quote }}
+          app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
       spec:
         accessModes:
         {{- range .Values.master.persistence.accessModes }}

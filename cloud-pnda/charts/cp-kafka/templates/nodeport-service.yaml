@@ -12,10 +12,10 @@ kind: Service
 metadata:
   name: {{ $root.Release.Name }}-{{ $i }}-nodeport
   labels:
-    app: {{ include "cp-kafka.name" $root }}
-    chart: {{ template "cp-kafka.chart" $root }}
-    release: {{ $root.Release.Name }}
-    heritage: {{ $root.Release.Service }}
+    app.kubernetes.io/name: {{ include "cp-kafka.name" $root }}
+    helm.sh/chart: {{ template "cp-kafka.chart" $root }}
+    app.kubernetes.io/instance: {{ $root.Release.Name }}
+    app.kubernetes.io/managed-by: {{ $root.Release.Service }}
     pod: {{ $responsiblePod }}
 spec:
   type: NodePort
@@ -26,8 +26,8 @@ spec:
       nodePort: {{ $externalListenerPort }}
       protocol: TCP
   selector:
-    app: {{ include "cp-kafka.name" $root }}
-    release: {{ $root.Release.Name }}
+    app.kubernetes.io/name: {{ include "cp-kafka.name" $root }}
+    app.kubernetes.io/instance: {{ $root.Release.Name }}
     statefulset.kubernetes.io/pod-name: {{ $responsiblePod | quote }}
   {{- end }}
 {{- end }}

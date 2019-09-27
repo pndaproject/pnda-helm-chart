@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "pnda.deployment-manager.name" . }}
+  name: {{ include "pnda.deployment-manager.fullname" . }}
   labels:
     {{- include "pnda.deployment-manager.labels" . | nindent 4 }}
 spec:
@@ -9,7 +9,7 @@ spec:
   selector:
     matchLabels:
       {{- include "pnda.deployment-manager.labels" . | nindent 6 }}
-  servicename: {{ include "pnda.deployment-manager.name" . }}
+  servicename: {{ include "pnda.deployment-manager.fullname" . }}
   template:
     metadata:
       labels:
@@ -35,4 +35,4 @@ spec:
       volumes:
         - name: deployment-manager-config
           configMap:
-            name: {{ include "pnda.deployment-manager.name" . }}
+            name: {{ include "pnda.deployment-manager.fullname" . }}

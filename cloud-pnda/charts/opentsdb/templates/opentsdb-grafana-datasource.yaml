@@ -3,9 +3,8 @@ kind: ConfigMap
 metadata:
   name: {{ include "opentsdb.fullname" . }}-grafana-datasource
   labels:
-    app: {{ include "opentsdb.name" . }}
-    chart: {{ include "opentsdb.chart" . }}
-    release: {{ .Release.Name }}
+    app.kubernetes.io/name: {{ include "opentsdb.name" . }}
+    {{- include "opentsdb.labels" . | nindent 4 }}
     grafana_datasource: "1"
 data:
   datasource.yaml: |-# config file version

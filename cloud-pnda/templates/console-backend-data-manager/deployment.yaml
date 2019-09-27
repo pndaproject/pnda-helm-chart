@@ -1,7 +1,7 @@
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
-  name: {{ include "pnda.console-backend-data-manager.name" . }}
+  name: {{ include "pnda.console-backend-data-manager.fullname" . }}
   labels:
     {{- include "pnda.console-backend-data-manager.labels" . | nindent 4 }}
 spec:
@@ -37,4 +37,4 @@ spec:
       volumes:
         - name: data-manager-config
           configMap:
-            name: {{ include "pnda.console-backend-data-manager.name" . }}
+            name: {{ include "pnda.console-backend-data-manager.fullname" . }}

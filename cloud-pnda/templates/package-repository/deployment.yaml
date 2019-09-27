@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "pnda.package-repository.name" . }}
+  name: {{ include "pnda.package-repository.fullname" . }}
   labels:
     {{- include "pnda.package-repository.labels" . | nindent 4 }}
 spec:
@@ -9,7 +9,7 @@ spec:
   selector:
     matchLabels:
       {{- include "pnda.package-repository.labels" . | nindent 6 }}
-  servicename: {{ include "pnda.package-repository.name" . }}
+  servicename: {{ include "pnda.package-repository.fullname" . }}
   template:
     metadata:
       labels:
@@ -37,11 +37,11 @@ spec:
       volumes:
       - name: packagerepo-config
         configMap:
-          name: {{ include "pnda.package-repository.name" . }}
+          name: {{ include "pnda.package-repository.fullname" . }}
       - name: packagerepo-data
       {{- if .Values.packageRepository.persistence.enabled }}
         persistentVolumeClaim:
-          claimName: {{ include "pnda.package-repository.name" . }}
+          claimName: {{ include "pnda.package-repository.fullname" . }}
       {{- else }}
         emptyDir: {}
       {{- end }}

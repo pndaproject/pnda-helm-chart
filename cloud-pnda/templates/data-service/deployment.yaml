@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "pnda.data-service.name" . }}
+  name: {{ include "pnda.data-service.fullname" . }}
   labels:
     {{- include "pnda.data-service.labels" . | nindent 4 }}
 spec:
@@ -9,7 +9,7 @@ spec:
   selector:
     matchLabels:
       {{- include "pnda.data-service.labels" . | nindent 6 }}
-  serviceName: {{ include "pnda.data-service.name" . }}
+  serviceName: {{ include "pnda.data-service.fullname" . }}
   template:
     metadata:
       labels:
@@ -35,4 +35,4 @@ spec:
       volumes:
         - name: data-service-config
           configMap:
-            name: {{ include "pnda.data-service.name" . }}
+            name: {{ include "pnda.data-service.fullname" . }}

@@ -6,10 +6,10 @@ kind: Ingress
 metadata:
   name: {{ template "spark.fullname" . }}
   labels:
-    app: {{ template "spark.name" . }}
-    chart: {{ template "spark.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+    app.kubernetes.io/name: {{ template "spark.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    helm.sh/chart: {{ template "spark.chart" . }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- if .Values.ingress.labels }}
 {{ toYaml .Values.ingress.labels | indent 4 }}
 {{- end }}

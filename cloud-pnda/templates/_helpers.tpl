@@ -11,34 +11,54 @@ app.kubernetes.io/part-of: {{ .Chart.Name }}
 {{- end -}}
 
 {{- define "pnda.console-backend-data-logger.name" -}}
-{{- $name := default "console-backend-data-logger" .Values.nameOverride -}}
+{{- default "console-backend-data-logger" .Values.consoleBackendDataLogger.nameOverride | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+{{/*
+Create a default fully qualified app name.
+We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
+*/}}
+{{- define "pnda.console-backend-data-logger.fullname" -}}
+{{- $name := default "console-backend-data-logger" .Values.consoleBackendDataLogger.nameOverride -}}
 {{- printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 {{- define "pnda.console-backend-data-logger.labels" -}}
-app.kubernetes.io/name: {{ include "pnda.console-backend-data-logger.name" . }}
+app.kubernetes.io/name:  {{ include "pnda.console-backend-data-logger.name" . }}
 {{ include "pnda.labels" . }}
 {{- end -}}
 
 {{- define "pnda.console-backend-data-manager.name" -}}
-{{- $name := default "console-backend-data-manager" .Values.nameOverride -}}
+{{- default "console-backend-data-manager" .Values.consoleBackendDataManager.nameOverride | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+{{/*
+Create a default fully qualified app name.
+We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
+*/}}
+{{- define "pnda.console-backend-data-manager.fullname" -}}
+{{- $name := default "console-backend-data-manager" .Values.consoleBackendDataManager.nameOverride -}}
 {{- printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 {{- define "pnda.console-backend-data-manager.labels" -}}
-app.kubernetes.io/name: {{ include "pnda.console-backend-data-manager.name" . }}
+app.kubernetes.io/name:  {{ include "pnda.console-backend-data-manager.name" . }}
 {{ include "pnda.labels" . }}
 {{- end -}}
 
 {{- define "pnda.console-frontend.name" -}}
-{{- $name := default "console-frontend" .Values.nameOverride -}}
+{{- default "console-frontend" .Values.consoleFrontend.nameOverride | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+{{- define "pnda.console-frontend.fullname" -}}
+{{- $name := default "console-frontend" .Values.consoleFrontend.nameOverride -}}
 {{- printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 {{- define "pnda.console-frontend.labels" -}}
-app.kubernetes.io/name: {{ include "pnda.console-frontend.name" . }}
+app.kubernetes.io/name:  {{ include "pnda.console-frontend.name" . }}
 {{ include "pnda.labels" . }}
 {{- end -}}
 
 {{- define "pnda.data-service.name" -}}
-{{- $name := default "data-service" .Values.nameOverride -}}
+{{- default "data-service" .Values.dataService.nameOverride | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+{{- define "pnda.data-service.fullname" -}}
+{{- $name := default "data-service" .Values.dataService.nameOverride -}}
 {{- printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 {{- define "pnda.data-service.labels" -}}
@@ -47,7 +67,10 @@ app.kubernetes.io/name: {{ include "pnda.data-service.name" . }}
 {{- end -}}
 
 {{- define "pnda.deployment-manager.name" -}}
-{{- $name := default "deployment-manager" .Values.nameOverride -}}
+{{- default "deployment-manager" .Values.deploymentManager.nameOverride | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+{{- define "pnda.deployment-manager.fullname" -}}
+{{- $name := default "deployment-manager" .Values.deploymentManager.nameOverride -}}
 {{- printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 {{- define "pnda.deployment-manager.labels" -}}
@@ -56,7 +79,10 @@ app.kubernetes.io/name: {{ include "pnda.deployment-manager.name" . }}
 {{- end -}}
 
 {{- define "pnda.package-repository.name" -}}
-{{- $name := default "package-repository" .Values.nameOverride -}}
+{{- default "package-repository" .Values.packageRepository.nameOverride | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+{{- define "pnda.package-repository.fullname" -}}
+{{- $name := default "package-repository" .Values.packageRepository.nameOverride -}}
 {{- printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 {{- define "pnda.package-repository.labels" -}}
@@ -65,7 +91,10 @@ app.kubernetes.io/name: {{ include "pnda.package-repository.name" . }}
 {{- end -}}
 
 {{- define "pnda.platform-testing.name" -}}
-{{- $name := default "platform-testing" .Values.nameOverride -}}
+{{- default "platform-testing" .Values.platformTesting.nameOverride | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+{{- define "pnda.platform-testing.fullname" -}}
+{{- $name := default "platform-testing" .Values.platformTesting.nameOverride -}}
 {{- printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 {{- define "pnda.platform-testing.labels" -}}

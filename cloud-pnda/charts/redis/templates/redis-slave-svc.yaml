@@ -4,10 +4,10 @@ kind: Service
 metadata:
   name: {{ template "redis.fullname" . }}-slave
   labels:
-    app: {{ template "redis.name" . }}
-    chart: {{ template "redis.chart" . }}
-    release: "{{ .Release.Name }}"
-    heritage: "{{ .Release.Service }}"
+    app.kubernetes.io/name: {{ template "redis.name" . }}
+    helm.sh/chart: {{ template "redis.chart" . }}
+    app.kubernetes.io/instance: "{{ .Release.Name }}"
+    app.kubernetes.io/managed-by: "{{ .Release.Service }}"
 {{- if .Values.slave.service.annotations }}
   annotations:
 {{ toYaml .Values.slave.service.annotations | indent 4 }}
@@ -26,7 +26,7 @@ spec:
     nodePort: {{ .Values.slave.service.nodePort }}
     {{- end }}
   selector:
-    app: {{ template "redis.name" . }}
-    release: "{{ .Release.Name }}"
+    app.kubernetes.io/name: {{ template "redis.name" . }}
+    app.kubernetes.io/instance: "{{ .Release.Name }}"
     role: slave
 {{- end }}

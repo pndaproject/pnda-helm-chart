@@ -2,9 +2,10 @@
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
+  name: {{ .Release.Name }}-kafka
   labels:
-    app: pnda
-  name: kafka
+    app.kubernetes.io/name: prometheus-monitoring
+    {{- include "pnda.labels" . | nindent 4 }}
   namespace: {{ .Values.prometheus.serviceMonitor.kafka.namespace | default .Release.Namespace }}
 spec:
   endpoints:
@@ -15,5 +16,6 @@ spec:
     - {{ .Release.Namespace }}
   selector:
     matchLabels:
-      app: kafka
+      app.kubernetes.io/name: cp-kafka
+      app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}

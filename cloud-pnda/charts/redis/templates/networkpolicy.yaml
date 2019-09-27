@@ -4,15 +4,15 @@ apiVersion: {{ template "networkPolicy.apiVersion" . }}
 metadata:
   name: "{{ template "redis.fullname" . }}"
   labels:
-    app: {{ template "redis.name" . }}
-    chart: {{ template "redis.chart" . }}
-    release: "{{ .Release.Name }}"
-    heritage: "{{ .Release.Service }}"
+    app.kubernetes.io/name: {{ template "redis.name" . }}
+    helm.sh/chart: {{ template "redis.chart" . }}
+    app.kubernetes.io/instance: "{{ .Release.Name }}"
+    app.kubernetes.io/managed-by: "{{ .Release.Service }}"
 spec:
   podSelector:
     matchLabels:
-      app: {{ template "redis.name" . }}
-      release: "{{ .Release.Name }}"
+      app.kubernetes.io/name: {{ template "redis.name" . }}
+      app.kubernetes.io/instance: "{{ .Release.Name }}"
   ingress:
     # Allow inbound connections
     - ports:
@@ -28,9 +28,9 @@ spec:
       {{- if .Values.metrics.enabled }}
       - podSelector:
           matchLabels:
-            release: "{{ .Release.Name }}"
+            app.kubernetes.io/instance: "{{ .Release.Name }}"
             role: metrics
-            app: {{ template "redis.name" . }}
+            app.kubernetes.io/name: {{ template "redis.name" . }}
       {{- end }}
       {{- end }}
     {{- if .Values.metrics.enabled }}

@@ -3,14 +3,14 @@ kind: Service
 metadata:
   name: {{ template "cp-kafka-connect.fullname" . }}
   labels:
-    app: {{ template "cp-kafka-connect.name" . }}
-    chart: {{ template "cp-kafka-connect.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+    app.kubernetes.io/name: {{ template "cp-kafka-connect.name" . }}
+    helm.sh/chart: {{ template "cp-kafka-connect.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
   ports:
     - name: kafka-connect
       port: {{ .Values.servicePort }}
   selector:
-    app: {{ template "cp-kafka-connect.name" . }}
-    release: {{ .Release.Name }}
+    app.kubernetes.io/name: {{ template "cp-kafka-connect.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}

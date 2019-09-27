@@ -3,10 +3,10 @@ kind: ConfigMap
 metadata:
   name: {{ template "cp-ksql-server.fullname" . }}-ksql-queries-configmap
   labels:
-    app: {{ template "cp-ksql-server.name" . }}
-    chart: {{ template "cp-ksql-server.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+    app.kubernetes.io/name: {{ template "cp-ksql-server.name" . }}
+    helm.sh/chart: {{ template "cp-ksql-server.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
 data:
   {{- $files := .Files }}
   {{- range tuple "queries.sql" }}

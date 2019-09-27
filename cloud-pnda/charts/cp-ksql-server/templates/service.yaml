@@ -3,14 +3,14 @@ kind: Service
 metadata:
   name: {{ template "cp-ksql-server.fullname" . }}
   labels:
-    app: {{ template "cp-ksql-server.name" . }}
-    chart: {{ template "cp-ksql-server.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+    app.kubernetes.io/name: {{ template "cp-ksql-server.name" . }}
+    helm.sh/chart: {{ template "cp-ksql-server.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
   ports:
       - name: ksql-server
         port: {{ .Values.servicePort }}
   selector:
-    app: {{ template "cp-ksql-server.name" . }}
-    release: {{ .Release.Name }}
+    app.kubernetes.io/name: {{ template "cp-ksql-server.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}

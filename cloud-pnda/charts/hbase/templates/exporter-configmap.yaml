@@ -4,9 +4,9 @@ kind: ConfigMap
 metadata:
   name: {{ template "hbase.fullname" . }}-exporter-configmap
   labels:
-    app: {{ template "hbase.name" . }}
-    chart: {{ template "hbase.chart" . }}
-    release: {{ .Release.Name }}
+    app.kubernetes.io/name: {{ include "hbase.name" . }}
+    app.kubernetes.io/component: master
+    {{- include "hbase.labels" . | nindent 4 }}
 data:
   jmx-hbase-prometheus.yml: |+
 {{ toYaml .Values.prometheus.config | indent 4 }}

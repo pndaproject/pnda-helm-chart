@@ -3,10 +3,10 @@ kind: Service
 metadata:
   name: {{ template "cp-zookeeper.fullname" . }}-headless
   labels:
-    app: {{ template "cp-zookeeper.name" . }}
-    chart: {{ template "cp-zookeeper.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+    app.kubernetes.io/name: {{ template "cp-zookeeper.name" . }}
+    helm.sh/chart: {{ template "cp-zookeeper.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
   ports:
     - port: {{ .Values.serverPort }}
@@ -15,5 +15,5 @@ spec:
       name: leader-election
   clusterIP: None
   selector:
-    app: {{ template "cp-zookeeper.name" . }}
-    release: {{ .Release.Name }}
+    app.kubernetes.io/name: {{ template "cp-zookeeper.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}

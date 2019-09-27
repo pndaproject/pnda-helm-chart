@@ -4,11 +4,12 @@ kind: Service
 metadata:
   name: {{ template "spark.fullname" . }}-workers
   labels:
-    app: {{ template "spark.name" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+    app.kubernetes.io/name: {{ template "spark.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    helm.sh/chart: {{ template "spark.chart" . }}
 spec:
   clusterIP: None
   selector:
-    app: {{ template "spark.name" . }}-worker
-    release: {{ .Release.Name }}
+    app.kubernetes.io/name: {{ template "spark.name" . }}-worker
+    app.kubernetes.io/instance: {{ .Release.Name }}
