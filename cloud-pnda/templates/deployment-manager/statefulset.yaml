@@ -1,5 +1,5 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: apps/v1beta1
+kind: StatefulSet
 metadata:
   name: {{ include "pnda.deployment-manager.fullname" . }}
   labels:
@@ -23,16 +23,34 @@ spec:
             - name: http
               containerPort: {{ .Values.deploymentManager.service.port }}
               protocol: TCP
-          command:
-            - "python3"
-            - "app.py"
+            - name: git
+              containerPort: 8099
+              protocol: TCP
           volumeMounts:
             - mountPath: /deployment-manager/dm-config.json
               subPath: dm-config.json
               name: deployment-manager-config
+            - name: stage
+              mountPath: /data/stage
+            - name: git-repos
+              mountPath: /data/git-repos
           resources:
 {{ toYaml .Values.deploymentManager.resources | indent 12 }}
       volumes:
         - name: deployment-manager-config
           configMap:
             name: {{ include "pnda.deployment-manager.fullname" . }}
+        - name: stage
+        {{- if .Values.deploymentManager.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ include "pnda.deployment-manager.fullname" . }}
+        {{- else }}
+          emptyDir: {}
+        {{- end }}
+        - name: git-repos
+        {{- if .Values.deploymentManager.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ include "pnda.deployment-manager.fullname" . }}-git
+        {{- else }}
+          emptyDir: {}
+        {{- end }}

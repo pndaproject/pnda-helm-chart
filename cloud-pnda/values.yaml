@@ -111,8 +111,8 @@ dataService:
       memory: "1024Mi"
       cpu: "1000m"
 deploymentManager:
-  image: pnda/platform-deployment-manager:release5.0
-  imagePullPolicy: IfNotPresent
+  image: pnda/platform-deployment-manager:develop
+  imagePullPolicy: Always
   service:
     type: ClusterIP
     port: 5000
@@ -125,9 +125,13 @@ deploymentManager:
     limits:
       memory: "1024Mi"
       cpu: "1000m"
+  persistence:
+    enabled: true
+    accessMode: ReadWriteOnce
+    size: 2Gi
 packageRepository:
-  image: pnda/platform-package-repository:release5.0
-  imagePullPolicy: IfNotPresent
+  image: pnda/platform-package-repository:develop
+  imagePullPolicy: Always
   service:
     type: ClusterIP
     port: 8888
@@ -210,6 +214,17 @@ jupyterhub:
             "hostname": "jupyter-{username}",
             "subdomain": "jupyterhub"
          }
+      01-posthook: |
+         c.KubeSpawner.lifecycle_hooks = {
+            "postStart": {
+              "exec": {
+                "command": [
+                  "sh",
+                  "-c",
+                  "rm -rf /home/jovyan/apps-notebooks && git clone http://deployment-manager-git:8099/jupyter-${JUPYTERHUB_USER} /home/jovyan/apps-notebooks"]
+              }
+            }
+          }
   auth:
     type: dummy
     dummy:
