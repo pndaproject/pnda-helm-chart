@@ -21,7 +21,6 @@ spec:
   - name: hbase-ui
     port: 16010
     protocol: TCP
-  clusterIP: None
   selector:
     app.kubernetes.io/name: {{ include "hbase.name" . }}
     app.kubernetes.io/component: master

@@ -1,0 +1,21 @@
+{{- if .Values.deploymentManager.persistence.enabled -}}
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ include "pnda.deployment-manager.fullname" . }}
+  labels:
+    {{- include "pnda.deployment-manager.labels" . | nindent 4 }}
+spec:
+  accessModes:
+  - {{ .Values.deploymentManager.persistence.accessMode | quote }}
+  resources:
+    requests:
+      storage: {{ .Values.deploymentManager.persistence.size | quote }}
+{{- if .Values.deploymentManager.persistence.storageClass }}
+{{- if (eq "-" .Values.deploymentManager.persistence.storageClass) }}
+  storageClassName: ""
+{{- else }}
+  storageClassName: "{{ .Values.deploymentManager.persistence.storageClass }}"
+{{- end }}
+{{- end }}
+{{- end -}}

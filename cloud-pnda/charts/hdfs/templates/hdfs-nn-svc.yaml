@@ -14,7 +14,6 @@ spec:
     protocol: TCP
   - name: webhdfs
     port: 50070
-  clusterIP: None
   selector:
     app.kubernetes.io/name: {{ include "hdfs.name" . }}
     app.kubernetes.io/component: namenode
