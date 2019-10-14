@@ -38,7 +38,7 @@ data:
           "stage_root": "/data/stage",
           "git_repos_root": "/data/git-repos",
           "plugins_path": "plugins",
-          "log_level": "INFO",
+          "log_level": "{{ .Values.deploymentManager.conf.logLevel }}",
           "deployer_thread_limit": 100,
           "environment_sync_interval": 120,
           "package_callback": "http://{{.Release.Name}}-console-backend-data-logger:3001/packages",
