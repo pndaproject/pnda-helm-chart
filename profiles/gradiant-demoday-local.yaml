@@ -1,0 +1,108 @@
+prometheus:
+  rbac:
+    enabled: true
+  #Configuration for each prometheusOperator service Monitor
+  serviceMonitor:
+    hdfs:
+      enabled: true
+    hbase:
+      enabled: true  
+    kafka:
+      enable: true
+    spark:
+      enable: true
+
+cp-schema-registry:
+  enabled: true
+schema-registry-ui:
+  enabled: true
+  ingress:
+    enabled: true
+    hosts:
+    - "registry.local"
+cp-kafka-connect:
+  enabled: true
+kafka-connect-ui:
+  enabled: true
+  ingress:
+    enabled: true
+    hosts:
+      - "connect.local"
+
+
+dataService:
+  image: gradiant/data-service:develop
+  imagePullPolicy: IfNotPresent
+
+deploymentManager:
+  image: gradiant/platform-deployment-manager:develop
+  imagePullPolicy: IfNotPresent
+  conf:
+    logLevel: DEBUG
+
+consoleFrontend:
+  conf:
+    logLevel: INFO
+    hdfsLink: "http://hdfs.local"
+    kafkaManagerLink: "http://kafka-manager.local"
+    grafanaLink: "http://grafana.local"
+    kibanaLink: "http://kibana.local"
+    jupyterLink: "http://notebooks.local"
+    httpfsLink:  "http://httpfs.local"
+  resources:
+    requests:
+      memory: "128Mi"
+      cpu: "10m"
+    limits:
+      memory: "1024Mi"
+      cpu: "1000m"
+  ingress:
+    enabled: true
+    path: /
+    hosts:
+      - "console.local"
+
+jupyterhub:
+  debug:
+    enabled: true
+  ingress:
+    hosts:
+      - "notebooks.local"
+  singleuser:
+    image:
+      name: gradiant/jupyter
+      tag: 6.0.1
+    defaultUrl: "/lab"
+grafana:
+  ingress:
+    hosts:
+      - "grafana.local"
+hdfs:
+  ingress:
+    nameNode:
+      hosts:
+      - "hdfs.local"
+    httpfs:
+      hosts:
+      - "httpfs.local"
+kafka-manager:
+  ingress:
+    hosts:
+      - "kafka-manager.local"
+spark-standalone:
+  ingress:
+    hosts:
+      - "spark-standalone.local"
+
+elasticsearch:
+  enabled: true
+
+fluentd-elasticsearch:
+  enabled: true
+
+kibana:
+  image: "gradiant/kibana"
+  enabled: true
+  ingress:
+    hosts:
+      - "kibana.local"

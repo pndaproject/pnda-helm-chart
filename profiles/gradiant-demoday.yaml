@@ -1,0 +1,108 @@
+prometheus:
+  rbac:
+    enabled: true
+  #Configuration for each prometheusOperator service Monitor
+  serviceMonitor:
+    hdfs:
+      enabled: true
+    hbase:
+      enabled: true  
+    kafka:
+      enable: true
+    spark:
+      enable: true
+
+cp-schema-registry:
+  enabled: true
+schema-registry-ui:
+  enabled: true
+  ingress:
+    enabled: true
+    hosts:
+    - "registry.10-5-0-131.nip.io"
+cp-kafka-connect:
+  enabled: true
+kafka-connect-ui:
+  enabled: true
+  ingress:
+    enabled: true
+    hosts:
+      - "connect.10-5-0-131.nip.io"
+
+
+dataService:
+  image: gradiant/data-service:develop
+  imagePullPolicy: IfNotPresent
+
+deploymentManager:
+  image: gradiant/platform-deployment-manager:develop
+  imagePullPolicy: IfNotPresent
+  conf:
+    logLevel: DEBUG
+
+consoleFrontend:
+  conf:
+    logLevel: INFO
+    hdfsLink: "http://hdfs.10-5-0-131.nip.io"
+    kafkaManagerLink: "http://kafka-manager.10-5-0-131.nip.io"
+    grafanaLink: "http://grafana.10-5-0-131.nip.io"
+    kibanaLink: "http://kibana.10-5-0-131.nip.io"
+    jupyterLink: "http://notebooks.10-5-0-131.nip.io"
+    httpfsLink:  "http://httpfs.10-5-0-131.nip.io"
+  resources:
+    requests:
+      memory: "128Mi"
+      cpu: "10m"
+    limits:
+      memory: "1024Mi"
+      cpu: "1000m"
+  ingress:
+    enabled: true
+    path: /
+    hosts:
+      - "console.10-5-0-131.nip.io"
+
+jupyterhub:
+  debug:
+    enabled: true
+  ingress:
+    hosts:
+      - "notebooks.10-5-0-131.nip.io"
+  singleuser:
+    image:
+      name: gradiant/jupyter
+      tag: 6.0.1
+    defaultUrl: "/lab"
+grafana:
+  ingress:
+    hosts:
+      - "grafana.10-5-0-131.nip.io"
+hdfs:
+  ingress:
+    nameNode:
+      hosts:
+      - "hdfs.10-5-0-131.nip.io"
+    httpfs:
+      hosts:
+      - "httpfs.10-5-0-131.nip.io"
+kafka-manager:
+  ingress:
+    hosts:
+      - "kafka-manager.10-5-0-131.nip.io"
+spark-standalone:
+  ingress:
+    hosts:
+      - "spark-standalone.10-5-0-131.nip.io"
+
+elasticsearch:
+  enabled: true
+
+fluentd-elasticsearch:
+  enabled: true
+
+kibana:
+  image: "gradiant/kibana"
+  enabled: true
+  ingress:
+    hosts:
+      - "kibana.10-5-0-131.nip.io"

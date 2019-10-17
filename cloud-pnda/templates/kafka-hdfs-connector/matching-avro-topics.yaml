@@ -1,0 +1,25 @@
+apiVersion: batch/v1
+kind: Job
+metadata: 
+  name: {{ include "pnda.kafka-hdfs-connector.fullname" . }}-matching-avro
+  labels:
+    {{- include "pnda.kafka-hdfs-connector.labels" . | nindent 4 }}
+spec:
+  template:
+    spec:
+      containers:
+      - name: post-connector
+        image: appropriate/curl
+        command: 
+          - sh
+          - "-c"
+          - "curl --fail -vs -H 'Content-Type: application/json' -H 'Accept: application/json' -d @/confs/matching-avro-topics.json http://{{ .Release.Name }}-cp-kafka-connect:8083/connectors"
+        volumeMounts:
+          - mountPath: /confs/matching-avro-topics.json
+            subPath: matching-avro-topics.json
+            name: hdfs-connector-configs
+      restartPolicy: OnFailure 
+      volumes:
+        - name: hdfs-connector-configs
+          configMap:
+            name: {{ include "pnda.kafka-hdfs-connector.fullname" . }}

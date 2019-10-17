@@ -90,6 +90,19 @@ app.kubernetes.io/name: {{ include "pnda.package-repository.name" . }}
 {{ include "pnda.labels" . }}
 {{- end -}}
 
+{{- define "pnda.kafka-hdfs-connector.name" -}}
+{{- default "kafka-hdfs-connector" .Values.kafkaHdfsConnector.nameOverride | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+{{- define "pnda.kafka-hdfs-connector.fullname" -}}
+{{- $name := default "kafka-hdfs-connector" .Values.kafkaHdfsConnector.nameOverride -}}
+{{- printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+{{- define "pnda.kafka-hdfs-connector.labels" -}}
+app.kubernetes.io/name: {{ include "pnda.kafka-hdfs-connector.name" . }}
+{{ include "pnda.labels" . }}
+{{- end -}}
+
+
 {{- define "pnda.platform-testing.name" -}}
 {{- default "platform-testing" .Values.platformTesting.nameOverride | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
