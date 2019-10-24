@@ -221,7 +221,7 @@ jupyterhub:
                 "command": [
                   "sh",
                   "-c",
-                  "rm -rf /home/jovyan/apps-notebooks && git clone http://deployment-manager-git:8099/jupyter-${JUPYTERHUB_USER} /home/jovyan/apps-notebooks"]
+                  "rm -rf /home/jovyan/apps-notebooks && git clone http://deployment-manager-git:8099/jupyter-${JUPYTERHUB_USER} /home/jovyan/apps-notebooks || exit 0"]
               }
             }
           }
