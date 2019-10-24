@@ -92,7 +92,7 @@ kafka-manager:
 spark-standalone:
   ingress:
     hosts:
-      - "spark-standalone.local"
+      - "spark.local"
 
 elasticsearch:
   enabled: true

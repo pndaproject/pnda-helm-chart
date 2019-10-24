@@ -50,6 +50,10 @@ dependencies:
   version: 0.1.0
   repository: file://./charts/opentsdb
   condition: opentsdb.enabled
+- name: impala-engine
+  version: 1.0.0
+  repository: file://./charts/impala-engine
+  condition: impala-engine.enabled 
 # grafana chart copied from stable helm repo: https://kubernetes-charts.storage.googleapis.com/
 - name: grafana
   version: 3.2.0

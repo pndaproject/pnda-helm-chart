@@ -73,6 +73,8 @@ jupyterhub:
       name: gradiant/jupyter
       tag: 6.0.1
     defaultUrl: "/lab"
+
+
 grafana:
   ingress:
     hosts:
@@ -90,19 +92,23 @@ kafka-manager:
     hosts:
       - "kafka-manager.10-5-0-131.nip.io"
 spark-standalone:
+  image: gradiant/spark
+  imageTag: 2.4.4-python-alpine
   ingress:
     hosts:
-      - "spark-standalone.10-5-0-131.nip.io"
+      - "spark.10-5-0-131.nip.io"
 
 elasticsearch:
-  enabled: true
+  enabled: false
 
 fluentd-elasticsearch:
-  enabled: true
+  enabled: false
 
 kibana:
   image: "gradiant/kibana"
-  enabled: true
+  enabled: false
   ingress:
     hosts:
       - "kibana.10-5-0-131.nip.io"
+impala-engine:
+  enabled: false
