@@ -331,3 +331,25 @@ spark-standalone:
     enabled: true
     hosts:
       - spark.pnda.io
+
+# Setting elasticsearch instances to 1
+elasticsearch:
+  enabled: false
+  # default hard. set to soft to permit co-located instances.
+  antiAffinity: "hard"
+  # Shrink default JVM heap.
+  esJavaOpts: "-Xmx256m -Xms256m"
+  replicas: 1
+  # minimumMasterNodes Ignored in Elasticsearch versions >= 7.
+  #minimumMasterNodes: 1
+kibana:
+  enabled: false
+  ingress:
+    enabled: true
+    hosts:
+      - kibana.local
+fluentd-elasticsearch:
+  enabled: false
+  elasticsearch:
+    host: 'elasticsearch-master'
+

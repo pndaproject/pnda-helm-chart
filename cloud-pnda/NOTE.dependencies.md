@@ -17,6 +17,8 @@ Next charts are directly downloaded from their public repo:
 - grafana [helm stable repo](https://kubernetes-charts.storage.googleapis.com/).
 - kafka-manager [helm stable repo](https://kubernetes-charts.storage.googleapis.com/).
 - redis [helm stable repo](https://kubernetes-charts.storage.googleapis.com/).
+- elasticsearch [elastic repo](https://github.com/elastic/helm-charts).
+- kibana [elastic repo](https://github.com/elastic/helm-charts).
 
 ## Copied from public repo with minor modifications
 
