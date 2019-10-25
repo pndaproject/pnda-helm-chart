@@ -5,10 +5,35 @@ metadata:
   labels:
     {{- include "pnda.console-frontend.labels" . | nindent 4 }}
 data:
+  config.json: |-
+    {
+      "metrics":
+      {
+        "hadoop.HDFS.capacity_remaining": "B",
+        "hadoop.HDFS.dfs_capacity_used_non_hdfs": "B",
+        "hadoop.HDFS.jvm_heap_used_mb": "MB",
+        "hadoop.HDFS.total_dfs_capacity_across_datanodes": "B",
+        "hadoop.HDFS.total_dfs_capacity_used_across_datanodes": "B",
+        "hadoop.YARN.total_available_memory_mb_across_yarn_pools": "MB",
+        "hadoop.YARN.allocated_memory_mb_across_yarn_pools": "MB",
+        "kafka.broker.TotalPhysicalMemorySize": "B",
+        "kafka.broker.UsedPhysicalMemorySize": "B",
+        "bytes": "B",
+        "MB": "MB"
+      },
+      "datasets":
+      {
+              "hidden": [ {{- join "," .Values.consoleFrontend.conf.datasets.hidden }} ] 
+      },
+      "topics":
+      {
+        "hidden": [ {{- join "," .Values.consoleFrontend.conf.topics.hidden }} ] 
+      }
+    }
   PNDA.json: |-
     {
       "hadoop_distro": "none",
-      "clustername": "pnda",
+      "clustername": "{{ .Values.consoleFrontend.conf.clusterName | default .Release.Name }}",
       "edge_node": "{{ .Values.consoleFrontend.conf.edgeNode }}",
       "user_interfaces": [
         {
@@ -36,7 +61,7 @@ data:
           "HTTPFS" :  "{{ .Values.consoleFrontend.conf.httpfsLink }}"
       },
       "frontend": {
-        "version": "develop"
+        "version": "{{ .Values.consoleFrontend.conf.version | default .Chart.AppVersion }}"
       },
       "backend": {
         "data-manager": {

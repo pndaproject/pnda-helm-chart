@@ -16,5 +16,9 @@ data:
 {{ tpl (.Files.Get "resources/config/mapred-site.xml") . | indent 4 }}
   yarn-site.xml: |-
 {{ tpl (.Files.Get "resources/config/yarn-site.xml") . | indent 4 }}
+  httpfs-site.xml: |-
+{{ tpl (.Files.Get "resources/config/httpfs-site.xml") . | indent 4 }}
+  httpfs-signature.secret: |-
+{{ tpl (.Files.Get "resources/config/httpfs-signature.secret") . | indent 4 }}
   slaves: |
     localhost

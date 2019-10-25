@@ -26,6 +26,9 @@ spec:
             - mountPath: /usr/share/nginx/html/conf/PNDA.json
               subPath: PNDA.json
               name: console-frontend-config
+            - mountPath: /usr/share/nginx/html/conf/config.json
+              subPath: config.json
+              name: console-frontend-config
             - mountPath: /etc/nginx/conf.d
               name: console-nginx-config
           resources:
