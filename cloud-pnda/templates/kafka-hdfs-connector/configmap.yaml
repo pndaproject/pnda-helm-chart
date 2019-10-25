@@ -1,0 +1,59 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "pnda.kafka-hdfs-connector.fullname" . }}
+  labels:
+    {{- include "pnda.kafka-hdfs-connector.labels" . | nindent 4 }}
+data:
+  unconfigured-topics.json: |-
+    {
+        "name": "pnda-unconfigured",
+        "config": {
+        "connector.class": "io.confluent.connect.hdfs.HdfsSinkConnector",
+        "topics.regex": "pnda\\.unconf\\.(.*)",
+        "hdfs.url": "hdfs://{{ .Release.Name }}-hdfs-namenode:8020",
+        "tasks.max": "3",
+        "flush.size": "100",
+        "format.class": "io.confluent.connect.hdfs.avro.AvroFormat",
+        "key.converter": "org.apache.kafka.connect.storage.StringConverter",
+        "value.converter": "org.apache.kafka.connect.storage.StringConverter",
+        "logs.dir": "/kafkaconnectlogs",
+        "topics.dir": "/user/pnda/datasets/topics",
+        "partitioner.class": "io.confluent.connect.storage.partitioner.TimeBasedPartitioner",
+        "timestamp.extractor": "Record",
+        "partition.duration.ms": "3600000",
+        "path.format": "'year'=YYYY/'month'=MM/'day'=dd/'hour'=HH",
+        "locale": "ES",
+        "timezone": "CET",
+        "transforms": "MakeMap,AddSource",
+        "transforms.MakeMap.type": "org.apache.kafka.connect.transforms.HoistField$Value",
+        "transforms.MakeMap.field": "rawdata",
+        "transforms.AddSource.type": "org.apache.kafka.connect.transforms.InsertField$Value",
+        "transforms.AddSource.topic.field": "source",
+        "transforms.AddSource.timestamp.field": "timestamp"
+      }
+    }
+  matching-avro-topics.json: |-
+    {
+    "name": "pnda-avro",
+      "config": {
+      "connector.class": "io.confluent.connect.hdfs.HdfsSinkConnector",
+      "topics.regex": "pnda\\.avro\\.(.*)",
+      "hdfs.url": "hdfs://{{ .Release.Name }}-hdfs-namenode:8020",
+      "tasks.max": "3",
+      "flush.size": "100",
+      "format.class": "io.confluent.connect.hdfs.avro.AvroFormat",
+      "key.converter": "org.apache.kafka.connect.storage.StringConverter",
+      "value.converter": "io.confluent.connect.avro.AvroConverter",
+      "value.converter.schema.registry.url": "http://{{ .Release.Name }}-cp-schema-registry:8081",
+      "logs.dir": "/kafkaconnectlogs",
+      "topics.dir": "/user/pnda/datasets",
+      "partitioner.class": "io.confluent.connect.storage.partitioner.TimeBasedPartitioner",
+      "timestamp.extractor": "RecordField",
+      "timestamp.field": "timestamp",
+      "partition.duration.ms": "3600000",
+      "path.format": "'year'=YYYY/'month'=MM/'day'=dd/'hour'=HH",
+      "locale": "ES",
+      "timezone": "CET"
+      }
+    }

@@ -165,6 +165,8 @@ packageRepository:
     accessMode: ReadWriteOnce
     size: 5Gi
 
+kafkaHdfsConnector: {}
+
 platformTesting:
   enabled: true
   schedule: "* * * * *"
