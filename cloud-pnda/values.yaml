@@ -253,6 +253,9 @@ jupyterhub:
   proxy:
     # edit with your own 32 bytes secretToken (e.g. generate with openssl rand -hex 32)
     secretToken: "83fc7b97f79e48a88dd565397a165ebfa9053e474350bb338448b94c6b19c076"
+    service:
+      type: ClusterIP
+      nodePorts: {}
   singleuser:
     # Workaround  for microk8s https://github.com/jupyterhub/zero-to-jupyterhub-k8s/issues/1189#issuecomment-472601915
     cloudMetadata:
@@ -301,6 +304,9 @@ cp-kafka-connect:
     status.storage.replication.factor: "1"
 cp-ksql-server:
   enabled: false
+schema-registry-ui:
+  service:
+    type: ClusterIP
 # Setting hdfs-namenode and hdfs-datanode instances to 1
 hdfs:
   enabled: true
