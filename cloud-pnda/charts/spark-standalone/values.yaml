@@ -12,7 +12,7 @@ workers: 1
 ## Image Info
 ## ref: https://hub.docker.com/r/gradiant/spark
 image: gradiant/spark
-imageTag: 2.4.2-python
+imageTag: 2.4.4-alpine
 
 # Set this to set ui access through ingress controller @ http://releaseName-chartName.ingressDomain
 ingressDomain: local
