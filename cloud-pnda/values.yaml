@@ -89,12 +89,12 @@ consoleFrontend:
     clusterName:
     version:
     edgeNode: ""
-    hdfsLink: "http://hdfs.pnda.io"
-    kafkaManagerLink: "http://kafka-manager.pnda.io"
-    grafanaLink: "http://grafana.pnda.io"
-    kibanaLink: "http://kibana.pnda.io"
-    jupyterLink: "http://notebooks.pnda.io"
-    httpfsLink: "http://httpfs.pnda.io"
+    hdfsLink: "http://hdfs.127-0-0-1.nip.io"
+    kafkaManagerLink: "http://kafka-manager.127-0-0-1.nip.io"
+    grafanaLink: "http://grafana.127-0-0-1.nip.io"
+    kibanaLink: "http://kibana.127-0-0-1.nip.io"
+    jupyterLink: "http://notebooks.127-0-0-1.nip.io"
+    httpfsLink: "http://httpfs.127-0-0-1.nip.io"
   resources:
     requests:
       memory: "128Mi"
@@ -107,7 +107,7 @@ consoleFrontend:
     annotations: {}
     path: /
     hosts:
-      - console.pnda.io
+      - console.127-0-0-1.nip.io
 dataService:
   image: pnda/data-service:latest
   service:
@@ -191,7 +191,7 @@ grafana:
   ingress:
     enabled: true
     hosts:
-      - grafana.pnda.io
+      - grafana.127-0-0-1.nip.io
 
 kafka-manager:
   enabled: true
@@ -207,7 +207,7 @@ kafka-manager:
   ingress:
     enabled: true
     hosts:
-      - kafka-manager.pnda.io
+      - kafka-manager.127-0-0-1.nip.io
 
 # Check https://zero-to-jupyterhub.readthedocs.io/en/latest/ for customize this section
 jupyterhub:
@@ -267,7 +267,7 @@ jupyterhub:
     annotations:
       nginx.ingress.kubernetes.io/proxy-body-size: 64m
     hosts:
-      - notebooks.pnda.io
+      - notebooks.127-0-0-1.nip.io
 
 # enable kafka and zookeeper confluent components. Disable the rest.
 cp-zookeeper:
@@ -332,12 +332,12 @@ hdfs:
       enabled: true
       path: /
       hosts:
-      - "hdfs.pnda.io"
+      - "hdfs.127-0-0-1.nip.io"
     httpfs:
       enabled: true
       path: /
       hosts:
-      - "httpfs.pnda.io"
+      - "httpfs.127-0-0-1.nip.io"
 
 # Setting hbase-region-server instances to 1
 hbase:
@@ -357,7 +357,7 @@ spark-standalone:
   ingress:
     enabled: true
     hosts:
-      - spark.pnda.io
+      - spark.127-0-0-1.nip.io
 
 # Setting elasticsearch instances to 1
 elasticsearch:
