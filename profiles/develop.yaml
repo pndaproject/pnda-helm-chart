@@ -1,0 +1,28 @@
+
+consoleFrontend:
+  image: pnda/console-backend-data-manager:develop
+  imagePullPolicy: Always
+
+consoleBackendDataLogger:
+  image: pnda/console-backend-data-logger:develop
+  imagePullPolicy: Always
+
+consoleBackendDataManager:
+  image: pnda/console-backend-data-manager:develop
+  imagePullPolicy: Always
+
+consoleFrontend:
+  image: pnda/console-frontend:develop
+  imagePullPolicy: Always
+ 
+dataService:
+  image: pnda/data-service:develop
+  imagePullPolicy: Always
+ 
+deploymentManager:
+  image: pnda/deployment-manager:develop
+  imagePullPolicy: Always
+
+packageRepository:
+  image: pnda/package-repository:develop
+  imagePullPolicy: Always

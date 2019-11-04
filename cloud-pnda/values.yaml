@@ -43,8 +43,7 @@ redis:
   usePassword: false
 
 consoleBackendDataLogger:
-  image: pnda/console-backend-data-logger:release5.0
-  imagePullPolicy: IfNotPresent
+  image: pnda/console-backend-data-logger:latest
   service:
     type: ClusterIP
     port: 3001
@@ -56,8 +55,7 @@ consoleBackendDataLogger:
       memory: "1024Mi"
       cpu: "1000m"
 consoleBackendDataManager:
-  image: pnda/console-backend-data-manager:release5.0
-  imagePullPolicy: IfNotPresent
+  image: pnda/console-backend-data-manager:latest
   service:
     type: ClusterIP
     port: 3123
@@ -69,8 +67,7 @@ consoleBackendDataManager:
       memory: "1024Mi"
       cpu: "1000m"
 consoleFrontend:
-  image: pnda/console-frontend:release5.0
-  imagePullPolicy: IfNotPresent
+  image: pnda/console-frontend:latest
   service:
     type: ClusterIP
     port: 80
@@ -107,12 +104,12 @@ consoleFrontend:
       cpu: "1000m"
   ingress:
     enabled: true
+    annotations: {}
     path: /
     hosts:
       - console.pnda.io
 dataService:
-  image: pnda/data-service:release5.0
-  imagePullPolicy: IfNotPresent
+  image: pnda/data-service:latest
   service:
     type: ClusterIP
     port: 7000
@@ -126,8 +123,7 @@ dataService:
       memory: "1024Mi"
       cpu: "1000m"
 deploymentManager:
-  image: pnda/platform-deployment-manager:develop
-  imagePullPolicy: Always
+  image: pnda/deployment-manager:latest
   service:
     type: ClusterIP
     port: 5000
@@ -145,8 +141,7 @@ deploymentManager:
     accessMode: ReadWriteOnce
     size: 2Gi
 packageRepository:
-  image: pnda/platform-package-repository:develop
-  imagePullPolicy: Always
+  image: pnda/package-repository:latest
   service:
     type: ClusterIP
     port: 8888
@@ -170,8 +165,7 @@ kafkaHdfsConnector: {}
 platformTesting:
   enabled: true
   schedule: "* * * * *"
-  image: pnda/platform-testing:latest-py3
-  imagePullPolicy: IfNotPresent
+  image: pnda/testing:latest
   conf:
     logLevel: WARNING
   resources:

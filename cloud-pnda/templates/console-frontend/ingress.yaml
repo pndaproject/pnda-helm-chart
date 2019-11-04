@@ -8,6 +8,10 @@ metadata:
   name: {{ $fullname }}
   labels:
     {{- include "pnda.console-frontend.labels" . | nindent 4 }}
+{{- with .Values.consoleFrontend.ingress.annotations }}
+  annotations:
+{{ toYaml . | indent 4 }}
+{{- end }}
 spec:
   rules:
     {{- range $host := .Values.consoleFrontend.ingress.hosts }}
