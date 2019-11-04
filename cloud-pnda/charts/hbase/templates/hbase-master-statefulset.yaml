@@ -59,6 +59,7 @@ spec:
         - "/bin/bash"
         - "/tmp/hbase-config/bootstrap.sh"
         - "-d"
+        - "master"
         resources:
 {{ toYaml .Values.hbase.master.resources | indent 10 }}
         readinessProbe:

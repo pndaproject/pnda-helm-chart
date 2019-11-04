@@ -59,6 +59,7 @@ spec:
            - "/bin/bash"
            - "/tmp/hbase-config/bootstrap.sh"
            - "-d"
+           - "regionserver"
         resources:
 {{ toYaml .Values.hbase.regionServer.resources | indent 10 }}
         readinessProbe:

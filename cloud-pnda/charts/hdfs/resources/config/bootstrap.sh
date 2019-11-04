@@ -20,14 +20,14 @@ done
 
 # installing libraries if any - (resource urls added comma separated to the ACP system variable)
 cd $HADOOP_PREFIX/share/hadoop/common ; for cp in ${ACP//,/ }; do  echo == $cp; curl -LO $cp ; done; cd -
-if [[ "${HOSTNAME}" =~ "namenode" ]]; then
+if [[ $2 == "namenode" ]]; then
     if [ ! -d "/dfs/name" ]; then
     mkdir -p /dfs/name
     $HADOOP_PREFIX/bin/hdfs namenode -format -force -nonInteractive
     fi
     $HADOOP_PREFIX/sbin/hadoop-daemon.sh start namenode
 fi
-if [[ "${HOSTNAME}" =~ "datanode" ]]; then
+if [[ $2 == "datanode" ]]; then
     if [ ! -d "/dfs/data" ]; then
     mkdir -p /dfs/data
     fi

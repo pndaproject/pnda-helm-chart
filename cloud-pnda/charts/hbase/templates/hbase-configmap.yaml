@@ -31,7 +31,7 @@ data:
     # SET HBASE_OPTS with prometheus javaagent jmx exporter port
     export HBASE_OPTS="$_HBASE_OPTS -javaagent:/jmx-exporter/jmx_prometheus_javaagent.jar={{ .Values.prometheus.port }}:/etc/exporter/jmx-hbase-prometheus.yml"
     {{- end }}    
-    if [[ "${HOSTNAME}" =~ "master" ]]; then
+    if [[ $2 == "master" ]]; then
       $HBASE_PREFIX/bin/hbase-daemon.sh start master
       {{- if .Values.prometheus.enabled }}
       # RESET HBASE_OPTS with thrift jmx exporter port
@@ -39,7 +39,7 @@ data:
       {{- end }}   
       $HBASE_PREFIX/bin/hbase-daemon.sh start thrift
     fi
-    if [[ "${HOSTNAME}" =~ "region" ]]; then
+    if [[ $2 == "regionserver" ]]; then
       #  wait up to 30 seconds for masternode
       (while [[ $count -lt 15 && -z `curl -sf http://{{ include "hbase.fullname" . }}-master:16010` ]]; do ((count=count+1)) ; echo "Waiting for {{ include "hbase.fullname" . }}-master" ; sleep 2; done && [[ $count -lt 15 ]])
       [[ $? -ne 0 ]] && echo "Timeout waiting for hdfs-nn, exiting." && exit 1

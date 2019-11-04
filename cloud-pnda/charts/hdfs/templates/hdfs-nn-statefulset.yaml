@@ -48,6 +48,7 @@ spec:
         - "/bin/bash"
         - "/tmp/hadoop-config/bootstrap.sh"
         - "-d"
+        - "namenode"
         resources:
 {{ toYaml .Values.nameNode.resources | indent 10 }}
         readinessProbe:
