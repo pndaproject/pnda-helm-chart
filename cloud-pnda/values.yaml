@@ -283,13 +283,13 @@ cp-kafka:
     default.replication.factor: "1"
     num.partitions: "8"	
 cp-schema-registry:
-  enabled: false
+  enabled: true
   configurationOverrides:
     kafkastore.topic.replication.factor: "1"
 cp-kafka-rest:
   enabled: false
 cp-kafka-connect:
-  enabled: false
+  enabled: true
   configurationOverrides:
     config.storage.topic: "__connect.config"
     config.storage.replication.factor: "1"
@@ -299,9 +299,24 @@ cp-kafka-connect:
     status.storage.replication.factor: "1"
 cp-ksql-server:
   enabled: false
+
+
 schema-registry-ui:
+  enabled: true
+  # default vaule in schema-registry-ui chart is set to LoadBalancer
   service:
     type: ClusterIP
+  ingress:
+    enabled: true
+    hosts:
+    - "schema-registry-ui.127-0-0-1.nip.io"
+kafka-connect-ui:
+  enabled: true
+  ingress:
+    enabled: true
+    hosts:
+      - "kafka-connect-ui.127-0-0-1.nip.io"
+
 # Setting hdfs-namenode and hdfs-datanode instances to 1
 hdfs:
   enabled: true
