@@ -43,7 +43,10 @@ redis:
   usePassword: false
 
 consoleBackendDataLogger:
-  image: pnda/console-backend-data-logger:latest
+  image: 
+    repository: pnda/console-backend-data-logger
+    tag: 2.1.1
+    pullPolicy: IfNotPresent
   service:
     type: ClusterIP
     port: 3001
@@ -55,7 +58,10 @@ consoleBackendDataLogger:
       memory: "1024Mi"
       cpu: "1000m"
 consoleBackendDataManager:
-  image: pnda/console-backend-data-manager:latest
+  image:
+    repository: pnda/console-backend-data-manager
+    tag: 2.1.1
+    pullPolicy: IfNotPresent
   service:
     type: ClusterIP
     port: 3123
@@ -67,7 +73,10 @@ consoleBackendDataManager:
       memory: "1024Mi"
       cpu: "1000m"
 consoleFrontend:
-  image: pnda/console-frontend:latest
+  image:
+    repository:  pnda/console-frontend
+    tag: 2.1.2
+    pullPolicy: IfNotPresent
   service:
     type: ClusterIP
     port: 80
@@ -109,7 +118,10 @@ consoleFrontend:
     hosts:
       - console.127-0-0-1.nip.io
 dataService:
-  image: pnda/data-service:latest
+  image:
+    repository: pnda/data-service
+    tag: 0.4.2
+    pullPolicy: IfNotPresent
   service:
     type: ClusterIP
     port: 7000
@@ -123,7 +135,10 @@ dataService:
       memory: "1024Mi"
       cpu: "1000m"
 deploymentManager:
-  image: pnda/deployment-manager:latest
+  image: 
+    repository: pnda/deployment-manager
+    tag: 2.1.1
+    pullPolicy: IfNotPresent
   service:
     type: ClusterIP
     port: 5000
@@ -141,7 +156,10 @@ deploymentManager:
     accessMode: ReadWriteOnce
     size: 2Gi
 packageRepository:
-  image: pnda/package-repository:latest
+  image: 
+    repository: pnda/package-repository
+    tag: 1.1.1
+    pullPolicy: IfNotPresent
   service:
     type: ClusterIP
     port: 8888
@@ -162,10 +180,13 @@ packageRepository:
 
 kafkaHdfsConnector: {}
 
-platformTesting:
+testing:
   enabled: true
   schedule: "* * * * *"
-  image: pnda/testing:latest
+  image: 
+    repository: pnda/testing
+    tag: 1.1.0
+    pullPolicy: IfNotPresent
   conf:
     logLevel: WARNING
   resources:

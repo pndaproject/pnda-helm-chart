@@ -1,12 +1,12 @@
-{{- if .Values.platformTesting.enabled -}}
+{{- if .Values.testing.enabled -}}
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
-  name: {{ include "pnda.platform-testing.fullname" . }}-hbase
+  name: {{ include "pnda.testing.fullname" . }}-hbase
   labels:
-    {{- include "pnda.platform-testing.labels" . | nindent 4 }}
+    {{- include "pnda.testing.labels" . | nindent 4 }}
 spec:
-  schedule: "{{ .Values.platformTesting.schedule }}"
+  schedule: "{{ .Values.testing.schedule }}"
   concurrencyPolicy: Forbid
   successfulJobsHistoryLimit: 1
   failedJobsHistoryLimit: 2
@@ -15,13 +15,13 @@ spec:
       template:
         metadata:
           labels:
-            {{- include "pnda.platform-testing.labels" . | nindent 12 }}
+            {{- include "pnda.testing.labels" . | nindent 12 }}
         spec:
           restartPolicy: Never
           containers:
-            - name: {{ include "pnda.platform-testing.name" . }}-hbase
-              image: "{{ .Values.platformTesting.image }}"
-              imagePullPolicy: {{ .Values.platformTesting.imagePullPolicy }}
+            - name: {{ include "pnda.testing.name" . }}-hbase
+              image: "{{.Values.testing.image.repository }}:{{.Values.testing.image.tag }}"
+              imagePullPolicy: {{ .Values.testing.image.pullPolicy }}
               command:
                 - "python"
                 - "monitor.py"
@@ -33,13 +33,13 @@ spec:
                 - "--extra"
                 - "--hbasehost {{.Release.Name}}-hbase-master --hbaseport 9090"
               volumeMounts:
-                - mountPath: /platform-testing/logging.conf
+                - mountPath: /testing/logging.conf
                   subPath: logging.conf
                   name: logging-config
               resources:
-{{ toYaml .Values.platformTesting.resources | indent 16 }}                  
+{{ toYaml .Values.testing.resources | indent 16 }}                  
           volumes:
             - name: logging-config
               configMap:
-                name: {{ include "pnda.platform-testing.fullname" . }}
+                name: {{ include "pnda.testing.fullname" . }}
 {{- end -}}

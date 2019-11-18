@@ -103,14 +103,14 @@ app.kubernetes.io/name: {{ include "pnda.kafka-hdfs-connector.name" . }}
 {{- end -}}
 
 
-{{- define "pnda.platform-testing.name" -}}
-{{- default "platform-testing" .Values.platformTesting.nameOverride | trunc 63 | trimSuffix "-" -}}
+{{- define "pnda.testing.name" -}}
+{{- default "testing" .Values.testing.nameOverride | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
-{{- define "pnda.platform-testing.fullname" -}}
-{{- $name := default "platform-testing" .Values.platformTesting.nameOverride -}}
+{{- define "pnda.testing.fullname" -}}
+{{- $name := default "testing" .Values.testing.nameOverride -}}
 {{- printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
-{{- define "pnda.platform-testing.labels" -}}
-app.kubernetes.io/name: {{ include "pnda.platform-testing.name" . }}
+{{- define "pnda.testing.labels" -}}
+app.kubernetes.io/name: {{ include "pnda.testing.name" . }}
 {{ include "pnda.labels" . }}
 {{- end -}}

@@ -16,8 +16,8 @@ spec:
     spec:
       containers:
         - name: {{ include "pnda.console-frontend.name" . }}
-          image: "{{ .Values.consoleFrontend.image }}"
-          imagePullPolicy: {{ .Values.consoleFrontend.imagePullPolicy }}
+          image: "{{.Values.consoleFrontend.image.repository }}:{{.Values.consoleFrontend.image.tag }}"
+          imagePullPolicy: {{ .Values.consoleFrontend.image.pullPolicy }}
           ports:
             - name: http
               containerPort: {{ .Values.consoleFrontend.service.port }}

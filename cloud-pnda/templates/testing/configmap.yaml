@@ -1,10 +1,10 @@
-{{- if .Values.platformTesting.enabled -}}
+{{- if .Values.testing.enabled -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "pnda.platform-testing.fullname" . }}
+  name: {{ include "pnda.testing.fullname" . }}
   labels:
-    {{- include "pnda.platform-testing.labels" . | nindent 4 }}
+    {{- include "pnda.testing.labels" . | nindent 4 }}
 data:
   logging.conf: |-
     [loggers]
@@ -17,12 +17,12 @@ data:
     keys=TestbotMonitor
 
     [logger_root]
-    level={{ .Values.platformTesting.conf.logLevel }}
+    level={{ .Values.testing.conf.logLevel }}
     handlers=consoleHandler
 
     [handler_consoleHandler]
     class=StreamHandler
-    level={{ .Values.platformTesting.conf.logLevel }}
+    level={{ .Values.testing.conf.logLevel }}
     formatter=TestbotMonitor
     args=(sys.stdout,)
 

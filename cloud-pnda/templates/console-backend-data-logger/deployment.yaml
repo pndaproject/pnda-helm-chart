@@ -16,8 +16,8 @@ spec:
     spec:
       containers:
         - name: {{ include "pnda.console-backend-data-logger.name" . }}
-          image: {{ .Values.consoleBackendDataLogger.image }}
-          imagePullPolicy: {{ .Values.consoleBackendDataLogger.imagePullPolicy }}
+          image: {{.Values.consoleBackendDataLogger.image.repository }}:{{.Values.consoleBackendDataLogger.image.tag }}
+          imagePullPolicy: {{ .Values.consoleBackendDataLogger.image.pullPolicy }}
           ports:
             - name: http
               containerPort: {{ .Values.consoleBackendDataLogger.service.port }}

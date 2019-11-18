@@ -17,8 +17,8 @@ spec:
     spec:
       containers:
       - name: {{ include "pnda.package-repository.name" . }}
-        image: "{{ .Values.packageRepository.image }}"
-        imagePullPolicy: {{ .Values.packageRepository.imagePullPolicy | quote }}
+        image: "{{.Values.packageRepository.image.repository }}:{{.Values.packageRepository.image.tag }}"
+        imagePullPolicy: {{ .Values.packageRepository.image.pullPolicy | quote }}
         ports:
           - name: http
             containerPort: {{ .Values.packageRepository.service.port }}

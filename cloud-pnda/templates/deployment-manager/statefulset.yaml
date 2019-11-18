@@ -17,8 +17,8 @@ spec:
     spec:
       containers:
         - name: {{ include "pnda.deployment-manager.name" . }}
-          image: "{{ .Values.deploymentManager.image }}"
-          imagePullPolicy: {{ .Values.deploymentManager.imagePullPolicy | quote }}
+          image: "{{.Values.deploymentManager.image.repository }}:{{.Values.deploymentManager.image.tag }}"
+          imagePullPolicy: {{ .Values.deploymentManager.image.pullPolicy | quote }}
           ports:
             - name: http
               containerPort: {{ .Values.deploymentManager.service.port }}

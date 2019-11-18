@@ -1,12 +1,12 @@
-{{- if .Values.platformTesting.enabled -}}
+{{- if .Values.testing.enabled -}}
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
-  name: {{ include "pnda.platform-testing.fullname" . }}-hdfs
+  name: {{ include "pnda.testing.fullname" . }}-tsdb
   labels:
-    {{- include "pnda.platform-testing.labels" . | nindent 4 }}
+    {{- include "pnda.testing.labels" . | nindent 4 }}
 spec:
-  schedule: "{{ .Values.platformTesting.schedule }}"
+  schedule: "{{ .Values.testing.schedule }}"
   concurrencyPolicy: Forbid
   successfulJobsHistoryLimit: 1
   failedJobsHistoryLimit: 2
@@ -15,31 +15,31 @@ spec:
       template:
         metadata:
           labels:
-            {{- include "pnda.platform-testing.labels" . | nindent 12 }}
+            {{- include "pnda.testing.labels" . | nindent 12 }}
         spec:
           restartPolicy: Never
           containers:
-            - name: {{ include "pnda.platform-testing.name" . }}-hdfs
-              image: "{{ .Values.platformTesting.image }}"
-              imagePullPolicy: {{ .Values.platformTesting.imagePullPolicy }}
+            - name: {{ include "pnda.testing.name" . }}-tsdb
+              image: "{{.Values.testing.image.repository }}:{{.Values.testing.image.tag }}"
+              imagePullPolicy: {{ .Values.testing.image.pullPolicy }}
               command:
                 - "python"
                 - "monitor.py"
                 - "--plugin"
-                - "hdfs"
+                - "opentsdb"
                 - "--display"
                 - "--postjson"
                 - "http://{{.Release.Name}}-console-backend-data-logger:3001/metrics"
                 - "--extra"
-                - "--host {{.Release.Name}}-hdfs-namenode"
+                - "--hosts {{.Release.Name}}-opentsdb:4242"
               volumeMounts:
-                - mountPath: /platform-testing/logging.conf
+                - mountPath: /testing/logging.conf
                   subPath: logging.conf
                   name: logging-config
               resources:
-{{ toYaml .Values.platformTesting.resources | indent 16 }}                  
+{{ toYaml .Values.testing.resources | indent 16 }}
           volumes:
             - name: logging-config
               configMap:
-                name: {{ include "pnda.platform-testing.fullname" . }}
+                name: {{ include "pnda.testing.fullname" . }}
 {{- end -}}

@@ -1,0 +1,45 @@
+{{- if .Values.testing.enabled -}}
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: {{ include "pnda.testing.fullname" . }}-kafka
+  labels:
+    {{- include "pnda.testing.labels" . | nindent 4 }}
+spec:
+  schedule: "{{ .Values.testing.schedule }}"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 2
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            {{- include "pnda.testing.labels" . | nindent 12 }}
+        spec:
+          restartPolicy: Never
+          containers:
+            - name: {{ include "pnda.testing.name" . }}-kafka
+              image: "{{.Values.testing.image.repository }}:{{.Values.testing.image.tag }}"
+              imagePullPolicy: {{ .Values.testing.image.pullPolicy }}
+              command:
+                - "python"
+                - "monitor.py"
+                - "--plugin"
+                - "kafka"
+                - "--display"
+                - "--postjson"
+                - "http://{{.Release.Name}}-console-backend-data-logger:3001/metrics"
+                - "--extra"
+                - "--jmxproxy {{.Release.Name}}-jmxproxy:8000 --brokerlist {{ include "pnda.testing.fullname" . }}-kafka-jmx:5555 --zkconnect {{.Release.Name}}-cp-zookeeper:2181 --prod2cons"
+              volumeMounts:
+                - mountPath: /testing/logging.conf
+                  subPath: logging.conf
+                  name: logging-config
+              resources:
+{{ toYaml .Values.testing.resources | indent 16 }}
+          volumes:
+            - name: logging-config
+              configMap:
+                name: {{ include "pnda.testing.fullname" . }}
+{{- end -}}

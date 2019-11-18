@@ -17,8 +17,8 @@ spec:
     spec:
       containers:
         - name: {{ include "pnda.data-service.name" . }}
-          image: "{{ .Values.dataService.image }}"
-          imagePullPolicy: {{ .Values.dataService.imagePullPolicy | quote }}
+          image: "{{.Values.dataService.image.repository }}:{{.Values.dataService.image.tag }}"
+          imagePullPolicy: {{ .Values.dataService.image.pullPolicy | quote }}
           ports:
             - name: http
               containerPort: {{ .Values.dataService.service.port }}
