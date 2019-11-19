@@ -15,6 +15,7 @@ spec:
       labels:
         {{- include "pnda.deployment-manager.labels" . | nindent 8 }}
     spec:
+      serviceAccountName: {{ .Values.serviceAccountName }} 
       containers:
         - name: {{ include "pnda.deployment-manager.name" . }}
           image: "{{.Values.deploymentManager.image.repository }}:{{.Values.deploymentManager.image.tag }}"
