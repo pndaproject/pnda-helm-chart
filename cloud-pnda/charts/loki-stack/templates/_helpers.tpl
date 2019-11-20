@@ -2,7 +2,7 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "fluentd-elasticsearch.name" -}}
+{{- define "loki-stack.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
@@ -11,7 +11,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "fluentd-elasticsearch.fullname" -}}
+{{- define "loki-stack.fullname" -}}
 {{- if .Values.fullnameOverride -}}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" -}}
 {{- else -}}
@@ -23,20 +23,18 @@ If release name contains chart name it will be used as a full name.
 {{- end -}}
 {{- end -}}
 {{- end -}}
+
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "fluentd-elasticsearch.chart" -}}
+{{- define "loki-stack.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 {{/*
-Create the name of the service account to use
+Override the naming defined by the prometheus chart.
+Added as a fix for https://github.com/grafana/loki/issues/1169
 */}}
-{{- define "fluentd-elasticsearch.serviceAccountName" -}}
-{{- if .Values.serviceAccount.create -}}
-    {{ default (include "fluentd-elasticsearch.fullname" .) .Values.serviceAccount.name }}
-{{- else -}}
-    {{ default "default" .Values.serviceAccount.name }}
-{{- end -}}
+{{- define "prometheus.fullname" -}}
+{{- printf "%s-%s" .Release.Name "prometheus-server" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}

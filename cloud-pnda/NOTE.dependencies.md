@@ -19,6 +19,7 @@ Next charts are directly downloaded from their public repo:
 - redis [helm stable repo](https://kubernetes-charts.storage.googleapis.com/).
 - elasticsearch [elastic repo](https://github.com/elastic/helm-charts).
 - kibana [elastic repo](https://github.com/elastic/helm-charts).
+- loki-stack [grafana loki repo] (https://github.com/grafana/loki/tree/master/production/helm).
 
 ## Copied from public repo with minor modifications
 

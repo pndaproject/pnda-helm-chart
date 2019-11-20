@@ -64,11 +64,10 @@ dependencies:
   version: 7.4.0
   repository: file://./charts/kibana
   condition: kibana.enabled
-# fluentd-elasticsaerch chart copied from stable helm repo: https://kubernetes-charts.storage.googleapis.com/
-- name: fluentd-elasticsearch
-  version: 2.0.7
-  repository: file://./charts/fluentd-elasticsearch
-  condition: fluentd-elasticsearch.enabled
+- name: loki-stack
+  version: 0.20.0
+  repository: file://./charts/loki-stack
+  condition: loki-stack.enabled
 # redis chart copied from stable helm repo: https://kubernetes-charts.storage.googleapis.com/
 - name: redis
   version: 7.1.0

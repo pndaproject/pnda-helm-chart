@@ -201,6 +201,8 @@ testing:
 ## Big Data Requirements Configuration
 ## ----------------------------------
 grafana:
+  image: 
+    tag: 6.4.4
   enabled: true
   sidecar:
     datasources:
@@ -411,7 +413,6 @@ kibana:
     enabled: true
     hosts:
       - kibana.local
-fluentd-elasticsearch:
+
+loki-stack:
   enabled: false
-  elasticsearch:
-    host: 'elasticsearch-master'
