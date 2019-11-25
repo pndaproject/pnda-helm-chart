@@ -1,0 +1,19 @@
+name: helm_pubish
+
+on: 
+  release: [published]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Helm Publish
+      uses: J12934/helm-gh-pages-action@v1.1.0
+      with:
+         # A personal access token needed to push your site after it has been built.
+         access-token: ${{ secrets.access_token }}
+         # The branch expected by GitHub to have the static files needed for your site.
+         deploy-branch: gh-pages # optional, default is master
+         # The folder in which the helm charts are located
+         charts-folder: charts # optional, default is charts
+
