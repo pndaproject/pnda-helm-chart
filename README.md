@@ -18,8 +18,8 @@ Default configuration values can be overriden providing an external yaml file (S
 
 Tested with:
 
-- Kubernetes v1.11
-- Helm v2.13
+- Kubernetes v1.15
+- Helm v2.15
 
 ## Deploy from Source
 
