@@ -1,7 +1,8 @@
 name: helm_pubish
 
 on: 
-  release: [published]
+  release: 
+    types: [published]
 jobs:
   build:
     runs-on: ubuntu-latest
