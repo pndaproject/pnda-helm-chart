@@ -63,7 +63,7 @@ For configuration of the [Big Data requirements](cloud-pnda/requirements.yaml) y
 
 ## Deploy from PNDA helm repository
 
-The helm repository [https://pndaproject.github.io/pnda-helm-repo/](https://pndaproject.github.io/pnda-helm-repo/) provides packaged helm charts of this repo releases.
+The helm repository [https://pndaproject.github.io/pnda-helm-chart/](https://pndaproject.github.io/pnda-helm-chart/) provides packaged helm charts of this repo releases.
 
 Please follow the instructions at the pnda helm repository to deploy from a packaged chart.
 
