@@ -1,0 +1,421 @@
+## ----------------------------
+## PNDA Components Configuration
+## ----------------------------
+
+serviceAccountName: pnda
+roleName: pnda-role
+roleBindingName: pnda
+
+# prometheusOperator integration disabled by default
+# enable rbac access and each serviceMonitor with enabled field 
+prometheus:
+  # prometheus-k8s serviceAccount and namespace to configure RBAC access to pnda metrics endpoints
+  rbac:
+    enabled: false
+    serviceAccount: prometheus-k8s
+    namespace: monitoring
+  #Configuration for each prometheusOperator service Monitor
+  serviceMonitor:
+    hdfs:
+      enabled: false
+      # If namespace is empty: serviceMonitor is deployed in {{ .Release.namespace }}
+      namespace: 
+      interval: 15s
+    hbase:
+      enabled: false
+      namespace:
+      interval: 15s
+    kafka:
+      enable: false
+      namespace: 
+      interval: 15s
+    spark:
+      enable: false
+      namespace: 
+      interval: 15s
+
+
+redis:
+  enabled: true
+  # HA disable by default
+  cluster:
+    enabled: false
+  usePassword: false
+
+consoleBackendDataLogger:
+  image: 
+    repository: pnda/console-backend-data-logger
+    tag: 2.1.1
+    pullPolicy: IfNotPresent
+  service:
+    type: ClusterIP
+    port: 3001
+  resources:
+    requests:
+      memory: "128Mi"
+      cpu: "10m"
+    limits:
+      memory: "1024Mi"
+      cpu: "1000m"
+consoleBackendDataManager:
+  image:
+    repository: pnda/console-backend-data-manager
+    tag: 2.1.1
+    pullPolicy: IfNotPresent
+  service:
+    type: ClusterIP
+    port: 3123
+  resources:
+    requests:
+      memory: "128Mi"
+      cpu: "10m"
+    limits:
+      memory: "1024Mi"
+      cpu: "1000m"
+consoleFrontend:
+  image:
+    repository:  pnda/console-frontend
+    tag: 2.1.2
+    pullPolicy: IfNotPresent
+  service:
+    type: ClusterIP
+    port: 80
+  conf:
+    datasets:
+      hidden:
+      - '"testbot"'
+      - '"+tmp"'
+    topics:
+      hidden: 
+      - '"avro.internal.testbot"'
+      - '"__consumer_offsets"'
+      - '"_schemas"'
+      - '"__connect.offset"'
+      - '"__connect.status"'
+      - '"__connect.config"'
+      - '"__confluent.support.metrics"'
+    logLevel: INFO
+    clusterName:
+    version:
+    edgeNode: ""
+    hdfsLink: "http://hdfs.127-0-0-1.nip.io"
+    kafkaManagerLink: "http://kafka-manager.127-0-0-1.nip.io"
+    grafanaLink: "http://grafana.127-0-0-1.nip.io"
+    kibanaLink: "http://kibana.127-0-0-1.nip.io"
+    jupyterLink: "http://notebooks.127-0-0-1.nip.io"
+    httpfsLink: "http://httpfs.127-0-0-1.nip.io"
+  resources:
+    requests:
+      memory: "128Mi"
+      cpu: "10m"
+    limits:
+      memory: "1024Mi"
+      cpu: "1000m"
+  ingress:
+    enabled: true
+    annotations: {}
+    path: /
+    hosts:
+      - console.127-0-0-1.nip.io
+dataService:
+  image:
+    repository: pnda/data-service
+    tag: 0.4.2
+    pullPolicy: IfNotPresent
+  service:
+    type: ClusterIP
+    port: 7000
+  conf:
+    logLevel: INFO
+  resources:
+    requests:
+      memory: "128Mi"
+      cpu: "10m"
+    limits:
+      memory: "1024Mi"
+      cpu: "1000m"
+deploymentManager:
+  image: 
+    repository: pnda/deployment-manager
+    tag: 2.1.2
+    pullPolicy: IfNotPresent
+  service:
+    type: ClusterIP
+    port: 5000
+  conf:
+    logLevel: INFO
+  resources:
+    requests:
+      memory: "128Mi"
+      cpu: "10m"
+    limits:
+      memory: "1024Mi"
+      cpu: "1000m"
+  persistence:
+    enabled: true
+    accessMode: ReadWriteOnce
+    size: 2Gi
+packageRepository:
+  image: 
+    repository: pnda/package-repository
+    tag: 1.1.1
+    pullPolicy: IfNotPresent
+  service:
+    type: ClusterIP
+    port: 8888
+  conf:
+    logLevel: INFO
+  resources:
+    requests:
+      memory: "128Mi"
+      cpu: "10m"
+    limits:
+      memory: "1024Mi"
+      cpu: "1000m"
+  persistence:
+    enabled: true
+    storageClass:
+    accessMode: ReadWriteOnce
+    size: 5Gi
+
+kafkaHdfsConnector: {}
+
+testing:
+  enabled: true
+  schedule: "* * * * *"
+  image: 
+    repository: pnda/testing
+    tag: 1.1.0
+    pullPolicy: IfNotPresent
+  conf:
+    logLevel: WARNING
+  resources:
+    requests:
+      memory: "128Mi"
+      cpu: "10m"
+    limits:
+      memory: "1024Mi"
+      cpu: "1000m"
+
+## ----------------------------------
+## Big Data Requirements Configuration
+## ----------------------------------
+grafana:
+  image: 
+    tag: 6.4.4
+  enabled: true
+  sidecar:
+    datasources:
+      enabled: true
+      # label that the configmaps with datasources are marked with
+      label: grafana_datasource
+  adminUser: "pnda"
+  adminPassword: "pnda"
+  ingress:
+    enabled: true
+    hosts:
+      - grafana.127-0-0-1.nip.io
+
+kafka-manager:
+  enabled: true
+  image:
+    repository: gradiant/kafka-manager
+    tag: 2.0.0.2
+  zkHosts: "{{ .Release.Name }}-cp-zookeeper:2181"
+  clusters:
+   - name: "PNDA-Kafka"
+     kafkaVersion: "2.0.0"
+     jmxEnabled: "true"
+     tuning: {}
+  ingress:
+    enabled: true
+    hosts:
+      - kafka-manager.127-0-0-1.nip.io
+
+# Check https://zero-to-jupyterhub.readthedocs.io/en/latest/ for customize this section
+jupyterhub:
+  enabled: true
+  hub:
+    uid: 0
+    fsGid: 0
+    # Same as jupyterhub/k8s-hub:0.8.2, but modified to allow {username} expansion in extra_pod_config
+    image:
+      name: pnda/k8s-hub
+      tag: latest
+    extraConfig:  
+      # to resolve singleuser pods (jupyter-{username}.jupyterhub) through kubernetes DNS
+      00-custom-singleuser-hostname: |
+         c.KubeSpawner.extra_pod_config = {
+            "hostname": "jupyter-{username}",
+            "subdomain": "jupyterhub"
+         }
+      01-posthook: |
+         c.KubeSpawner.lifecycle_hooks = {
+            "postStart": {
+              "exec": {
+                "command": [
+                  "sh",
+                  "-c",
+                  "rm -rf /home/jovyan/apps-notebooks && git clone http://deployment-manager-git:8099/jupyter-${JUPYTERHUB_USER} /home/jovyan/apps-notebooks || exit 0"]
+              }
+            }
+          }
+  auth:
+    type: dummy
+    dummy:
+      password: pnda
+    admin:
+      users:
+        - pnda
+  proxy:
+    # edit with your own 32 bytes secretToken (e.g. generate with openssl rand -hex 32)
+    secretToken: "83fc7b97f79e48a88dd565397a165ebfa9053e474350bb338448b94c6b19c076"
+    service:
+      type: ClusterIP
+      nodePorts: {}
+  singleuser:
+    # Workaround  for microk8s https://github.com/jupyterhub/zero-to-jupyterhub-k8s/issues/1189#issuecomment-472601915
+    cloudMetadata:
+      enabled: true
+    serviceAccountName: pnda
+    image:
+      # Check https://github.com/Gradiant/dockerized-jupyter/blob/master/Dockerfile
+      name: gradiant/jupyter
+      tag: 6.0.1
+    defaultUrl: "/lab"
+    extraEnv:
+      SPARKCONF_SPARK_MASTER: "spark://spark-standalone:7077"
+  ingress:
+    enabled: true
+    annotations:
+      nginx.ingress.kubernetes.io/proxy-body-size: 64m
+    hosts:
+      - notebooks.127-0-0-1.nip.io
+
+cp-kafka:
+  enabled: true
+  # Use non-enterprise kafka
+  image: confluentinc/cp-kafka
+  customEnv: 
+    KAFKA_METRIC_REPORTERS: ""
+    CONFLUENT_METRICS_REPORTER_BOOTSTRAP_SERVERS: ""
+  brokers: 1
+  configurationOverrides:
+    offsets.topic.replication.factor: "1"
+    default.replication.factor: "1"
+    num.partitions: "8"
+
+cp-zookeeper:
+  enabled: true
+  servers: 1	
+cp-schema-registry:
+  enabled: true
+  configurationOverrides:
+    kafkastore.topic.replication.factor: "1"
+cp-kafka-rest:
+  enabled: false
+cp-kafka-connect:
+  enabled: true
+  configurationOverrides:
+    config.storage.topic: "__connect.config"
+    config.storage.replication.factor: "1"
+    offset.storage.topic: "__connect.offset"
+    offset.storage.replication.factor: "1"
+    status.storage.topic: "__connect.status"
+    status.storage.replication.factor: "1"
+cp-ksql-server:
+  enabled: false
+
+
+schema-registry-ui:
+  enabled: true
+  # default vaule in schema-registry-ui chart is set to LoadBalancer
+  service:
+    type: ClusterIP
+  ingress:
+    enabled: true
+    hosts:
+    - "schema-registry-ui.127-0-0-1.nip.io"
+kafka-connect-ui:
+  enabled: true
+  ingress:
+    enabled: true
+    hosts:
+      - "kafka-connect-ui.127-0-0-1.nip.io"
+
+# Setting hdfs-namenode and hdfs-datanode instances to 1
+hdfs:
+  enabled: true
+  # The base hadoop image to use for all components.
+  image:
+    repository: gradiant/hadoop-base
+    tag: 2.7.7
+    pullPolicy: IfNotPresent
+  conf:
+    hdfsSite:
+      dfs.replication: 1
+  nameNode:
+    pdbMinAvailable: 1
+  dataNode:
+    replicas: 1
+    pdbMinAvailable: 1
+  persistence:
+    nameNode:
+      enabled: true
+      accessMode: ReadWriteOnce
+      size: 4Gi
+    dataNode:
+      enabled: true
+      accessMode: ReadWriteOnce
+      size: 4Gi
+  ingress:
+    nameNode:
+      enabled: true
+      path: /
+      hosts:
+      - "hdfs.127-0-0-1.nip.io"
+    httpfs:
+      enabled: true
+      path: /
+      hosts:
+      - "httpfs.127-0-0-1.nip.io"
+
+# Setting hbase-region-server instances to 1
+hbase:
+  enabled: true
+  regionServer:
+    replicas: 1
+
+# Setting opentsdb daemons instances to 1
+opentsdb:
+  enabled: true
+  daemons: 1
+
+# Setting spark-standalone worker instances to 1
+spark-standalone:
+  enabled: true
+  workers: 1
+  ingress:
+    enabled: true
+    hosts:
+      - spark.127-0-0-1.nip.io
+
+# Setting elasticsearch instances to 1
+elasticsearch:
+  enabled: false
+  # default hard. set to soft to permit co-located instances.
+  antiAffinity: "hard"
+  # Shrink default JVM heap.
+  esJavaOpts: "-Xmx256m -Xms256m"
+  replicas: 1
+  # minimumMasterNodes Ignored in Elasticsearch versions >= 7.
+  #minimumMasterNodes: 1
+kibana:
+  enabled: false
+  ingress:
+    enabled: true
+    hosts:
+      - kibana.local
+
+loki-stack:
+  enabled: false
