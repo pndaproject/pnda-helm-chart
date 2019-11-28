@@ -1,0 +1,132 @@
+apiVersion: v1
+entries:
+  cloud-pnda:
+  - apiVersion: v1
+    appVersion: "5.0"
+    created: "2019-11-28T09:05:58.414173886Z"
+    description: Cloud Native PNDA Helm chart
+    digest: a0fe64288bda9c785329df20f70ab12ebf05a2895c8c6836547781083ea21204
+    name: cloud-pnda
+    urls:
+    - cloud-pnda-6.0.0-alpha.tgz
+    version: 6.0.0-alpha
+  cp-kafka:
+  - apiVersion: v1
+    appVersion: "1.0"
+    created: "2019-11-28T09:05:58.415099898Z"
+    description: A Helm chart for Confluent Kafka on Kubernetes
+    digest: 4b6205ef5737b75542ae6f338cce339ed2c62118f409bcc33254ad53dd47e70e
+    name: cp-kafka
+    urls:
+    - cp-kafka-0.1.0.tgz
+    version: 0.1.0
+  cp-kafka-connect:
+  - apiVersion: v1
+    appVersion: "1.0"
+    created: "2019-11-28T09:05:58.415474402Z"
+    description: A Helm chart for Confluent Kafka Connect on Kubernetes
+    digest: a2a43677565add353c90990f12f21b75f9785cff5b60df0e529f11f772be06c3
+    name: cp-kafka-connect
+    urls:
+    - cp-kafka-connect-0.1.0.tgz
+    version: 0.1.0
+  cp-kafka-rest:
+  - apiVersion: v1
+    appVersion: "1.0"
+    created: "2019-11-28T09:05:58.415809406Z"
+    description: A Helm chart for Confluent Kafka REST Proxy on Kubernetes
+    digest: 73f403176f992f21658c32e3746d80c7ffab3c3ef115580a09af279f34f51893
+    name: cp-kafka-rest
+    urls:
+    - cp-kafka-rest-0.1.0.tgz
+    version: 0.1.0
+  cp-ksql-server:
+  - apiVersion: v1
+    appVersion: "1.0"
+    created: "2019-11-28T09:05:58.41615131Z"
+    description: A Helm chart for Confluent KSQL Server on Kubernetes
+    digest: d7886e6cb5fbede20c9c332462604e0fb031ca7c0c2ced44962c0abb0bc8b6e4
+    name: cp-ksql-server
+    urls:
+    - cp-ksql-server-0.1.0.tgz
+    version: 0.1.0
+  cp-schema-registry:
+  - apiVersion: v1
+    appVersion: "1.0"
+    created: "2019-11-28T09:05:58.416528915Z"
+    description: A Helm chart for Confluent Schema Registry on Kubernetes
+    digest: 8ccc8ca209b8f75c975eb29ee0e7446e8ddaf9be3ff039eeb383ba4d8da29324
+    name: cp-schema-registry
+    urls:
+    - cp-schema-registry-0.1.0.tgz
+    version: 0.1.0
+  cp-zookeeper:
+  - apiVersion: v1
+    appVersion: "1.0"
+    created: "2019-11-28T09:05:58.41690932Z"
+    description: A Helm chart for Confluent Zookeeper on Kubernetes
+    digest: 7bc647af5e728d09f9d4d9cc94077aaa6a9e9801273b4007e61a590d903b6be3
+    name: cp-zookeeper
+    urls:
+    - cp-zookeeper-0.1.0.tgz
+    version: 0.1.0
+  hbase:
+  - apiVersion: v1
+    appVersion: 2.0.1
+    created: "2019-11-28T09:05:58.417187523Z"
+    description: A Helm chart for Hbase
+    digest: 36194b336a2e93ffaf28a1402dc7c622045ca81cfd249e1cd52b1472e967c4a7
+    name: hbase
+    urls:
+    - hbase-0.1.0.tgz
+    version: 0.1.0
+  hdfs:
+  - apiVersion: v1
+    appVersion: 2.7.7
+    created: "2019-11-28T09:05:58.417846831Z"
+    description: The Apache Hadoop software library is a framework that allows for
+      the distributed processing of large data sets across clusters of computers using
+      simple programming models.
+    digest: cef141d579f9c14fb835c41febdd261f56b5383e199beef1349a8d1355912a76
+    home: https://hadoop.apache.org/
+    icon: http://hadoop.apache.org/images/hadoop-logo.jpg
+    maintainers:
+    - email: cgiraldo@gradiant.org
+      name: cgiraldo
+    name: hdfs
+    sources:
+    - https://github.com/apache/hadoop
+    urls:
+    - hdfs-0.1.0.tgz
+    version: 0.1.0
+  jmxproxy:
+  - apiVersion: v1
+    appVersion: "1.0"
+    created: "2019-11-28T09:05:58.417997233Z"
+    description: A Helm chart for Kubernetes
+    digest: 9de5c32af6fd018c57194e9a9384d187c761c8ceb24cb5e2c887d64df3fa264c
+    name: jmxproxy
+    urls:
+    - jmxproxy-3.4.0.tgz
+    version: 3.4.0
+  opentsdb:
+  - apiVersion: v1
+    appVersion: 2.3.1
+    created: "2019-11-28T09:05:58.418238336Z"
+    description: A Helm chart for OpenTSDB
+    digest: 3f175331588c3e7d4c3e73f019bc3a0d5067f6687b75ba3bb98dd515b812fed9
+    name: opentsdb
+    urls:
+    - opentsdb-0.1.0.tgz
+    version: 0.1.0
+  spark-standalone:
+  - apiVersion: v1
+    appVersion: "1.0"
+    created: "2019-11-28T09:05:58.418660541Z"
+    description: A Helm chart for Spark Standalone
+    digest: 12792deb1254bc11570ad406ac5c073a958fd881e98df07ab99c7df7ee7137fe
+    name: spark-standalone
+    urls:
+    - spark-standalone-0.1.0.tgz
+    version: 0.1.0
+generated: "2019-11-28T09:05:58.403465055Z"
