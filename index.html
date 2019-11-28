@@ -1,0 +1,51 @@
+<html>
+<head>
+<title> Helm repository of Cloud-Native PNDA</title>
+<link rel="stylesheet" href="static/repo.css">
+</head>
+<body>
+This helm repository provides charts for the Cloud-Native <a href="http://pnda.io">PNDA poject</a>.
+
+To add this repo to helm and install a packaged chart, follow this instructions:
+
+Add this repo to your helm:
+
+<pre>
+  <code>
+helm repo add pndaproject https://pndaproject.github.io/pnda-helm-chart/
+helm repo update
+  </code>
+</pre>
+
+Install to your kubernetes cluster:
+<pre>
+  <code>
+helm install --name pnda pndaproject/cloud-pnda --version=6.0.0-alpha
+  </code>
+</pre>
+
+
+<div class="info-msg">
+  <i class="fa fa-info-circle"></i>
+   currently cloud-pnda has not stable releases thus no "latest" version. You must explicitly set a pre-release version with --version flag in helm install command.
+</div>
+
+
+
+You may customize your deployment providing a custom values yaml:
+
+<pre>
+  <code>
+helm install --name pnda pndaproject/cloud-pnda --version=6.0.0-alpha -f custom.yaml
+  </code>
+</pre>
+
+
+Some custom configuration files are available at <a href="https://github.com/pndaproject/pnda-helm-chart">https://github.com/pndaproject/pnda-helm-chart</a>.
+
+
+More info at <a href="https://github.com/pndaproject/pnda-helm-chart">https://github.com/pndaproject/pnda-helm-chart</a>
+
+</body>
+
+<html>
