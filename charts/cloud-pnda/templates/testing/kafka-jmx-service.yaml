@@ -10,6 +10,6 @@ spec:
     - port: 5555
       name: jmx
   selector:
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/name: cp-kafka
+    release: {{ .Release.Name }}
+    app: cp-kafka
 {{- end -}}
