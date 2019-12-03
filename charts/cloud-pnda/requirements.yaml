@@ -66,5 +66,5 @@ dependencies:
   repository: https://kubernetes-charts.storage.googleapis.com
   condition: rebase.enabled
 - name: jmxproxy
-  version: 3.4.0
+  version: 0.1.0
   repository: file://../jmxproxy
