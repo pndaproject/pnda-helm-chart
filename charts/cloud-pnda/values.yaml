@@ -260,6 +260,8 @@ jupyterhub:
               }
             }
           }
+      jupyterlab: |
+        c.Spawner.cmd = ['jupyter-labhub']
   auth:
     type: dummy
     dummy:
@@ -281,7 +283,7 @@ jupyterhub:
     image:
       # Check https://github.com/Gradiant/dockerized-jupyter/blob/master/Dockerfile
       name: gradiant/jupyter
-      tag: 6.0.1
+      tag: 6.0.1-spark
     defaultUrl: "/lab"
     extraEnv:
       SPARKCONF_SPARK_MASTER: "spark://spark-standalone:7077"
