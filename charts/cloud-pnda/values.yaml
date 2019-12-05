@@ -236,12 +236,6 @@ kafka-manager:
 jupyterhub:
   enabled: true
   hub:
-    uid: 0
-    fsGid: 0
-    # Same as jupyterhub/k8s-hub:0.8.2, but modified to allow {username} expansion in extra_pod_config
-    image:
-      name: pnda/k8s-hub
-      tag: latest
     extraConfig:  
       # to resolve singleuser pods (jupyter-{username}.jupyterhub) through kubernetes DNS
       00-custom-singleuser-hostname: |
