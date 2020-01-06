@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "redis.fullname" . }}-headless
+  labels:
+    app.kubernetes.io/name: {{ template "redis.name" . }}
+    helm.sh/chart: {{ template "redis.chart" . }}
+    app.kubernetes.io/instance: "{{ .Release.Name }}"
+    app.kubernetes.io/managed-by: "{{ .Release.Service }}"
+spec:
+  type: ClusterIP
+  clusterIP: None
+  ports:
+  - name: redis
+    port: {{ .Values.redisPort }}
+    targetPort: redis
+{{- if .Values.sentinel.enabled }}
+  - name: redis-sentinel
+    port: {{ .Values.sentinel.port }}
+    targetPort: redis-sentinel
+{{- end }}
+  selector:
+    app.kubernetes.io/name: {{ template "redis.name" . }}
+    app.kubernetes.io/instance: "{{ .Release.Name }}"

@@ -18,21 +18,16 @@ Default configuration values can be overriden providing an external yaml file (S
 
 Tested with:
 
-- Kubernetes v1.15
-- Helm v2.15
+- Kubernetes v1.11
+- Helm v2.13
 
-## Deploy from Source
+## Quick Setup
 
-If you install cloud-pnda chart from source you must first update its dependecies with:
-```
-helm dep update charts/cloud-pnda
-```
+Clone this repo and:
 
-Then proceed with the helm install:
 ```
-helm install --name pnda charts/cloud-pnda/
+helm install --name pnda cloud-pnda/
 ```
-
 
 ## Configuration
 
@@ -41,7 +36,7 @@ PNDA is configured by default for minimum resource requirements (for example HA 
 To override default configuration values, the user must provide a yaml file in the helm install command:
 
 ```
-helm install --name pnda charts/cloud-pnda/ -f custom-config.yaml
+helm install --name pnda cloud-pnda/ -f custom-config.yaml
 ```
  
 This repository contains several custom configuration examples in *profiles* folder with several pnda custom deployments:
@@ -49,21 +44,21 @@ This repository contains several custom configuration examples in *profiles* fol
 - [profiles/pico.yml](profiles/pico.yml): profile to deploy pnda in a cluster with minimum resources.
 - *More to be added*.
 
-The default values of [PNDA components](charts/cloud-pnda/templates) and [Big Data dependencies](charts/cloud-pnda/requirements.yaml) can be checked at [charts/cloud-pnda/values.yaml](charts/cloud-pnda/values.yaml) file.
+The default values of [PNDA components](cloud-pnda/templates) and [Big Data requirements](cloud-pnda/charts) can be checked at [cloud-pnda/values.yaml](cloud-pnda/values.yaml) file.
 
-For configuration of the [Big Data requirements](cloud-pnda/requirements.yaml) you should inspect the values.yaml of the corresponding chart. Here is a list of the requirements and the location of their charts:
-- hdfs (this repo): [values.yaml](charts/hdfs/values.yaml).
-- hbase (this repo): [values.yaml](charts/hbase/values.yaml).
-- openstsdb (this repo): [values.yaml](charts/opentsdb/values.yaml).
-- spark-standalone (this repo): [values.yaml](charts/spark-standalone/values.yaml).
-- jupyterhub (jupyterhub repo): [values.yaml](https://github.com/jupyterhub/zero-to-jupyterhub-k8s/blob/master/jupyterhub/values.yaml).
-- cp-zookeeper (confluent repo): [values.yaml](https://github.com/confluentinc/cp-helm-charts/blob/master/charts/cp-zookeeper/values.yaml).
-- cp-kafka (confluent repo): [values.yaml](https://github.com/confluentinc/cp-helm-charts/blob/master/charts/cp-kafka/values.yaml).
+The default values of [Big Data requirements](cloud-pnda/charts) not provided in [cloud-pnda/values.yaml] can be checked in each requirement chart:
+- hdfs [values.yaml](cloud-pnda/charts/hdfs/values.yaml).
+- hbase [values.yaml](cloud-pnda/charts/hbase/values.yaml).
+- openstsdb [values.yaml](cloud-pnda/charts/opentsdb/values.yaml).
+- spark-standalone [values.yaml](cloud-pnda/charts/spark-standalone/values.yaml).
+- jupyterhub [values.yaml](cloud-pnda/charts/values.yaml).
+- cp-zookeeper [values.yaml](cloud-pnda/charts/cp-zookeeper/values.yaml).
+- cp-kafka [values.yaml](cloud-pnda/charts/cp-kafka/values.yaml).
 
 
 ## Deploy from PNDA helm repository
 
-The helm repository [https://pndaproject.github.io/pnda-helm-chart/](https://pndaproject.github.io/pnda-helm-chart/) provides packaged helm charts of this repo releases.
+The helm repository [https://pndaproject.github.io/pnda-helm-repo/](https://pndaproject.github.io/pnda-helm-repo/) provides packaged helm charts of this repo releases.
 
 Please follow the instructions at the pnda helm repository to deploy from a packaged chart.
 

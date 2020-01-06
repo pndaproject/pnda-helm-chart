@@ -1,0 +1,18 @@
+#Spark Headless service without .Release.Name prefix
+#In sync with value in .Values.jupyterhub.singleuser.extraEnv.SPARKCONF_SPARK_MASTER
+apiVersion: v1
+kind: Service
+metadata:
+  name: spark-standalone
+  labels:
+    app.kubernetes.io/name: spark-standalone
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  ports:
+    - port: {{ index .Values "spark-standalone" "master" "port" }}
+      name: spark
+  clusterIP: None
+  selector:
+    app.kubernetes.io/name: spark-standalone
+    app.kubernetes.io/instance: {{ .Release.Name }}

@@ -1,0 +1,33 @@
+{{- if .Values.external.enabled -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "cp-ksql-server.fullname" . }}-external
+  {{- if .Values.external.annotations }}
+  annotations:
+  {{- range $key, $value := .Values.external.annotations }}
+    {{ $key }}: "{{ $value }}"
+  {{- end }}
+  {{- end }}
+  labels:
+    app.kubernetes.io/name: {{ template "cp-ksql-server.name" . }}
+    helm.sh/chart: {{ template "cp-ksql-server.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  type: {{ .Values.external.type }}
+  externalTrafficPolicy: {{ .Values.external.externalTrafficPolicy }}
+  {{- if .Values.external.loadBalancerSourceRanges }}
+  loadBalancerSourceRanges:
+  {{- range $cidr := .Values.external.loadBalancerSourceRanges }}
+    - {{ $cidr }}
+  {{- end }}
+  {{- end }}
+  ports:
+    - name: server-proxy
+      port: {{ .Values.external.port }}
+      targetPort: {{ .Values.servicePort }}
+  selector:
+    app.kubernetes.io/name: {{ template "cp-ksql-server.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end -}}

@@ -1,0 +1,41 @@
+{{- if .Values.networkPolicy.enabled }}
+kind: NetworkPolicy
+apiVersion: {{ template "networkPolicy.apiVersion" . }}
+metadata:
+  name: "{{ template "redis.fullname" . }}"
+  labels:
+    app.kubernetes.io/name: {{ template "redis.name" . }}
+    helm.sh/chart: {{ template "redis.chart" . }}
+    app.kubernetes.io/instance: "{{ .Release.Name }}"
+    app.kubernetes.io/managed-by: "{{ .Release.Service }}"
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: {{ template "redis.name" . }}
+      app.kubernetes.io/instance: "{{ .Release.Name }}"
+  ingress:
+    # Allow inbound connections
+    - ports:
+      - port: {{ .Values.redisPort }}
+      {{- if .Values.sentinel.enabled }}
+      - port: {{ .Values.sentinel.port }}
+      {{- end }}
+      {{- if not .Values.networkPolicy.allowExternal }}
+      from:
+      - podSelector:
+          matchLabels:
+            {{ template "redis.fullname" . }}-client: "true"
+      {{- if .Values.metrics.enabled }}
+      - podSelector:
+          matchLabels:
+            app.kubernetes.io/instance: "{{ .Release.Name }}"
+            role: metrics
+            app.kubernetes.io/name: {{ template "redis.name" . }}
+      {{- end }}
+      {{- end }}
+    {{- if .Values.metrics.enabled }}
+    # Allow prometheus scrapes for metrics
+    - ports:
+      - port: 9121
+    {{- end }}
+{{- end }}

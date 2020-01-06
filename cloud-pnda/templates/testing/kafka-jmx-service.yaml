@@ -1,0 +1,15 @@
+{{- if .Values.testing.enabled -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "pnda.testing.fullname" . }}-kafka-jmx
+  labels:
+    {{- include "pnda.testing.labels" . | nindent 4 }}
+spec:
+  ports:
+    - port: 5555
+      name: jmx
+  selector:
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/name: cp-kafka
+{{- end -}}
