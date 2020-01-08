@@ -1,0 +1,13 @@
+{{- if and .Values.rbac.create .Values.rbac.role.rules -}}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: {{ template "redis.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ template "redis.name" . }}
+    helm.sh/chart: {{ template "redis.chart" . }}
+    app.kubernetes.io/instance: "{{ .Release.Name }}"
+    app.kubernetes.io/managed-by: "{{ .Release.Service }}"
+rules:
+{{ toYaml .Values.rbac.role.rules }}
+{{- end -}}

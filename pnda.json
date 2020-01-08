@@ -1,0 +1,29 @@
+{
+    "apiVersion": "v1",
+    "kind": "Namespace",
+    "metadata": {
+        "annotations": {
+            "cattle.io/status": "{\"Conditions\":[{\"Type\":\"InitialRolesPopulated\",\"Status\":\"True\",\"Message\":\"\",\"LastUpdateTime\":\"2019-11-18T07:39:25Z\"},{\"Type\":\"ResourceQuotaValidated\",\"Status\":\"Unknown\",\"Message\":\"Validating resource quota\",\"LastUpdateTime\":\"\"},{\"Type\":\"ResourceQuotaInit\",\"Status\":\"True\",\"Message\":\"\",\"LastUpdateTime\":\"2019-11-18T07:39:25Z\"}]}",
+            "field.cattle.io/creatorId": "user-pjt8j",
+            "field.cattle.io/projectId": "local:p-mfsbn",
+            "lifecycle.cattle.io/create.namespace-auth": "true"
+        },
+        "creationTimestamp": "2019-11-18T07:39:24Z",
+        "deletionTimestamp": "2019-12-19T05:04:54Z",
+        "labels": {
+            "cattle.io/creator": "norman",
+            "field.cattle.io/projectId": "p-mfsbn"
+        },
+        "name": "pnda",
+        "resourceVersion": "60010057",
+        "selfLink": "/api/v1/namespaces/pnda",
+        "uid": "8abd4faf-09d6-11ea-b78e-fa163e9e73f4"
+    },
+    "spec": {
+        "finalizers": [
+        ]
+    },
+    "status": {
+        "phase": "Terminating"
+    }
+}

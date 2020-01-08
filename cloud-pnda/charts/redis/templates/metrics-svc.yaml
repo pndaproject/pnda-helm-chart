@@ -1,0 +1,29 @@
+{{- if .Values.metrics.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "redis.fullname" . }}-metrics
+  labels:
+    app.kubernetes.io/name: {{ template "redis.name" . }}
+    helm.sh/chart: {{ template "redis.chart" . }}
+    app.kubernetes.io/instance: "{{ .Release.Name }}"
+    app.kubernetes.io/managed-by: "{{ .Release.Service }}"
+{{- if .Values.metrics.service.annotations }}
+  annotations:
+{{ toYaml .Values.metrics.service.annotations | indent 4 }}
+{{- end }}
+spec:
+  type: {{ .Values.metrics.service.type }}
+  {{ if eq .Values.metrics.service.type "LoadBalancer" -}} {{ if .Values.metrics.service.loadBalancerIP -}}
+  loadBalancerIP: {{ .Values.metrics.service.loadBalancerIP }}
+  {{ end -}}
+  {{- end -}}
+  ports:
+  - name: metrics
+    port: 9121
+    targetPort: metrics
+  selector:
+    app.kubernetes.io/name: {{ template "redis.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    role: metrics
+{{- end }}
