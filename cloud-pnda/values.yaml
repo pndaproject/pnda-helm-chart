@@ -444,3 +444,5 @@ fluentd-elasticsearch:
   enabled: false
   elasticsearch:
     host: 'elasticsearch-master'
+spark-operator:
+  enabled: true

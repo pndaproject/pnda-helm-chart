@@ -78,6 +78,6 @@ dependencies:
   version: 3.4.0
   repository: file://./charts/jmxproxy
 - name: sparkoperator
-  version: v1beta2-1.0.1-2.4.4
-  repository: "file://.charts/sparkoperator"
-  condition: sparkoperator.enabled
+  version: 0.6.1
+  repository: http://storage.googleapis.com/kubernetes-charts-incubator
+  condition: spark-operator.enabled
