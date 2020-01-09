@@ -387,6 +387,9 @@ opentsdb:
   enabled: true
   daemons: 1
 
+spark-operator:
+  enabled: true
+
 # Setting spark-standalone worker instances to 1
 spark-standalone:
   enabled: true
