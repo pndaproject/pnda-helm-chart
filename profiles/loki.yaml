@@ -1,0 +1,5 @@
+## ----------------------------
+## PNDA Monitoring Configuration
+## ----------------------------
+loki-stack:
+  enabled: true
