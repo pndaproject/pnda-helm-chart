@@ -31,7 +31,7 @@ spec:
                 - "--postjson"
                 - "http://{{ include "pnda.console-backend-data-logger.fullname" . }}:3001/metrics"
                 - "--extra"
-                - "--zconnect {{.Release.Name}}-cp-zookeeper:2181"
+                - "--zconnect zoo-entrance:2181"
               volumeMounts:
                 - mountPath: /testing/logging.conf
                   subPath: logging.conf

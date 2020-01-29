@@ -43,3 +43,14 @@ Create the hdfsURL.
   {{- printf "hdfs://%s-hdfs-namenode:8020" .Release.Name }}
 {{- end -}}
 {{- end -}}
+
+{{/*
+Create the zookeeperURL.
+*/}}
+{{- define "hbase.zookeeperURL" -}}
+{{- if .Values.zookeeperURL -}}
+    {{- .Values.zookeeperURL -}}
+{{- else -}}
+  {{- printf "hdfs://%s-zookeeper:8020" .Release.Name }}
+{{- end -}}
+{{- end -}}

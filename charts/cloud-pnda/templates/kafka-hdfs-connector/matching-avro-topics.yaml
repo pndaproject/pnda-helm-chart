@@ -1,3 +1,4 @@
+{{- if  .Values.kafkaHdfsConnector.enabled }}
 apiVersion: batch/v1
 kind: Job
 metadata: 
@@ -13,7 +14,7 @@ spec:
         command: 
           - sh
           - "-c"
-          - "curl --fail -vs -H 'Content-Type: application/json' -H 'Accept: application/json' -d @/confs/matching-avro-topics.json http://{{ .Release.Name }}-cp-kafka-connect:8083/connectors"
+          - "curl --fail -vs -H 'Content-Type: application/json' -H 'Accept: application/json' -d @/confs/matching-avro-topics.json http://strimzi-connect-api:8083/connectors"
         volumeMounts:
           - mountPath: /confs/matching-avro-topics.json
             subPath: matching-avro-topics.json
@@ -23,3 +24,4 @@ spec:
         - name: hdfs-connector-configs
           configMap:
             name: {{ include "pnda.kafka-hdfs-connector.fullname" . }}
+{{- end }}

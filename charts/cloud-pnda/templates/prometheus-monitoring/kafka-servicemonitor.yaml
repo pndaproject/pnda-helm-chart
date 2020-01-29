@@ -9,13 +9,14 @@ metadata:
   namespace: {{ .Values.prometheus.serviceMonitor.kafka.namespace | default .Release.Namespace }}
 spec:
   endpoints:
-  - port: metrics
+  - port: prometheus
     interval: {{ .Values.prometheus.serviceMonitor.kafka.interval }}
   namespaceSelector:
     matchNames:
     - {{ .Release.Namespace }}
   selector:
-    matchLabels:
-      app.kubernetes.io/name: cp-kafka
-      app.kubernetes.io/instance: {{ .Release.Name }}
+    matchLabels:                
+      strimzi.io/cluster: strimzi                           
+      strimzi.io/kind: Kafka                                
+      strimzi.io/name: strimzi-kafka-bootstrap 
 {{- end }}

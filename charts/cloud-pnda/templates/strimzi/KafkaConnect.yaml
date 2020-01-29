@@ -1,0 +1,21 @@
+{{- if and .Values.strimzi .Values.strimzi.kafkaConnect -}}
+apiVersion: kafka.strimzi.io/v1beta1
+kind: KafkaConnect
+metadata:
+  name: strimzi
+spec:
+  version: 2.3.1
+  image: {{ .Values.strimzi.kafkaConnect.image }}
+  replicas: {{ .Values.strimzi.kafkaConnect.replicas }}
+  bootstrapServers: strimzi-kafka-bootstrap:9093
+  tls:
+    trustedCertificates:
+      - secretName: strimzi-cluster-ca-cert
+        certificate: ca.crt    
+  config:
+    {{- if lt .Values.strimzi.kafka.replicas 3.0 }}
+    config.storage.replication.factor: 1
+    offset.storage.replication.factor: 1
+    status.storage.replication.factor: 1
+    {{- end }}
+{{- end }}

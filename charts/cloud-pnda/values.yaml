@@ -1,5 +1,5 @@
 ## ----------------------------
-## PNDA Components Configuration
+## PNDA Components 
 ## ----------------------------
 
 serviceAccountName: pnda
@@ -11,29 +11,28 @@ roleBindingName: pnda
 prometheus:
   # prometheus-k8s serviceAccount and namespace to configure RBAC access to pnda metrics endpoints
   rbac:
-    enabled: false
+    enabled: true
     serviceAccount: prometheus-k8s
     namespace: monitoring
   #Configuration for each prometheusOperator service Monitor
   serviceMonitor:
     hdfs:
-      enabled: false
+      enabled: true
       # If namespace is empty: serviceMonitor is deployed in {{ .Release.namespace }}
       namespace: 
       interval: 15s
     hbase:
-      enabled: false
+      enabled: true
       namespace:
       interval: 15s
     kafka:
-      enable: false
+      enabled: true
       namespace: 
       interval: 15s
     spark:
-      enable: false
+      enabled: true
       namespace: 
       interval: 15s
-
 
 redis:
   enabled: true
@@ -185,9 +184,6 @@ packageRepository:
     accessMode: ReadWriteOnce
     size: 5Gi
 
-kafkaHdfsConnector: 
-  fullnameOverride: kafka-hdfs-connector
-
 jmxproxy:
   fullnameOverride: jmxproxy
 
@@ -197,10 +193,10 @@ testing:
   schedule: "* * * * *"
   image: 
     repository: pnda/testing
-    tag: 1.1.0
+    tag: "1.1.1"
     pullPolicy: IfNotPresent
   conf:
-    logLevel: WARNING
+    logLevel: WARN
   resources:
     requests:
       memory: "128Mi"
@@ -210,25 +206,48 @@ testing:
       cpu: "1000m"
 
 
-## ----------------------------------
-## Big Data Requirements Configuration
-## ----------------------------------
-grafana:
+############################
+# Kafka related Components
+############################
+strimzi:
   enabled: true
-  fullnameOverride: grafana
-  image: 
-    tag: 6.4.4
-  sidecar:
-    datasources:
-      enabled: true
-      # label that the configmaps with datasources are marked with
-      label: grafana_datasource
-  adminUser: "pnda"
-  adminPassword: "pnda"
+  kafka:
+    enabled: true
+    replicas: 1
+  zookeeper:
+    replicas: 1
+  kafkaConnect:
+    enabled: true
+    replicas: 1
+    image: pnda/strimzi-connector:2.3.1
+
+schemaregistry:
+  enabled: true
+  # confluent platform v5.3.2 to work with kafka 2.3.1
+  imageTag: 5.3.2
+  # we use schemaregistry instead of schema-registry to avoid kubernetes inject SCHEMA_REGISTRY_PORT env variable
+  fullnameOverride: schemaregistry
+  kafka:
+    enabled: false
+  kafkaStore:
+    overrideBootstrapServers: "PLAINTEXT://strimzi-kafka-bootstrap:9092"
+
+schemaregistry-ui:
+  enabled: false
+  fullnameOverride: schemaregistry-ui
+  service:
+    type: ClusterIP
+  schemaRegistry:
+    url: "http://schemaregistry"
+    proxy: true
   ingress:
     enabled: true
     hosts:
-      - grafana.127-0-0-1.nip.io
+      - schema-registry.127-0-0-1.nip.io
+
+kafkaHdfsConnector: 
+  enabled: true
+  fullnameOverride: kafka-hdfs-connector
 
 kafka-manager:
   enabled: true
@@ -236,16 +255,27 @@ kafka-manager:
   image:
     repository: gradiant/kafka-manager
     tag: 2.0.0.2
-  zkHosts: "{{ .Release.Name }}-cp-zookeeper:2181"
+  zkHosts: "zoo-entrance:2181"
   clusters:
-   - name: "PNDA-Kafka"
-     kafkaVersion: "2.0.0"
+   - name: "pnda-Kafka"
+     kafkaVersion: "2.2.0"
      jmxEnabled: "true"
      tuning: {}
   ingress:
     enabled: true
     hosts:
       - kafka-manager.127-0-0-1.nip.io
+
+kafka-connect-ui:
+  enabled: true
+  fullnameOverride: kafka-connect-ui
+  connectCluster:
+    url: http://strimzi-connect-api:8083
+  ingress:
+    enabled: true
+    hosts:
+      - connect.127-0-0-1.nip.io
+
 
 # Check https://zero-to-jupyterhub.readthedocs.io/en/latest/ for customize this section
 jupyterhub:
@@ -303,58 +333,9 @@ jupyterhub:
     hosts:
       - notebooks.127-0-0-1.nip.io
 
-cp-kafka:
-  enabled: true
-  # Use non-enterprise kafka
-  image: confluentinc/cp-kafka
-  customEnv: 
-    KAFKA_METRIC_REPORTERS: ""
-    CONFLUENT_METRICS_REPORTER_BOOTSTRAP_SERVERS: ""
-  brokers: 1
-  configurationOverrides:
-    offsets.topic.replication.factor: "1"
-    default.replication.factor: "1"
-    num.partitions: "8"
-
-cp-zookeeper:
-  enabled: true
-  servers: 1	
-cp-schema-registry:
-  enabled: true
-  configurationOverrides:
-    kafkastore.topic.replication.factor: "1"
-cp-kafka-rest:
-  enabled: false
-cp-kafka-connect:
-  enabled: true
-  configurationOverrides:
-    config.storage.topic: "__connect.config"
-    config.storage.replication.factor: "1"
-    offset.storage.topic: "__connect.offset"
-    offset.storage.replication.factor: "1"
-    status.storage.topic: "__connect.status"
-    status.storage.replication.factor: "1"
-cp-ksql-server:
-  enabled: false
-
-
-schema-registry-ui:
-  enabled: true
-  # default vaule in schema-registry-ui chart is set to LoadBalancer
-  service:
-    type: ClusterIP
-  ingress:
-    enabled: true
-    hosts:
-    - "schema-registry-ui.127-0-0-1.nip.io"
-kafka-connect-ui:
-  enabled: true
-  ingress:
-    enabled: true
-    hosts:
-      - "kafka-connect-ui.127-0-0-1.nip.io"
-
-# Setting hdfs-namenode and hdfs-datanode instances to 1
+############################
+# Hadoop related Components
+############################
 hdfs:
   enabled: true
   fullnameOverride: hdfs
@@ -395,6 +376,7 @@ hdfs:
 # Setting hbase-region-server instances to 1
 hbase:
   enabled: true
+  zookeeperURL: "zoo-entrance:2181"
   fullnameOverride: hbase
   hdfsURL: hdfs://hdfs-namenode:8020
   regionServer:
@@ -405,9 +387,13 @@ opentsdb:
   enabled: true
   fullnameOverride: opentsdb
   daemons: 1
+  conf:
+    #zqquorum: default is "{{.Release.Name}}-cp-zookeeper:2181"
+    tsd.storage.hbase.zk_quorum: "zoo-entrance:2181"
 
-spark-operator:
+sparkoperator:
   enabled: true
+  fullnameOverride: sparkoperator
 
 # Setting spark-standalone worker instances to 1
 spark-standalone:
@@ -418,6 +404,28 @@ spark-standalone:
     enabled: true
     hosts:
       - spark.127-0-0-1.nip.io
+
+
+############################
+# Other Components
+############################
+
+grafana:
+  enabled: true
+  fullnameOverride: grafana
+  image: 
+    tag: 6.4.4
+  sidecar:
+    datasources:
+      enabled: true
+      # label that the configmaps with datasources are marked with
+      label: grafana_datasource
+  adminUser: "pnda"
+  adminPassword: "pnda"
+  ingress:
+    enabled: true
+    hosts:
+      - grafana.127-0-0-1.nip.io
 
 # Setting elasticsearch instances to 1
 elasticsearch:
@@ -434,7 +442,7 @@ kibana:
   ingress:
     enabled: true
     hosts:
-      - kibana.local
+      - kibana.127-0-0-1.nip.io
 
 loki-stack:
   enabled: false
