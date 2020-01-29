@@ -75,7 +75,7 @@ data:
       {{- if not (index .Values.conf "hbase-site" "hbase.zookeeper.quorum")  }}
       <property>
         <name>hbase.zookeeper.quorum</name>
-        <value>{{.Release.Name}}-cp-zookeeper:2181</value>
+        <value>{{ include "hbase.zookeeperURL" . }}</value>
       </property>
       {{- end }}
       {{- if not (index .Values.conf "hbase-site" "hbase.rootdir")  }}

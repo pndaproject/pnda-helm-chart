@@ -1,56 +1,39 @@
-# Try cloud-pnda on microk8s
+# microk8s: Install a local development k8s cluster in your machine
 
 As an alternative for local deployment you can use [microk8s](https://microk8s.io/). 
-Microk8s does not deploy kubernetes in a virtual machine as minikube, and provide interesting addons such us prometheus or istio. 
-Install microk8s in your local Linux Machine. Then enable this addons for microk8s:
+Microk8s does not deploy kubernetes in a virtual machine as minikube, and provide interesting addons such us prometheus or istio.
+
+1. Install microk8s in your local Linux Machine and enable dns, dashboard, ingress and storage addons:
 
 ```
+sudo snap install microk8s --classic
 microk8s.enable dns dashboard ingress storage
 ```
 
-You can check if microk8s local cluster health with
+2. Check microk8s local cluster health with
 
 ```
 microk8s.inspect
 ```
+Enable ip tables forwarding if needed:
 
-This command may output you have to enable ip tables forwarding with:
 ```
 sudo iptables -P FORWARD ACCEPT
 ```
 
-To make helm work with microk8s you have to point microk8s.kubectl to kubectl:
+3. Install kubectl:
 ```
-alias kubectl=microk8s.kubectl
-```
-
-Initialize the local Helm CLI and also install Tiller into minikube in one step:
-
-```
-helm init --history-max 200
+curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.17.2/bin/linux/amd64/kubectl
+chmod +x ./kubectl
+sudo mv ./kubectl /usr/local/bin/kubectl
 ```
 
-Install cloud-pnda chart:
+4. Copy k3s kube-config to your user kube-config path:
 ```
-helm install --name pnda --namespace pnda cloud-pnda/
-```
-
-Include vhosts entries pointing to your localhost to access web uis.
-For example, on a linux client host:
-
-```
-echo "127.0.0.1 console.pnda.io notebooks.pnda.io grafana.pnda.io kafka-manager.pnda.io hdfs.pnda.io spark.pnda.io" | sudo tee -a /etc/hosts
+sudo k3s kubectl config view --raw > ~/.kube/config
 ```
 
-- Access PNDA console at http://console.pnda.io with user pnda password pnda
-- Access jupyerhub at http://notebooks.pnda.io with user pnda password pnda
-- Access grafana at http://grafana.pnda.io with user pnda password pnda
-- Access hdfs namenode management ui at http://hdfs.pnda.io
-- Access kafka-manager ui at http://kafka-manager.pnda.io
-
-cleanup:
-
+5. Check for Ready node, takes maybe 30 seconds:
 ```
-helm delete --purge pnda
-kubectl delete namespace pnda
+kubectl get node
 ```

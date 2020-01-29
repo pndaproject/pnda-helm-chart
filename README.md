@@ -14,25 +14,92 @@ It deploys [PNDA components](cloud-pnda/templates) and [Big Data Requirements](c
 A helm client uses the cloud-native helm chart to deploy PNDA platform on Kubernetes. 
 Default configuration values can be overriden providing an external yaml file (See [Configuration Section](#Configuration)).
 
-### Requirements
+## Requirements
 
-Tested with:
+- Kubernetes (tested with v1.17)
 
-- Kubernetes v1.15
-- Helm v2.15
+Point kubectl to your own k8s cluster or follow any of the [tutorials](tutorials/) to deploy a testing k8s cluster in your local machine.
 
-## Deploy from Source
+- Helm 2 (tested with v2.16.1)
 
-If you install cloud-pnda chart from source you must first update its dependecies with:
+```
+curl https://get.helm.sh/helm-v2.16.1-linux-amd64.tar.gz | tar xz
+sudo cp linux-amd64/helm /usr/local/bin/
+rm -r linux-amd64
+#Create tiller service account
+kubectl -n kube-system create serviceaccount tiller
+#Create cluster role binding for tiller
+kubectl create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount=kube-system:tiller
+#Initialize tiller
+helm init --service-account tiller
+```
+
+- strimzi (tested with v)
+
+Cloud-pnda chart needs strimzi CRDs (custom resources definitions) to be available in your kubernetes cluster.
+We expect to fix this pre-requirement when migrating to Helm 3.
+To install strimzi via helm chart you can follow [this instructions](https://strimzi.io/2018/11/01/using-helm.html).
+
+**WARNING!** You should install strimzi Cluster Operator in the same namespace as cloud-pnda.
+
+To install it in pnda namespace:
+
+```
+helm repo add strimzi https://strimzi.io/charts/
+helm repo update
+helm install strimzi/strimzi-kafka-operator \
+   --name strimzi \
+   --namespace pnda \
+   --version 0.15.0
+```
+
+## Installation
+### From helm repository
+
+The helm repository [https://pndaproject.github.io/pnda-helm-chart/](https://pndaproject.github.io/pnda-helm-chart/) provides packaged helm charts of this repo releases.
+
+1. Install all [Requirements](#requirements).
+
+2. Add cloud-pnda helm repo:
+```
+helm repo add pndaproject https://pndaproject.github.io/pnda-helm-chart/
+helm repo update
+```
+
+3. Proceed with the helm install:
+```
+helm install pndaproject/cloud-pnda \
+   --name cloud-pnda \
+   --namespace pnda \
+   --version 6.0.0-alpha
+```
+
+### From Source
+
+1. Install all [Requirements](#requirements).
+
+2. Update cloud-pnda dependecies:
 ```
 helm dep update charts/cloud-pnda
 ```
 
-Then proceed with the helm install:
+3. Proceed with the helm install:
 ```
-helm install --name pnda charts/cloud-pnda/
+helm install charts/cloud-pnda \
+   --name cloud-pnda \
+   --namespace pnda
 ```
 
+## UI - Access
+Default configuration deploys a set of ingresses that works for local k8s clusters (microk8s, k3s), out-of-the-box:
+
+- Access PNDA console at [http://console.127-0-0-1.nip.io](http://console.127-0-0-1.nip.io) with user pnda password pnda
+- Access jupyerhub at [http://notebooks.127-0-0-1.nip.io](http://notebooks.127-0-0-1.nip.io) with user pnda password pnda
+- Access grafana at [http://grafana.127-0-0-1.nip.io](http://grafana.127-0-0-1.nip.io) with user pnda password pnda
+- Access hdfs namenode management ui at [http://hdfs.127-0-0-1.nip.io](http://hdfs.127-0-0-1.nip.io)
+- Access kafka-manager ui at [http://kafka-manager.127-0-0-1.nip.io](http://kafka-manager.127-0-0-1.nip.io)
+- Access schema-registry ui at [http://schema-registry.127-0-0-1.nip.io](http://schema-registry.127-0-0-1.nip.io)
+- Access kafka-connect-ui at [http://connect.127-0-0-1.nip.io](http://connect.127-0-0-1.nip.io)
 
 ## Configuration
 
@@ -41,7 +108,10 @@ PNDA is configured by default for minimum resource requirements (for example HA 
 To override default configuration values, the user must provide a yaml file in the helm install command:
 
 ```
-helm install --name pnda charts/cloud-pnda/ -f custom-config.yaml
+helm install charts/cloud-pnda/ \
+   --name cloud-pnda \
+   --namespace pnda \
+   -f custom-config.yaml
 ```
  
 This repository contains several custom configuration examples in *profiles* folder with several pnda custom deployments:
@@ -57,22 +127,7 @@ For configuration of the [Big Data requirements](cloud-pnda/requirements.yaml) y
 - openstsdb (this repo): [values.yaml](charts/opentsdb/values.yaml).
 - spark-standalone (this repo): [values.yaml](charts/spark-standalone/values.yaml).
 - jupyterhub (jupyterhub repo): [values.yaml](https://github.com/jupyterhub/zero-to-jupyterhub-k8s/blob/master/jupyterhub/values.yaml).
-- cp-zookeeper (confluent repo): [values.yaml](https://github.com/confluentinc/cp-helm-charts/blob/master/charts/cp-zookeeper/values.yaml).
-- cp-kafka (confluent repo): [values.yaml](https://github.com/confluentinc/cp-helm-charts/blob/master/charts/cp-kafka/values.yaml).
 
-
-## Deploy from PNDA helm repository
-
-The helm repository [https://pndaproject.github.io/pnda-helm-chart/](https://pndaproject.github.io/pnda-helm-chart/) provides packaged helm charts of this repo releases.
-
-Please follow the instructions at the pnda helm repository to deploy from a packaged chart.
-
-## Tutorials
-
-We have created several step-by-step tutorials to deploy pnda in several types of kubernetes clusters:
-
-- [Minikube tutorial](tutorials/minikube.md).
-- [Microk8s tutorial](tutorials/microk8s.md).
 
 ## Credits
 
