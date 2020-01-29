@@ -2,7 +2,7 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: {{ .Release.Name}}-hbase-region-metrics
+  name: {{ include "hbase.fullname" . }}-region-metrics
   labels:
     app.kubernetes.io/name: {{ include "hbase.name" . }}
     app.kubernetes.io/component: regionserver

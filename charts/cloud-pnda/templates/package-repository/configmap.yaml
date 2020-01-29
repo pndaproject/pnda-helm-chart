@@ -14,7 +14,7 @@ data:
     },
     "config": {
         "log_level":"{{ .Values.packageRepository.conf.logLevel }}",
-        "package_callback": "http://{{.Release.Name}}-console-backend-data-logger:3001/packages"
+        "package_callback": "http://{{ include "pnda.console-backend-data-logger.fullname" . }}:3001/packages"
     }
     }
 

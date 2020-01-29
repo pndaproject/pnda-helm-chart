@@ -24,7 +24,7 @@ spec:
               protocol: TCP
           env:
             - name: REDIS
-              value: redis://{{.Release.Name}}-redis-master
+              value: redis://redis-master
           command:
             - "node"
             - "app.js"

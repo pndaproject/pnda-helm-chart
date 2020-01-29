@@ -7,9 +7,9 @@ metadata:
 data:
   config.js: |-
     module.exports = {
-      whitelist: ['http://{{.Release.Name}}-data-service:7000', 'http://{{.Release.Name}}-deployment-manager:5000'],
+      whitelist: ['http://{{ include "pnda.data-service.fullname" . }}:7000', 'http://{{ include "pnda.deployment-manager.fullname" . }}:5000'],
       deployment_manager: {
-        host: "http://{{.Release.Name}}-deployment-manager:5000",
+        host: "http://{{ include "pnda.deployment-manager.fullname" . }}:5000",
         API: {
           endpoints: "/environment/endpoints",
           packages_available: "/repository/packages?recency=999",
@@ -18,7 +18,7 @@ data:
         }
       },
       dataset_manager: {
-        host: "http://{{.Release.Name}}-data-service:7000",
+        host: "http://{{ include "pnda.data-service.fullname" . }}:7000",
         API: {
           datasets: "/api/v1/datasets"
         }
