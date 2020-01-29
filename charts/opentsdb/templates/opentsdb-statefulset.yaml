@@ -77,4 +77,4 @@ spec:
           name: {{ include "opentsdb.fullname" . }}-config
       - name: hbase-config
         configMap:
-          name: {{ .Values.hbaseConfigMapName | default (printf "%s-hbase" .Release.Name ) }}
+          name: {{ .Values.hbaseConfigMapName | default "hbase" }}

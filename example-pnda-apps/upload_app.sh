@@ -3,7 +3,7 @@
 
 if [ $# -ne 1 ]
   then
-    echo "Usage: deploy_app.sh tgz_filename"
+    echo "Usage: upload_app.sh tgz_filename"
     exit 0
 fi
 

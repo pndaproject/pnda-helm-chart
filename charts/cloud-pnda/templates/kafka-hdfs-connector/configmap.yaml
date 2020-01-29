@@ -12,7 +12,7 @@ data:
         "config": {
         "connector.class": "io.confluent.connect.hdfs.HdfsSinkConnector",
         "topics.regex": "pnda\\.unconf\\.(.*)",
-        "hdfs.url": "hdfs://{{ .Release.Name }}-hdfs-namenode:8020",
+        "hdfs.url": "hdfs://hdfs-namenode:8020",
         "tasks.max": "3",
         "flush.size": "100",
         "format.class": "io.confluent.connect.hdfs.avro.AvroFormat",
@@ -40,7 +40,7 @@ data:
       "config": {
       "connector.class": "io.confluent.connect.hdfs.HdfsSinkConnector",
       "topics.regex": "pnda\\.avro\\.(.*)",
-      "hdfs.url": "hdfs://{{ .Release.Name }}-hdfs-namenode:8020",
+      "hdfs.url": "hdfs://hdfs-namenode:8020",
       "tasks.max": "3",
       "flush.size": "100",
       "format.class": "io.confluent.connect.hdfs.avro.AvroFormat",

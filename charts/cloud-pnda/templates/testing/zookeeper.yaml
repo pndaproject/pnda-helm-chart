@@ -29,7 +29,7 @@ spec:
                 - "zookeeper"
                 - "--display"
                 - "--postjson"
-                - "http://{{.Release.Name}}-console-backend-data-logger:3001/metrics"
+                - "http://{{ include "pnda.console-backend-data-logger.fullname" . }}:3001/metrics"
                 - "--extra"
                 - "--zconnect zoo-entrance:2181"
               volumeMounts:

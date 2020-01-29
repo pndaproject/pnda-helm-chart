@@ -76,7 +76,7 @@ spec:
       volumes:
       - name: hadoop-config
         configMap:
-          name: {{ .Release.Name }}-hadoop
+          name: {{ include "hdfs.fullname" . }}-hadoop
        {{- if not .Values.persistence.dataNode.enabled }}
       - name: dfs
         emptyDir: {}

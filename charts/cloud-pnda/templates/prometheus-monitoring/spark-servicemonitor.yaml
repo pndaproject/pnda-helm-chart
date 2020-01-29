@@ -2,7 +2,7 @@
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name: {{ .Release.Name }}-spark-standalone
+  name: spark-standalone
   labels:
     app.kubernetes.io/name: prometheus-monitoring
     {{- include "pnda.labels" . | nindent 4 }}

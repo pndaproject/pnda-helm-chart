@@ -8,7 +8,7 @@ metadata:
 data:
   PNDA-nginx.conf: |-
     upstream data_manager_api {
-      server {{.Release.Name}}-console-backend-data-manager:3123;
+      server {{ include "pnda.console-backend-data-manager.fullname" . }}:3123;
     }
 
     server {

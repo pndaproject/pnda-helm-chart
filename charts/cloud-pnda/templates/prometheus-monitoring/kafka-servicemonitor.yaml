@@ -2,7 +2,7 @@
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name: {{ .Release.Name }}-kafka
+  name: kafka
   labels:
     app.kubernetes.io/name: prometheus-monitoring
     {{- include "pnda.labels" . | nindent 4 }}

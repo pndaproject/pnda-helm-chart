@@ -2,7 +2,7 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: {{ .Release.Name}}-hbase-master-metrics
+  name: {{ include "hbase.fullname" . }}-master-metrics
   labels:
     app.kubernetes.io/name: {{ include "hbase.name" . }}
     app.kubernetes.io/component: master

@@ -37,13 +37,15 @@ prometheus:
 
 redis:
   enabled: true
+  fullnameOverride: redis
   # HA disable by default
   cluster:
     enabled: false
   usePassword: false
 
 consoleBackendDataLogger:
-  image: 
+  fullnameOverride: console-backend-data-logger
+  image:
     repository: pnda/console-backend-data-logger
     tag: 2.1.1
     pullPolicy: IfNotPresent
@@ -58,6 +60,7 @@ consoleBackendDataLogger:
       memory: "1024Mi"
       cpu: "1000m"
 consoleBackendDataManager:
+  fullnameOverride: console-backend-data-manager
   image:
     repository: pnda/console-backend-data-manager
     tag: 2.1.1
@@ -73,6 +76,7 @@ consoleBackendDataManager:
       memory: "1024Mi"
       cpu: "1000m"
 consoleFrontend:
+  fullnameOverride: console-frontend
   image:
     repository:  pnda/console-frontend
     tag: 2.1.2
@@ -118,6 +122,7 @@ consoleFrontend:
     hosts:
       - console.127-0-0-1.nip.io
 dataService:
+  fullnameOverride: data-service
   image:
     repository: pnda/data-service
     tag: 0.4.2
@@ -135,6 +140,7 @@ dataService:
       memory: "1024Mi"
       cpu: "1000m"
 deploymentManager:
+  fullnameOverride: deployment-manager
   image: 
     repository: pnda/deployment-manager
     tag: 2.1.2
@@ -156,6 +162,7 @@ deploymentManager:
     accessMode: ReadWriteOnce
     size: 2Gi
 packageRepository:
+  fullnameOverride: package-repository
   image: 
     repository: pnda/package-repository
     tag: 1.1.1
@@ -178,8 +185,12 @@ packageRepository:
     accessMode: ReadWriteOnce
     size: 5Gi
 
+jmxproxy:
+  fullnameOverride: jmxproxy
+
 testing:
   enabled: true
+  fullnameOverride: testing
   schedule: "* * * * *"
   image: 
     repository: pnda/testing
@@ -237,9 +248,11 @@ schemaregistry-ui:
 
 kafkaHdfsConnector: 
   enabled: true
+  fullnameOverride: kafka-hdfs-connector
 
 kafka-manager:
   enabled: true
+  fullnameOverride: kafka-manager
   image:
     repository: gradiant/kafka-manager
     tag: 2.0.0.2
@@ -326,6 +339,7 @@ jupyterhub:
 ############################
 hdfs:
   enabled: true
+  fullnameOverride: hdfs
   # The base hadoop image to use for all components.
   image:
     repository: gradiant/hadoop-base
@@ -364,12 +378,15 @@ hdfs:
 hbase:
   enabled: true
   zookeeperURL: "zoo-entrance:2181"
+  fullnameOverride: hbase
+  hdfsURL: hdfs://hdfs-namenode:8020
   regionServer:
     replicas: 1
 
 # Setting opentsdb daemons instances to 1
 opentsdb:
   enabled: true
+  fullnameOverride: opentsdb
   daemons: 1
   conf:
     #zqquorum: default is "{{.Release.Name}}-cp-zookeeper:2181"
@@ -381,6 +398,7 @@ spark-operator:
 # Setting spark-standalone worker instances to 1
 spark-standalone:
   enabled: true
+  fullnameOverride: spark-standalone
   workers: 1
   ingress:
     enabled: true

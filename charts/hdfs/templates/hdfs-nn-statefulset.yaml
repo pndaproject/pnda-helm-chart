@@ -95,7 +95,7 @@ spec:
       volumes:
       - name: hadoop-config
         configMap:
-          name: {{ .Release.Name }}-hadoop
+          name: {{ include "hdfs.fullname" . }}-hadoop
       {{- if .Values.prometheus.exporter.enabled }}
       - name: config-exporter
         configMap:

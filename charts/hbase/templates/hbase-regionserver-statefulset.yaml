@@ -91,7 +91,7 @@ spec:
       volumes:
       - name: hbase-config
         configMap:
-          name: {{ .Release.Name }}-hbase
+          name: {{ include "hbase.fullname" . }}
       {{- if .Values.prometheus.enabled  }}
       - name: jmx-exporter
         emptyDir: {}      

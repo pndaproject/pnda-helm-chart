@@ -12,6 +12,6 @@ data:
     datasets_table = "platform_datasets"
     data_repo = "/user/pnda/datasets"
     hadoop_distro = "kubernetes"
-    hdfs_namenode = "{{ .Release.Name }}-hdfs-namenode"
-    hbase_master = "{{ .Release.Name }}-hbase-master"
+    hdfs_namenode = "hdfs-namenode"
+    hbase_master = "hbase-master"
     log_level = "{{ .Values.dataService.conf.logLevel }}"
