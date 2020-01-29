@@ -11,29 +11,28 @@ roleBindingName: pnda
 prometheus:
   # prometheus-k8s serviceAccount and namespace to configure RBAC access to pnda metrics endpoints
   rbac:
-    enabled: false
+    enabled: true
     serviceAccount: prometheus-k8s
     namespace: monitoring
   #Configuration for each prometheusOperator service Monitor
   serviceMonitor:
     hdfs:
-      enabled: false
+      enabled: true
       # If namespace is empty: serviceMonitor is deployed in {{ .Release.namespace }}
       namespace: 
       interval: 15s
     hbase:
-      enabled: false
+      enabled: true
       namespace:
       interval: 15s
     kafka:
-      enable: false
+      enabled: true
       namespace: 
       interval: 15s
     spark:
-      enable: false
+      enabled: true
       namespace: 
       interval: 15s
-
 
 redis:
   enabled: true
@@ -194,10 +193,10 @@ testing:
   schedule: "* * * * *"
   image: 
     repository: pnda/testing
-    tag: 1.1.0
+    tag: "1.1.1"
     pullPolicy: IfNotPresent
   conf:
-    logLevel: WARNING
+    logLevel: WARN
   resources:
     requests:
       memory: "128Mi"
@@ -392,8 +391,9 @@ opentsdb:
     #zqquorum: default is "{{.Release.Name}}-cp-zookeeper:2181"
     tsd.storage.hbase.zk_quorum: "zoo-entrance:2181"
 
-spark-operator:
+sparkoperator:
   enabled: true
+  fullnameOverride: sparkoperator
 
 # Setting spark-standalone worker instances to 1
 spark-standalone:
@@ -411,9 +411,10 @@ spark-standalone:
 ############################
 
 grafana:
+  enabled: true
+  fullnameOverride: grafana
   image: 
     tag: 6.4.4
-  enabled: true
   sidecar:
     datasources:
       enabled: true

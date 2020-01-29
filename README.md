@@ -34,7 +34,7 @@ kubectl create clusterrolebinding tiller --clusterrole cluster-admin --serviceac
 helm init --service-account tiller
 ```
 
-- strimzi (tested with v)
+- strimzi (tested with v0.16.1)
 
 Cloud-pnda chart needs strimzi CRDs (custom resources definitions) to be available in your kubernetes cluster.
 We expect to fix this pre-requirement when migrating to Helm 3.
@@ -50,7 +50,7 @@ helm repo update
 helm install strimzi/strimzi-kafka-operator \
    --name strimzi \
    --namespace pnda \
-   --version 0.15.0
+   --version 0.16.1
 ```
 
 ## Installation

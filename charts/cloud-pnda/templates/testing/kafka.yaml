@@ -31,9 +31,9 @@ spec:
                 - "--postjson"
                 - "http://{{ include "pnda.console-backend-data-logger.fullname" . }}:3001/metrics"
                 - "--extra"
-                - "--jmxproxy jmxproxy:8000 --brokerlist strimzi-kafka-brokers:9999 --zkconnect zoo-entrance:2181 --prod2cons"
+                - "--jmxproxy jmxproxy:8000 --brokerlist strimzi-kafka-brokers:9999 --scheme PLAIN-9092 --zkconnect zoo-entrance:2181 --prod2cons"
               volumeMounts:
-                - mountPath: /testing/logging.conf
+                - mountPath: /platform-testing/logging.conf
                   subPath: logging.conf
                   name: logging-config
               resources:
