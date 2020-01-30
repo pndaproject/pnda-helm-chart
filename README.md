@@ -20,40 +20,43 @@ Default configuration values can be overriden providing an external yaml file (S
 
 Point kubectl to your own k8s cluster or follow any of the [tutorials](tutorials/) to deploy a testing k8s cluster in your local machine.
 
-- Helm 2 (tested with v2.16.1)
+- Helm 3 (tested with v3.0.2)
 
 ```
-curl https://get.helm.sh/helm-v2.16.1-linux-amd64.tar.gz | tar xz
+curl https://get.helm.sh/helm-v3.0.2-linux-amd64.tar.gz | tar xz
 sudo cp linux-amd64/helm /usr/local/bin/
 rm -r linux-amd64
-#Create tiller service account
-kubectl -n kube-system create serviceaccount tiller
-#Create cluster role binding for tiller
-kubectl create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount=kube-system:tiller
-#Initialize tiller
-helm init --service-account tiller
 ```
 
 - strimzi (tested with v0.16.1)
 
-Cloud-pnda chart needs strimzi CRDs (custom resources definitions) to be available in your kubernetes cluster.
-We expect to fix this pre-requirement when migrating to Helm 3.
+Cloud-pnda uses [strimzi operator](https://strimzi.io) to Manage Kafka on Kubernetes
+Strimzi-operator is not provided as a helm dependency because strimzi-CRDs (custom resources definitions) must be present
+prior to `helm install cloud-pnda`.
+
 To install strimzi via helm chart you can follow [this instructions](https://strimzi.io/2018/11/01/using-helm.html).
 
-**WARNING!** You should install strimzi Cluster Operator in the same namespace as cloud-pnda.
+**WARNING!** If you install strimzi in a different namespace than cloud-pnda, You must create pnda namespace before.
+1.  Create a k8s namespace for cloud-pnda:
 
-To install it in pnda namespace:
+```
+kubectl create namespace pnda
+```
+
+2. Create a k8s namespace for strimzi and install strimzi with `set watchNamespaces` pointing to the cloud-pnda namespace.
 
 ```
 helm repo add strimzi https://strimzi.io/charts/
 helm repo update
-helm install strimzi/strimzi-kafka-operator \
-   --name strimzi \
-   --namespace pnda \
-   --version 0.16.1
+kubectl create namespace strimzi
+helm3 install strimzi strimzi/strimzi-kafka-operator \
+   --namespace strimzi \
+   --version 0.16.1 \
+   --set watchNamespaces[0]=pnda
 ```
 
 ## Installation
+ 
 ### From helm repository
 
 The helm repository [https://pndaproject.github.io/pnda-helm-chart/](https://pndaproject.github.io/pnda-helm-chart/) provides packaged helm charts of this repo releases.
@@ -66,10 +69,10 @@ helm repo add pndaproject https://pndaproject.github.io/pnda-helm-chart/
 helm repo update
 ```
 
-3. Proceed with the helm install:
+3. Create a k8s namespace for cloud-pnda and install cloud-pnda:
 ```
-helm install pndaproject/cloud-pnda \
-   --name cloud-pnda \
+kubectl create namespace pnda
+helm install cloud-pnda pndaproject/cloud-pnda \
    --namespace pnda \
    --version 6.0.0-alpha
 ```
@@ -83,10 +86,10 @@ helm install pndaproject/cloud-pnda \
 helm dep update charts/cloud-pnda
 ```
 
-3. Proceed with the helm install:
+3. Create a k8s namespace for cloud-pnda and install cloud-pnda:
 ```
-helm install charts/cloud-pnda \
-   --name cloud-pnda \
+kubectl create namespace pnda
+helm install cloud-pnda charts/cloud-pnda \
    --namespace pnda
 ```
 
@@ -108,8 +111,7 @@ PNDA is configured by default for minimum resource requirements (for example HA 
 To override default configuration values, the user must provide a yaml file in the helm install command:
 
 ```
-helm install charts/cloud-pnda/ \
-   --name cloud-pnda \
+helm install cloud-pnda charts/cloud-pnda/ \
    --namespace pnda \
    -f custom-config.yaml
 ```
@@ -128,6 +130,36 @@ For configuration of the [Big Data requirements](cloud-pnda/requirements.yaml) y
 - spark-standalone (this repo): [values.yaml](charts/spark-standalone/values.yaml).
 - jupyterhub (jupyterhub repo): [values.yaml](https://github.com/jupyterhub/zero-to-jupyterhub-k8s/blob/master/jupyterhub/values.yaml).
 
+
+## Remove Installation
+
+If you want to undone the deployment of cloud-pnda:
+
+1. Uninstall helm chart:
+
+```
+helm uninstall cloud-pnda --namespace pnda
+```
+
+2. Remove pnda namespace:
+
+```
+kubectl delete namespace pnda
+```
+
+To remove strimzi:
+
+1. Uninstall helm chart:
+
+```
+helm uninstall strimzi --namespace strimzi
+```
+
+2. Remove pnda namespace:
+
+```
+kubectl delete namespace strimzi
+```
 
 ## Credits
 

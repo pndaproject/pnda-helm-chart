@@ -40,9 +40,9 @@ spec:
               topologyKey: "kubernetes.io/hostname"
               labelSelector:
                 matchLabels:
-                app.kubernetes.io/name: {{ include "hbase.name" . }}
-                app.kubernetes.io/component: master
-                {{- include "hbase.labels" . | nindent 16 }}
+                  app.kubernetes.io/name: {{ include "hbase.name" . }}
+                  app.kubernetes.io/component: master
+                  {{- include "hbase.labels" . | nindent 18 }}
         {{- end }}
       terminationGracePeriodSeconds: 0
       {{- if .Values.prometheus.enabled }}      

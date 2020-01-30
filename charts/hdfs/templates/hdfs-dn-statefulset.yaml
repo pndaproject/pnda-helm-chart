@@ -14,7 +14,7 @@ spec:
       app.kubernetes.io/name: {{ include "hdfs.name" . }}
       app.kubernetes.io/component: datanode
       {{- include "hdfs.labels" . | nindent 6 }}
-  serviceName: {{ include "hdfs.fullname" . }}-datanode
+  serviceName: {{ include "hbase.fullname" . }}-datanode
   replicas: {{ .Values.dataNode.replicas }}
   template:
     metadata:

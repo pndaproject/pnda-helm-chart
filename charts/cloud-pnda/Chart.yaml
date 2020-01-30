@@ -1,4 +1,4 @@
-apiVersion: v1
+apiVersion: v2
 appVersion: "6.0.0-alpha"
 description: The scalable, open source big data analytics platform for networks and services.
 home: http://pnda.io/
@@ -10,3 +10,68 @@ maintainers:
   name: Donald Hunter
 name: cloud-pnda
 version: 6.0.0-alpha
+dependencies:
+# We should manually install strimzi operator. (See README.md requirements section)
+- name: schema-registry
+  version: ~1.1.8
+  repository: http://storage.googleapis.com/kubernetes-charts-incubator
+  alias: schemaregistry
+  condition: schema-registry.enabled
+- name: schema-registry-ui
+  version: ~0.4.1
+  repository: https://kubernetes-charts.storage.googleapis.com
+  alias: schemaregistry-ui
+  condition: schema-registry-ui.enabled
+- name: kafka-connect-ui
+  version: 0.1.0
+  repository: file://../kafka-connect-ui
+  condition: kafka-connect-ui.enabled
+  # sources https://github.com/astrobounce/helm-kafka-connect-ui
+- name: kafka-manager
+  version: ~2.2.0
+  repository: https://kubernetes-charts.storage.googleapis.com
+  condition: kafka-manager.enabled
+- name: jupyterhub
+  version: 0.9.0-beta.3
+  repository: https://jupyterhub.github.io/helm-chart/
+  condition: jupyterhub.enabled
+- name: sparkoperator
+  version: ~0.6.1
+  repository: http://storage.googleapis.com/kubernetes-charts-incubator
+  condition: sparkoperator.enabled
+- name: spark-standalone
+  version: 0.1.0
+  repository: file://../spark-standalone
+  condition: spark-standalone.enabled
+- name: hdfs
+  version: 0.1.0
+  repository: file://../hdfs
+  condition: hdfs.enabled
+- name: hbase
+  version: 0.1.0
+  repository: file://../hbase
+  condition: hbase.enabled
+- name: opentsdb
+  version: 0.1.0
+  repository: file://../opentsdb
+  condition: opentsdb.enabled
+- name: grafana
+  version: ~4.0.4
+  repository: https://kubernetes-charts.storage.googleapis.com
+  condition: grafana.enabled
+- name: elasticsearch
+  version: ~7.4.0
+  repository: https://helm.elastic.co
+  condition: elasticsearch.enabled
+- name: kibana
+  version: ~7.4.0
+  repository: https://helm.elastic.co
+  condition: kibana.enabled
+- name: redis
+  version: ~9.5.5
+  repository: https://kubernetes-charts.storage.googleapis.com
+  condition: rebase.enabled
+- name: jmxproxy
+  version: 0.1.0
+  repository: file://../jmxproxy
+

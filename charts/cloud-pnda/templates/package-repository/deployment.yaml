@@ -9,7 +9,7 @@ spec:
   selector:
     matchLabels:
       {{- include "pnda.package-repository.labels" . | nindent 6 }}
-  servicename: {{ include "pnda.package-repository.fullname" . }}
+  
   template:
     metadata:
       labels:

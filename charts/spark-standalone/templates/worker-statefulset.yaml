@@ -9,9 +9,9 @@ metadata:
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
   replicas: {{ .Values.workers }}
-  strategy:
+  updateStrategy:
     type: RollingUpdate
-  serviceName: {{ template "spark.fullname" . }}-workers
+  serviceName: {{ include "spark.fullname" . }}-workers 
   selector:
     matchLabels:
       app.kubernetes.io/name: {{ template "spark.name" . }}-worker

@@ -9,7 +9,6 @@ spec:
   selector:
     matchLabels:
       {{- include "pnda.data-service.labels" . | nindent 6 }}
-  serviceName: {{ include "pnda.data-service.fullname" . }}
   template:
     metadata:
       labels:

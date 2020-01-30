@@ -10,7 +10,7 @@ spec:
     matchLabels:
       app.kubernetes.io/name: {{ include "opentsdb.name" . }}
       {{- include "opentsdb.labels" . | nindent 6 }}
-  serviceName: {{ include "opentsdb.fullname" . }}
+  serviceName: {{ include "opentsdb.fullname" . }} 
   replicas: {{ default 1 .Values.daemons }}
   template:
     metadata:

@@ -9,7 +9,7 @@ spec:
   selector:
     matchLabels:
       {{- include "pnda.deployment-manager.labels" . | nindent 6 }}
-  servicename: {{ include "pnda.deployment-manager.fullname" . }}
+  serviceName: {{ include "pnda.deployment-manager.fullname" . }}
   template:
     metadata:
       labels:
