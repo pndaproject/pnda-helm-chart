@@ -29,6 +29,25 @@ entries:
     urls:
     - https://github.com/pndaproject/pnda-helm-chart/releases/download/cloud-pnda-0.1.0/cloud-pnda-0.1.0.tgz
     version: 0.1.0
+  - apiVersion: v1
+    appVersion: 6.0.0-beta1
+    created: "2020-03-04T11:40:30.614161047Z"
+    description: The scalable, open source big data analytics platform for networks
+      and services.
+    digest: 48f43a83b4e401f27f8c122f4e006f3145f6dd407e3db25f0d47b830219cbecd
+    home: http://pnda.io/
+    icon: http://pnda.io/pages/images/logo-big.png
+    maintainers:
+    - email: cgiraldo@gradiant.org
+      name: Carlos Giraldo
+    - email: donaldh@cisco.com
+      name: Donald Hunter
+    name: cloud-pnda
+    sources:
+    - https://github.com/pndaproject/pnda-helm-chart
+    urls:
+    - https://github.com/pndaproject/pnda-helm-chart/releases/download/cloud-pnda-0.1.0-beta1/cloud-pnda-0.1.0-beta1.tgz
+    version: 0.1.0-beta1
   cp-kafka:
   - apiVersion: v1
     appVersion: "1.0"
