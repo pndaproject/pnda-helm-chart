@@ -83,7 +83,7 @@ helm repo update
 ```
 helm install cloud-pnda pndaproject/cloud-pnda \
    --namespace pnda \
-   --version 0.1.0
+   --version 0.1.0-beta1
 ```
 
 ### From Source
