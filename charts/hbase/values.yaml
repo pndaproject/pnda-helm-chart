@@ -16,8 +16,9 @@ hbaseVersion: 2.0.1
 antiAffinity: "soft"
 
 conf:
-  hbase-site: {}
-    #hbase.zookeeper.quorum: default is {{.Release.Name}}-cp-zookeeper:2181
+  hbaseSite:
+    hbase.rootdir:  # default is "{{.Release.Name}}-hdfs-namenode:8020"
+    hbase.zookeeper.quorum:  # default is "{{.Release.Name}}-zookeeper:2181"
 
 hbase:
   master:
@@ -51,7 +52,7 @@ prometheus:
   resources: {}
   image: spdigital/prometheus-jmx-exporter-kubernetes
   imageTag: "0.3.1"
-  #prometheus jmx_exporter config https://github.com/prometheus/jmx_exporter
+  # prometheus jmx_exporter config https://github.com/prometheus/jmx_exporter
   config:
     lowercaseOutputName: true
     lowercaseOutputLabelNames: true
@@ -62,9 +63,16 @@ prometheus:
         namespace: "$1"
         table: "$2"
         region: "$3"
-    - pattern : Hadoop<service=(\w+), name=(\w+), sub=(\w+)><>([\w._]+)
+    - pattern: Hadoop<service=(\w+), name=(\w+), sub=(\w+)><>([\w._]+)
       name: hadoop_$1_$4
       labels:
         "name": "$2"
         "sub": "$3"
-    - pattern : .+
+    - pattern: .+
+
+hdfs:
+  enabled: true
+
+zookeeper:
+  enabled: true
+  replicaCount: 1

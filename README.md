@@ -28,22 +28,34 @@ sudo cp linux-amd64/helm /usr/local/bin/
 rm -r linux-amd64
 ```
 
-- strimzi (tested with v0.16.1)
+## Installation
+
+### Strimzi Dependency
 
 Cloud-pnda uses [strimzi operator](https://strimzi.io) to Manage Kafka on Kubernetes
 Strimzi-operator is not provided as a helm dependency because strimzi-CRDs (custom resources definitions) must be present
-prior to `helm install cloud-pnda`.
+prior to `helm install cloud-pnda`. We hope to fix this in the future.
 
-To install strimzi via helm chart you can follow [this instructions](https://strimzi.io/2018/11/01/using-helm.html).
+To install strimzi you can follow [this instructions](https://strimzi.io/2018/11/01/using-helm.html).
 
-**WARNING!** If you install strimzi in a different namespace than cloud-pnda, You must create pnda namespace before.
 1.  Create a k8s namespace for cloud-pnda:
 
 ```
 kubectl create namespace pnda
 ```
 
-2. Create a k8s namespace for strimzi and install strimzi with `set watchNamespaces` pointing to the cloud-pnda namespace.
+2. Install strimzi:
+
+```
+helm repo add strimzi https://strimzi.io/charts/
+helm repo update
+helm3 install strimzi strimzi/strimzi-kafka-operator \
+   --namespace pnda \
+   --version 0.16.1 
+```
+
+**WARNING!** If you install strimzi in a different namespace than cloud-pnda, You must install strimzi with `set watchNamespaces` pointing to the cloud-pnda namespace.
+Example of strimzi in its own namespace:
 
 ```
 helm repo add strimzi https://strimzi.io/charts/
@@ -54,14 +66,12 @@ helm3 install strimzi strimzi/strimzi-kafka-operator \
    --version 0.16.1 \
    --set watchNamespaces[0]=pnda
 ```
-
-## Installation
  
 ### From helm repository
 
 The helm repository [https://pndaproject.github.io/pnda-helm-chart/](https://pndaproject.github.io/pnda-helm-chart/) provides packaged helm charts of this repo releases.
 
-1. Install all [Requirements](#requirements).
+1. Install [strimzi](#Strimzi-Dependency).
 
 2. Add cloud-pnda helm repo:
 ```
@@ -69,9 +79,8 @@ helm repo add pndaproject https://pndaproject.github.io/pnda-helm-chart/
 helm repo update
 ```
 
-3. Create a k8s namespace for cloud-pnda and install cloud-pnda:
+3. Install cloud-pnda in the selected namespace:
 ```
-kubectl create namespace pnda
 helm install cloud-pnda pndaproject/cloud-pnda \
    --namespace pnda \
    --version 6.0.0-alpha
@@ -79,16 +88,15 @@ helm install cloud-pnda pndaproject/cloud-pnda \
 
 ### From Source
 
-1. Install all [Requirements](#requirements).
+1. Install [strimzi](#Strimzi-Dependency).
 
 2. Update cloud-pnda dependecies:
 ```
 helm dep update charts/cloud-pnda
 ```
 
-3. Create a k8s namespace for cloud-pnda and install cloud-pnda:
+3. Install cloud-pnda in the selected namespace:
 ```
-kubectl create namespace pnda
 helm install cloud-pnda charts/cloud-pnda \
    --namespace pnda
 ```
@@ -123,12 +131,15 @@ This repository contains several custom configuration examples in *profiles* fol
 
 The default values of [PNDA components](charts/cloud-pnda/templates) and [Big Data dependencies](charts/cloud-pnda/requirements.yaml) can be checked at [charts/cloud-pnda/values.yaml](charts/cloud-pnda/values.yaml) file.
 
-For configuration of the [Big Data requirements](cloud-pnda/requirements.yaml) you should inspect the values.yaml of the corresponding chart. Here is a list of the requirements and the location of their charts:
-- hdfs (this repo): [values.yaml](charts/hdfs/values.yaml).
-- hbase (this repo): [values.yaml](charts/hbase/values.yaml).
-- openstsdb (this repo): [values.yaml](charts/opentsdb/values.yaml).
-- spark-standalone (this repo): [values.yaml](charts/spark-standalone/values.yaml).
-- jupyterhub (jupyterhub repo): [values.yaml](https://github.com/jupyterhub/zero-to-jupyterhub-k8s/blob/master/jupyterhub/values.yaml).
+For customizing the external dependencies, go to each dependency information:
+
+- Kafka and Zookeeper: manually edit the Kafka Resource with `kubectl --namespace pnda edit kafka strimzi`
+- KafkaConnect: manually edit the KafkaConnect Resource with `kubectl --namespace pnda edit kafkaconnect strimzi`
+- hdfs: More info [here](https://hub.helm.sh/charts/gradiant/hdfs).
+- hbase: more info [here](https://hub.helm.sh/charts/gradiant/hbase)
+- openstsdb: more info [here](https://hub.helm.sh/charts/gradiant/opentsdb).
+- spark-standalone: more info [here](https://hub.helm.sh/charts/gradiant/spark-standalone).
+- jupyterhub: more info [here](https://zero-to-jupyterhub.readthedocs.io/en/latest/customizing/index.html).
 
 
 ## Remove Installation

@@ -32,25 +32,3 @@ app.kubernetes.io/instance: {{ .Release.Name | quote }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 app.kubernetes.io/part-of: {{ .Chart.Name }}
 {{- end -}}
-
-{{/*
-Create the hdfsURL.
-*/}}
-{{- define "hbase.hdfsURL" -}}
-{{- if .Values.hdfsURL -}}
-    {{- .Values.hdfsURL -}}
-{{- else -}}
-  {{- printf "hdfs://%s-hdfs-namenode:8020" .Release.Name }}
-{{- end -}}
-{{- end -}}
-
-{{/*
-Create the zookeeperURL.
-*/}}
-{{- define "hbase.zookeeperURL" -}}
-{{- if .Values.zookeeperURL -}}
-    {{- .Values.zookeeperURL -}}
-{{- else -}}
-  {{- printf "hdfs://%s-zookeeper:8020" .Release.Name }}
-{{- end -}}
-{{- end -}}

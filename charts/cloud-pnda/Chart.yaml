@@ -3,13 +3,15 @@ appVersion: "6.0.0-alpha"
 description: The scalable, open source big data analytics platform for networks and services.
 home: http://pnda.io/
 icon: http://pnda.io/pages/images/logo-big.png
+sources:
+- https://github.com/pndaproject/pnda-helm-chart
 maintainers:
 - email: cgiraldo@gradiant.org
   name: Carlos Giraldo
 - email: donaldh@cisco.com
   name: Donald Hunter
 name: cloud-pnda
-version: 6.0.0-alpha
+version: 6.0.0-beta1
 dependencies:
 # We should manually install strimzi operator. (See README.md requirements section)
 - name: schema-registry
@@ -23,10 +25,9 @@ dependencies:
   alias: schemaregistry-ui
   condition: schema-registry-ui.enabled
 - name: kafka-connect-ui
-  version: 0.1.0
-  repository: file://../kafka-connect-ui
+  version: ~0.1.0
+  repository: https://gradiant.github.io/charts
   condition: kafka-connect-ui.enabled
-  # sources https://github.com/astrobounce/helm-kafka-connect-ui
 - name: kafka-manager
   version: ~2.2.0
   repository: https://kubernetes-charts.storage.googleapis.com
@@ -40,20 +41,20 @@ dependencies:
   repository: http://storage.googleapis.com/kubernetes-charts-incubator
   condition: sparkoperator.enabled
 - name: spark-standalone
-  version: 0.1.0
-  repository: file://../spark-standalone
+  version: ~0.1.0
+  repository: https://gradiant.github.io/charts
   condition: spark-standalone.enabled
 - name: hdfs
-  version: 0.1.0
-  repository: file://../hdfs
+  version: ~0.1.0
+  repository: https://gradiant.github.io/charts
   condition: hdfs.enabled
 - name: hbase
-  version: 0.1.0
-  repository: file://../hbase
+  version: ~0.1.0
+  repository: https://gradiant.github.io/charts
   condition: hbase.enabled
 - name: opentsdb
-  version: 0.1.0
-  repository: file://../opentsdb
+  version: ~0.1.0
+  repository: https://gradiant.github.io/charts
   condition: opentsdb.enabled
 - name: grafana
   version: ~4.0.4
@@ -72,6 +73,6 @@ dependencies:
   repository: https://kubernetes-charts.storage.googleapis.com
   condition: rebase.enabled
 - name: jmxproxy
-  version: 0.1.0
+  version: ~0.1.0
   repository: file://../jmxproxy
 

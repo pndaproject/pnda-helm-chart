@@ -42,7 +42,7 @@ data:
     if [[ $2 == "regionserver" ]]; then
       #  wait up to 30 seconds for masternode
       (while [[ $count -lt 15 && -z `curl -sf http://{{ include "hbase.fullname" . }}-master:16010` ]]; do ((count=count+1)) ; echo "Waiting for {{ include "hbase.fullname" . }}-master" ; sleep 2; done && [[ $count -lt 15 ]])
-      [[ $? -ne 0 ]] && echo "Timeout waiting for hdfs-nn, exiting." && exit 1
+      [[ $? -ne 0 ]] && echo "Timeout waiting for hbase-master, exiting." && exit 1
       $HBASE_PREFIX/bin/hbase-daemon.sh start regionserver
     fi
     if [[ $1 == "-d" ]]; then
@@ -72,21 +72,20 @@ data:
         <name>hbase.master</name>
         <value>>{{ include "hbase.fullname" . }}-master:16000</value>
       </property>
-      {{- if not (index .Values.conf "hbase-site" "hbase.zookeeper.quorum")  }}
+      {{- if not (index .Values.conf "hbaseSite" "hbase.zookeeper.quorum")  }}
       <property>
         <name>hbase.zookeeper.quorum</name>
-        <value>{{ include "hbase.zookeeperURL" . }}</value>
+        <value>{{- printf "%s-zookeeper:2181" .Release.Name }}</value>
       </property>
       {{- end }}
-      {{- if not (index .Values.conf "hbase-site" "hbase.rootdir")  }}
+      {{- if not (index .Values.conf "hbaseSite" "hbase.rootdir")  }}
       <property>
         <name>hbase.rootdir</name>
-        <value>{{ include "hbase.hdfsURL" . }}/hbase</value>
+        <value>{{- printf "hdfs://%s-hdfs-namenode:8020/hbase" .Release.Name }}</value>
       </property>
       {{- end }}
-
-      {{- if index .Values.conf "hbase-site" }}
-      {{- range $key, $value := index .Values.conf "hbase-site" }}
+      {{- if index .Values.conf "hbaseSite" }}
+      {{- range $key, $value := index .Values.conf "hbaseSite" }}
       <property><name>{{ $key }}</name><value>{{ $value }}</value></property>
       {{- end }}
       {{- end }}

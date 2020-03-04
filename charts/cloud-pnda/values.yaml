@@ -339,57 +339,44 @@ jupyterhub:
 hdfs:
   enabled: true
   fullnameOverride: hdfs
-  # The base hadoop image to use for all components.
-  image:
-    repository: gradiant/hadoop-base
-    tag: 2.7.7
-    pullPolicy: IfNotPresent
-  conf:
-    hdfsSite:
-      dfs.replication: 1
-  nameNode:
-    pdbMinAvailable: 1
-  dataNode:
-    replicas: 1
-    pdbMinAvailable: 1
   persistence:
     nameNode:
       enabled: true
-      accessMode: ReadWriteOnce
       size: 4Gi
     dataNode:
       enabled: true
-      accessMode: ReadWriteOnce
-      size: 4Gi
+      size: 20Gi
   ingress:
     nameNode:
       enabled: true
-      path: /
       hosts:
       - "hdfs.127-0-0-1.nip.io"
     httpfs:
       enabled: true
-      path: /
       hosts:
       - "httpfs.127-0-0-1.nip.io"
 
-# Setting hbase-region-server instances to 1
 hbase:
   enabled: true
-  zookeeperURL: "zoo-entrance:2181"
+  hdfs:
+    enabled: false
+  zookeeper:
+    enabled: false
   fullnameOverride: hbase
-  hdfsURL: hdfs://hdfs-namenode:8020
-  regionServer:
-    replicas: 1
+  conf:
+    hbaseSite:
+      hbase.rootdir:  "hdfs://hdfs-namenode:8020/hbase"  # default is "{{.Release.Name}}-hdfs-namenode:8020"
+      hbase.zookeeper.quorum: "zoo-entrance:2181"  # default is "{{.Release.Name}}-zookeeper:2181"
 
-# Setting opentsdb daemons instances to 1
 opentsdb:
   enabled: true
+  hbase:
+    enabled: false
   fullnameOverride: opentsdb
-  daemons: 1
+  hbaseConfigMapName: hbase # Default hbaseConfigMapName is {{ .Release.Name}}-hbase
   conf:
-    #zqquorum: default is "{{.Release.Name}}-cp-zookeeper:2181"
-    tsd.storage.hbase.zk_quorum: "zoo-entrance:2181"
+    tsd.storage.hbase.zk_quorum: "zoo-entrance:2181"  # default is "{{.Release.Name}}-cp-zookeeper:2181"
+  
 
 sparkoperator:
   enabled: true
@@ -399,7 +386,6 @@ sparkoperator:
 spark-standalone:
   enabled: true
   fullnameOverride: spark-standalone
-  workers: 1
   ingress:
     enabled: true
     hosts:
@@ -431,12 +417,11 @@ grafana:
 elasticsearch:
   enabled: false
   # default hard. set to soft to permit co-located instances.
-  antiAffinity: "hard"
+  antiAffinity: "soft"
   # Shrink default JVM heap.
   esJavaOpts: "-Xmx256m -Xms256m"
   replicas: 1
-  # minimumMasterNodes Ignored in Elasticsearch versions >= 7.
-  #minimumMasterNodes: 1
+
 kibana:
   enabled: false
   ingress:
@@ -444,5 +429,3 @@ kibana:
     hosts:
       - kibana.127-0-0-1.nip.io
 
-loki-stack:
-  enabled: false

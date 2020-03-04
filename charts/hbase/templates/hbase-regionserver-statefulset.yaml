@@ -97,5 +97,5 @@ spec:
         emptyDir: {}      
       - name: exporter-config
         configMap:
-          name: {{ template "hbase.fullname" . }}-exporter-configmap
+          name: {{ include "hbase.fullname" . }}-exporter
       {{- end }}

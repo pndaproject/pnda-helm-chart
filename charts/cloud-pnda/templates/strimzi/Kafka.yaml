@@ -31,13 +31,13 @@ spec:
       volumes:
       - id: 0
         type: persistent-claim
-        size: 100Gi
+        size: 20Gi
         deleteClaim: false
   zookeeper:
     replicas: {{ .Values.strimzi.zookeeper.replicas }}
     storage:
       type: persistent-claim
-      size: 100Gi
+      size: 20Gi
       deleteClaim: false
   entityOperator:
     topicOperator: {}
