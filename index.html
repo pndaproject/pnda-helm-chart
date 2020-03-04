@@ -20,7 +20,8 @@ helm repo update
 Install to your kubernetes cluster:
 <pre>
   <code>
-helm install --name pnda pndaproject/cloud-pnda --version=0.1.0-beta
+    kubectl create namespace pnda
+    helm install cloud-pnda pndaproject/cloud-pnda --version=0.1.0-beta1 --namespace pnda
   </code>
 </pre>
 
@@ -36,7 +37,8 @@ You may customize your deployment providing a custom values yaml:
 
 <pre>
   <code>
-helm install --name pnda pndaproject/cloud-pnda --version=0.1.0-beta -f custom.yaml
+kubectl create namespace pnda
+helm install cloud-pnda pndaproject/cloud-pnda --version=0.1.0-beta1 --namespace pnda -f custom.yaml
   </code>
 </pre>
 
