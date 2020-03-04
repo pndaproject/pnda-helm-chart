@@ -10,6 +10,25 @@ entries:
     urls:
     - cloud-pnda-6.0.0-alpha.tgz
     version: 6.0.0-alpha
+  - apiVersion: v1
+    appVersion: 6.0.0-beta
+    created: "2020-03-04T11:31:00.604587938Z"
+    description: The scalable, open source big data analytics platform for networks
+      and services.
+    digest: 4b78d1ef0fa163941489828df22f6d52409680f6d82a8eb93867b794aa00916f
+    home: http://pnda.io/
+    icon: http://pnda.io/pages/images/logo-big.png
+    maintainers:
+    - email: cgiraldo@gradiant.org
+      name: Carlos Giraldo
+    - email: donaldh@cisco.com
+      name: Donald Hunter
+    name: cloud-pnda
+    sources:
+    - https://github.com/pndaproject/pnda-helm-chart
+    urls:
+    - https://github.com/pndaproject/pnda-helm-chart/releases/download/cloud-pnda-0.1.0/cloud-pnda-0.1.0.tgz
+    version: 0.1.0
   cp-kafka:
   - apiVersion: v1
     appVersion: "1.0"
@@ -109,6 +128,21 @@ entries:
     urls:
     - jmxproxy-3.4.0.tgz
     version: 3.4.0
+  - apiVersion: v1
+    appVersion: 3.4.0
+    created: "2020-03-04T11:31:00.811659877Z"
+    description: "JMXProxy exposes all available MBean attributes on a given JVM via
+      simple HTTP request. The results are in easily-parsable JSON format. \n"
+    digest: 1798dddfb3e6caafb12d87aac8ca455057c07e4111b6037e771b490f19994c77
+    home: https://mk23.github.io/jmxproxy/
+    icon: https://upload.wikimedia.org/wikipedia/en/3/30/Java_programming_language_logo.svg
+    maintainers:
+    - email: cgiraldo@gradiant.org
+      name: Carlos Giraldo
+    name: jmxproxy
+    urls:
+    - https://github.com/pndaproject/pnda-helm-chart/releases/download/jmxproxy-0.1.0/jmxproxy-0.1.0.tgz
+    version: 0.1.0
   opentsdb:
   - apiVersion: v1
     appVersion: 2.3.1
