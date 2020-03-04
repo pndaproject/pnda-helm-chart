@@ -2,11 +2,11 @@ apiVersion: v1
 entries:
   cloud-pnda:
   - apiVersion: v1
-    appVersion: 6.0.0-beta
-    created: "2020-03-04T11:31:00.604587938Z"
+    appVersion: 6.0.0-beta1
+    created: "2020-03-04T11:40:30.614161047Z"
     description: The scalable, open source big data analytics platform for networks
       and services.
-    digest: 4b78d1ef0fa163941489828df22f6d52409680f6d82a8eb93867b794aa00916f
+    digest: 48f43a83b4e401f27f8c122f4e006f3145f6dd407e3db25f0d47b830219cbecd
     home: http://pnda.io/
     icon: http://pnda.io/pages/images/logo-big.png
     maintainers:
@@ -18,8 +18,8 @@ entries:
     sources:
     - https://github.com/pndaproject/pnda-helm-chart
     urls:
-    - https://github.com/pndaproject/pnda-helm-chart/releases/download/cloud-pnda-0.1.0/cloud-pnda-0.1.0.tgz
-    version: 0.1.0
+    - https://github.com/pndaproject/pnda-helm-chart/releases/download/cloud-pnda-0.1.0-beta1/cloud-pnda-0.1.0-beta1.tgz
+    version: 0.1.0-beta1
   jmxproxy:
   - apiVersion: v1
     appVersion: 3.4.0
