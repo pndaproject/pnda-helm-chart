@@ -7,8 +7,8 @@ sources:
 - https://github.com/pndaproject/pnda-helm-chart
 maintainers:
 - email: cgiraldo@gradiant.org
-  name: Carlos Giraldo
+  name: cgiraldo
 - email: donaldh@cisco.com
-  name: Donald Hunter
+  name: donaldh
 name: cloud-pnda
 version: 0.1.0-beta1

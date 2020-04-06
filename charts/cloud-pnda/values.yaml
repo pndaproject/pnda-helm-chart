@@ -1,5 +1,5 @@
 ## ----------------------------
-## PNDA Components 
+## PNDA Components
 ## ----------------------------
 
 serviceAccountName: pnda
@@ -7,19 +7,19 @@ roleName: pnda-role
 roleBindingName: pnda
 
 # prometheusOperator integration disabled by default
-# enable rbac access and each serviceMonitor with enabled field 
+# enable rbac access and each serviceMonitor with enabled field
 prometheus:
   # prometheus-k8s serviceAccount and namespace to configure RBAC access to pnda metrics endpoints
   rbac:
     enabled: true
     serviceAccount: prometheus-k8s
     namespace: monitoring
-  #Configuration for each prometheusOperator service Monitor
+  # Configuration for each prometheusOperator service Monitor
   serviceMonitor:
     hdfs:
       enabled: true
       # If namespace is empty: serviceMonitor is deployed in {{ .Release.namespace }}
-      namespace: 
+      namespace:
       interval: 15s
     hbase:
       enabled: true
@@ -27,11 +27,11 @@ prometheus:
       interval: 15s
     kafka:
       enabled: true
-      namespace: 
+      namespace:
       interval: 15s
     spark:
       enabled: true
-      namespace: 
+      namespace:
       interval: 15s
 
 redis:
@@ -77,7 +77,7 @@ consoleBackendDataManager:
 consoleFrontend:
   fullnameOverride: console-frontend
   image:
-    repository:  pnda/console-frontend
+    repository: pnda/console-frontend
     tag: 2.1.2
     pullPolicy: IfNotPresent
   service:
@@ -89,7 +89,7 @@ consoleFrontend:
       - '"testbot"'
       - '"+tmp"'
     topics:
-      hidden: 
+      hidden:
       - '"avro.internal.testbot"'
       - '"__consumer_offsets"'
       - '"_schemas"'
@@ -140,7 +140,7 @@ dataService:
       cpu: "1000m"
 deploymentManager:
   fullnameOverride: deployment-manager
-  image: 
+  image:
     repository: pnda/deployment-manager
     tag: 2.1.2
     pullPolicy: IfNotPresent
@@ -162,7 +162,7 @@ deploymentManager:
     size: 2Gi
 packageRepository:
   fullnameOverride: package-repository
-  image: 
+  image:
     repository: pnda/package-repository
     tag: 1.1.1
     pullPolicy: IfNotPresent
@@ -191,7 +191,7 @@ testing:
   enabled: true
   fullnameOverride: testing
   schedule: "* * * * *"
-  image: 
+  image:
     repository: pnda/testing
     tag: "1.1.1"
     pullPolicy: IfNotPresent
@@ -245,7 +245,7 @@ schemaregistry-ui:
     hosts:
       - schema-registry.127-0-0-1.nip.io
 
-kafkaHdfsConnector: 
+kafkaHdfsConnector:
   enabled: true
   fullnameOverride: kafka-hdfs-connector
 
@@ -257,14 +257,14 @@ kafka-manager:
     tag: 2.0.0.2
   zkHosts: "zoo-entrance:2181"
   clusters:
-   - name: "pnda-Kafka"
-     kafkaVersion: "2.2.0"
-     jmxEnabled: "true"
-     tuning: {}
+  - name: "pnda-Kafka"
+    kafkaVersion: "2.2.0"
+    jmxEnabled: "true"
+    tuning: {}
   ingress:
     enabled: true
     hosts:
-      - kafka-manager.127-0-0-1.nip.io
+    - kafka-manager.127-0-0-1.nip.io
 
 kafka-connect-ui:
   enabled: true
@@ -281,7 +281,7 @@ kafka-connect-ui:
 jupyterhub:
   enabled: true
   hub:
-    extraConfig:  
+    extraConfig:
       # to resolve singleuser pods (jupyter-{username}.jupyterhub) through kubernetes DNS
       00-custom-singleuser-hostname: |
          c.KubeSpawner.extra_pod_config = {
@@ -365,7 +365,7 @@ hbase:
   fullnameOverride: hbase
   conf:
     hbaseSite:
-      hbase.rootdir:  "hdfs://hdfs-namenode:8020/hbase"  # default is "{{.Release.Name}}-hdfs-namenode:8020"
+      hbase.rootdir: "hdfs://hdfs-namenode:8020/hbase"  # default is "{{.Release.Name}}-hdfs-namenode:8020"
       hbase.zookeeper.quorum: "zoo-entrance:2181"  # default is "{{.Release.Name}}-zookeeper:2181"
 
 opentsdb:
@@ -373,10 +373,9 @@ opentsdb:
   hbase:
     enabled: false
   fullnameOverride: opentsdb
-  hbaseConfigMapName: hbase # Default hbaseConfigMapName is {{ .Release.Name}}-hbase
+  hbaseConfigMapName: hbase  # Default hbaseConfigMapName is {{ .Release.Name}}-hbase
   conf:
     tsd.storage.hbase.zk_quorum: "zoo-entrance:2181"  # default is "{{.Release.Name}}-cp-zookeeper:2181"
-  
 
 sparkoperator:
   enabled: true
@@ -399,8 +398,8 @@ spark-standalone:
 grafana:
   enabled: true
   fullnameOverride: grafana
-  image: 
-    tag: 6.4.4
+  image:
+    tag: "6.4.4"
   sidecar:
     datasources:
       enabled: true
@@ -428,4 +427,3 @@ kibana:
     enabled: true
     hosts:
       - kibana.127-0-0-1.nip.io
-
